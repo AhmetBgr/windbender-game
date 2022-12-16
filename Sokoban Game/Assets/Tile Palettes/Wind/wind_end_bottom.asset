@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: wind_end_bottom
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -1141192946, guid: 7c170e6e87fe7404992862ec3b2573ab, type: 3}
+  - {fileID: -449151063, guid: 7c170e6e87fe7404992862ec3b2573ab, type: 3}
+  - {fileID: -1376565219, guid: 7c170e6e87fe7404992862ec3b2573ab, type: 3}
+  - {fileID: 1483331712, guid: 7c170e6e87fe7404992862ec3b2573ab, type: 3}
+  - {fileID: 749133310, guid: 7c170e6e87fe7404992862ec3b2573ab, type: 3}
+  - {fileID: 676179402, guid: 7c170e6e87fe7404992862ec3b2573ab, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0

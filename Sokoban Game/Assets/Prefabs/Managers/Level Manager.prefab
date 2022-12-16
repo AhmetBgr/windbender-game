@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7440307854305903695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6897678291746157181}
+  - component: {fileID: 1124531537290190713}
+  - component: {fileID: 3928305870489373143}
+  m_Layer: 0
+  m_Name: Level Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6897678291746157181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7440307854305903695}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4491575, y: -0.50635916, z: 0.25811884}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1124531537290190713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7440307854305903695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812d33deb2896014aa02b3b6cc401198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneLoader: {fileID: 3928305870489373143}
+  levels:
+  - {fileID: 11400000, guid: e14f6c8e88ed55849a3ef8f51aa64a39, type: 2}
+  - {fileID: 11400000, guid: 7cf9cb933bbd01848afbf46b36d8b335, type: 2}
+  - {fileID: 11400000, guid: 570b17d2aedffac4cad01756362666c5, type: 2}
+  - {fileID: 11400000, guid: 2cf7261452b1fa54bb5ad7d4497cace3, type: 2}
+  - {fileID: 11400000, guid: 6188728bda09fe449aa184bfa08d4801, type: 2}
+  - {fileID: 11400000, guid: aec2c216be4afd74db70f4c1cc7381e8, type: 2}
+  curlevel: {fileID: 0}
+--- !u!114 &3928305870489373143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7440307854305903695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f51928962cfbe44b893a4be2a92ebe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: 0

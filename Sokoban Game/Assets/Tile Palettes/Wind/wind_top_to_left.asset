@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: wind_top_to_left
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -334794198, guid: 0ac9cbf4b3f68954692be19a54b9c577, type: 3}
+  - {fileID: 843047417, guid: 0ac9cbf4b3f68954692be19a54b9c577, type: 3}
+  - {fileID: -5505683, guid: 0ac9cbf4b3f68954692be19a54b9c577, type: 3}
+  - {fileID: -1115610515, guid: 0ac9cbf4b3f68954692be19a54b9c577, type: 3}
+  - {fileID: -850664944, guid: 0ac9cbf4b3f68954692be19a54b9c577, type: 3}
+  - {fileID: -1171777549, guid: 0ac9cbf4b3f68954692be19a54b9c577, type: 3}
+  m_MinSpeed: 16
+  m_MaxSpeed: 16
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0

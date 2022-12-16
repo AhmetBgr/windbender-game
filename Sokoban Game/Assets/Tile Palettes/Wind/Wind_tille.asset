@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Wind_tille
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -273608978, guid: 90719a54c57d3d0498fd7a9b05632b55, type: 3}
+  - {fileID: -135210574, guid: 90719a54c57d3d0498fd7a9b05632b55, type: 3}
+  - {fileID: 1171505054, guid: 90719a54c57d3d0498fd7a9b05632b55, type: 3}
+  - {fileID: -1669923665, guid: 90719a54c57d3d0498fd7a9b05632b55, type: 3}
+  - {fileID: -2083206724, guid: 90719a54c57d3d0498fd7a9b05632b55, type: 3}
+  - {fileID: -402713644, guid: 90719a54c57d3d0498fd7a9b05632b55, type: 3}
+  m_MinSpeed: 16
+  m_MaxSpeed: 16
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
