@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     public Collider2D col;
     public new TargetTag tag;
     public bool isOpen;
+    private bool isWindRouteInterrupted = false;
 
     void Start()
     {
@@ -49,12 +50,26 @@ public class Door : MonoBehaviour
         animator.SetBool("isOpen", isOpen);
         col.enabled = false;
 
+        if (isWindRouteInterrupted && GameManager.instance.turnCount > 0)
+        {
+            GameManager.instance.RestoreWindRoute(transform.position);
+            isWindRouteInterrupted = false;
+        }
     }
     public void Close()
     {
         isOpen = false;
         animator.SetBool("isOpen", isOpen);
         col.enabled = true;
+
+
+        GameManager gameManager = GameManager.instance;
+        if (gameManager.route.Contains(transform.position) && gameManager.turnCount > 0)
+        {
+            int index = gameManager.route.FindIndex(i => i == transform.position);
+            gameManager.CutWindRoute(index);
+            isWindRouteInterrupted = true;
+        }
     }
 
     // Checks if there is an object at the location of the door before closing

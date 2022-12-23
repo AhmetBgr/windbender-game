@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4946448198038423299}
   - component: {fileID: 4946448198038423326}
   - component: {fileID: 4946448198038423324}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Blue Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 363989325175681189}
   - component: {fileID: 1862641333792994720}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Rune
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,11 +13,26 @@ public enum GameState {
 
 public class GameManager : MonoBehaviour
 {
+    public struct WindRoute{
+        public List<Vector3> route;
+        public WindSourceController windSource;
+        public bool isCompleted;
+
+        public WindRoute(List<Vector3> route, WindSourceController windSource, bool isCompleted = false)
+        {
+            this.route = route;
+            this.windSource = windSource;
+            this.isCompleted = isCompleted;
+        }
+    }
+    public List<WindRoute> windRoutes = new List<WindRoute>();
+
     public RouteManager routeManager;
     public Cursor cursor;
     public WindSourceController curWindSource;
 
     public List<Vector3> route = new List<Vector3>();
+    public int cutLenght;
 
     public List<MoveTo> emptyDestinationMoves = new List<MoveTo>();
     public List<MoveTo> momentumTransferMoves = new List<MoveTo>();             // object at the  not moving or moving opposite direction
@@ -267,6 +282,9 @@ public class GameManager : MonoBehaviour
                 if (hit)
                 {
                     StartDrawing(hit.transform.GetComponent<WindSourceController>());
+
+                    //WindRoute newWindRoute = new WindRoute(new List<Vector3>(), hit.transform.GetComponent<WindSourceController>());
+                    //windRoutes.Add(newWindRoute);
                 }
             }
         }
@@ -298,6 +316,40 @@ public class GameManager : MonoBehaviour
 
         previousRoute = setRoute;
         isDrawingCompleted = false;
+    }
+
+    public void WaitATurn()
+    {
+        turnCount = 1;
+        state = GameState.Running;
+    }
+
+    // Cuts wind route from given index. This is happen when a wall appears on the wind route. ie: when door closses
+    public void CutWindRoute(int index)
+    {
+        int count = route.Count;
+        cutLenght = count - index;
+        route.RemoveRange(index, cutLenght);
+
+        routeManager.DeleteTiles();
+        routeManager.DrawWindRoute(route);
+    }
+
+    // Restores wind route with straight line after cut position. (does not restore to the route before cut)
+    public void RestoreWindRoute(Vector3 cutPos)
+    {
+        if (cutLenght == 0) return;
+
+
+        for (int i = 0; i < cutLenght; i++)
+        {
+            Vector3 lastPos = route[route.Count - 1];
+
+            route.Add(cutPos);
+            routeManager.DeleteTiles();
+            routeManager.DrawWindRoute(route); // TODO: this is very unoptimized. find an optimization
+            cutPos += cutPos - lastPos;
+        }
     }
     
     public List<MoveTo> GetMoveWithHighestPriority(List<MoveTo> moves, Vector3 relativeChainMoveDir) 
@@ -372,6 +424,11 @@ public class GameManager : MonoBehaviour
             OnTurnStart2(route);
         }
     }
+
+    /*public void GetWindRoute(Vector3 pos)
+    {
+
+    }*/
 
     public void CancelTurns()
     {

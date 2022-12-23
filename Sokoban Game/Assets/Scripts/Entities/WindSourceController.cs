@@ -5,6 +5,20 @@ using TMPro;
 
 public class WindSourceController : MonoBehaviour
 {
+    public struct WindRoute {
+        public List<Vector3> route;
+        public WindSourceController windSource;
+        public bool isCompleted;
+
+        public WindRoute(List<Vector3> route, WindSourceController windSource, bool isCompleted = false)
+        {
+            this.route = route;
+            this.windSource = windSource;
+            this.isCompleted = isCompleted;
+        }
+    }
+    public List<WindRoute> windRoutes = new List<WindRoute>();
+
     public TextMeshProUGUI windSPText;
 
     [SerializeField]
@@ -48,6 +62,11 @@ public class WindSourceController : MonoBehaviour
     private void OnDisable() 
     { 
         gameManager.OnStateChange -= TryToToggle;
+    }
+
+    private void Update()
+    {
+
     }
 
     private void TryToToggle(GameState from, GameState to)
