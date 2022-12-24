@@ -327,9 +327,12 @@ public class GameManager : MonoBehaviour
     // Cuts wind route from given index. This is happen when a wall appears on the wind route. ie: when door closses
     public void CutWindRoute(int index)
     {
+        if (index == 0 && index > route.Count - 1) return;
+
         int count = route.Count;
-        cutLenght = count - index;
-        route.RemoveRange(index, cutLenght);
+        int tempCutLenght = count - index;
+        cutLenght += tempCutLenght;
+        route.RemoveRange(index, tempCutLenght);
 
         routeManager.DeleteTiles();
         routeManager.DrawWindRoute(route);
@@ -339,7 +342,7 @@ public class GameManager : MonoBehaviour
     public void RestoreWindRoute(Vector3 cutPos)
     {
         if (cutLenght == 0) return;
-
+        if ((cutPos - route[route.Count - 1]).magnitude > 1) return;
 
         for (int i = 0; i < cutLenght; i++)
         {
@@ -350,6 +353,7 @@ public class GameManager : MonoBehaviour
             routeManager.DrawWindRoute(route); // TODO: this is very unoptimized. find an optimization
             cutPos += cutPos - lastPos;
         }
+        cutLenght = 0;
     }
     
     public List<MoveTo> GetMoveWithHighestPriority(List<MoveTo> moves, Vector3 relativeChainMoveDir) 
