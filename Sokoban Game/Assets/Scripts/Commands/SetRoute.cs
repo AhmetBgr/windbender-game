@@ -8,13 +8,15 @@ public class SetRoute : Command
     public WindSourceController nextWS;
     public RouteManager routeManager;
     public List<Vector3> route = new List<Vector3>();
-    public SetRoute(WindSourceController windSource, RouteManager routeManager, List<Vector3> route)
+    public bool isLooping;
+
+    public SetRoute(WindSourceController windSource, RouteManager routeManager, List<Vector3> route, bool isLooping)
     {
         this.windSource = windSource;
         this.routeManager = routeManager;
         this.route.AddRange(route);
+        this.isLooping = isLooping;
     }
-
 
     public override void Execute()
     {
@@ -40,6 +42,8 @@ public class SetRoute : Command
         GameManager.instance.state = GameState.DrawingRoute;
         //GameManager.instance.OnDrawingStartedFunc();
         GameManager.instance.isDrawingCompleted = true;
+        GameManager.instance.isLooping = isLooping;
+        GameManager.instance.cutLenght = 0;
         
         // Undo Route manager
         routeManager.DeleteTiles();

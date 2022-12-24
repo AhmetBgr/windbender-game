@@ -50,14 +50,29 @@ public class BarrelMovement : ObjectMoveController
             {
                 if (index == 0)
                 {
-                    if (hasSpeed && stop)
+                    /*if (hasSpeed && stop)
                     {
                         hasSpeed = false;
+                        intentToMove = false;
                     }
-
+                    */
                     if (hasSpeed)
                     {
-                        intentToMove = true;
+                        if (stop)
+                        {
+                            hasSpeed = false;
+                            intentToMove = false;
+
+                        }
+                        else
+                        {
+                            intentToMove = true;
+                        }
+                        
+                    }
+                    else
+                    {
+                        intentToMove = false;
                     }
                 }
                 else

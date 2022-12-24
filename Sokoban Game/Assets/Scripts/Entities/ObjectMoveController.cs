@@ -53,7 +53,7 @@ public class ObjectMoveController : MonoBehaviour
         
         movementReserve = null;
         int index = -1; // index in wind route
-        bool reserveMov = true;
+        bool intentToMove = true;
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, 0);
         Vector3 previousDir = dir;
         if (route.Contains(pos)) // Check if the object is in the wind route
@@ -71,7 +71,7 @@ public class ObjectMoveController : MonoBehaviour
             {
                 if (index == 0)
                 {
-                    reserveMov = false;
+                    intentToMove = false;
                 }
                 else
                 {
@@ -82,10 +82,10 @@ public class ObjectMoveController : MonoBehaviour
         else
         {
             hasSpeed = false;
-            reserveMov = false;
+            intentToMove = false;
         }
 
-        if (!reserveMov) return;
+        //if (!reserveMov) return;
 
         Vector3 from = transform.position;
         Vector3 to = from + dir;
@@ -93,7 +93,7 @@ public class ObjectMoveController : MonoBehaviour
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.intentToMove = true;
+        movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
         if (GameManager.instance.isFirstTurn)
