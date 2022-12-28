@@ -86,8 +86,8 @@ public class Door : MonoBehaviour
     private void SaveState(List<Vector3> route)
     {
         DoorState doorState = new DoorState(this, isOpen, Time.time);
-        if(GameManager.instance.isFirstTurn)
-            GameManager.instance.oldCommands.Add(doorState);
+        //if(GameManager.instance.isFirstTurn)
+        GameManager.instance.oldCommands.Add(doorState);
     }
 
 

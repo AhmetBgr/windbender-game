@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private List<float> undoTimes = new List<float>();
     public bool isLooping = false;
     public bool isFirstTurn = true;
     private bool _isDrawingCompleted;
@@ -150,6 +151,7 @@ public class GameManager : MonoBehaviour
 
                 if (defTurnCount - turnCount == 1){
                     isFirstTurn = true;
+                    
                 }
                 else{
                     isFirstTurn = false;
@@ -417,6 +419,7 @@ public class GameManager : MonoBehaviour
         //this.route = route;
         turnCount = route.Count;
         defTurnCount = turnCount;
+        undoTimes.Add(Time.time);
         //tilesCleared = false;
         state  = GameState.Running;
         isFirstTurn = true;
@@ -474,9 +477,36 @@ public class GameManager : MonoBehaviour
     {
         if (oldCommands.Count == 0) return;
 
+        if (undoTimes.Count == 0) return;
+
         CancelTurns();
         CancelInvoke();
-        float executionTime = oldCommands[oldCommands.Count -1].executionTime; ;
+
+
+        float undoTime = undoTimes[undoTimes.Count - 1];
+        undoTimes.RemoveAt(undoTimes.Count - 1);
+        
+        while(true)
+        {
+            if (oldCommands.Count == 0) break;
+
+            float executionTime = oldCommands[oldCommands.Count - 1].executionTime;
+            if (executionTime < undoTime)
+            {
+                Debug.LogWarning("Undo BREAK: + " + executionTime + ":::::" + undoTime);
+                break;
+            }
+                
+
+            oldCommands[oldCommands.Count - 1].Undo();
+            oldCommands.Remove(oldCommands[oldCommands.Count - 1]);
+
+
+
+        }
+
+        /*float executionTime = oldCommands[oldCommands.Count - 1].executionTime;
+
         for(int i = oldCommands.Count -1; i >= 0; i--)
         {
             if (executionTime == oldCommands[i].executionTime)
@@ -485,7 +515,7 @@ public class GameManager : MonoBehaviour
                 oldCommands.Remove(oldCommands[i]);
             }
 
-        }
+        }*/
 
         if (OnUndo != null)
         {

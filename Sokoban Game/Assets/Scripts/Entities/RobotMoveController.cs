@@ -1,62 +1,32 @@
-using System.Transactions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
-public class ObjectMoveController : MonoBehaviour
+
+
+public class RobotMoveController : ObjectMoveController
 {
-    public enum State {
-        none,
-        standing,
-        layingVertical,
-        layingHorizantal
-    }
+    public Direction moveDir;
 
-    private bool _hasSpeed;
-    public bool hasSpeed
+    //private Vector3 dirBeforeWind;
+    private bool turn = false;
+    private bool pushedByWind = false;
+
+    public void Start()
     {
-        get { return _hasSpeed; }
-        set
-        {
-            _hasSpeed = value;
-            if(OnSpeedChange != null)
-            {
-                OnSpeedChange(value);
-            }
-        }
+        dir = Utility.DirToVectorDir(moveDir);
+        hasSpeed = true;
     }
 
-    public Vector3 dir;
-    public MoveTo movementReserve;
-    public State startingState;
-    public State curState;
-    public Tween tween;
-
-    public delegate void OnSpeedChangeDelegate(bool hasSpeed);
-    public event OnSpeedChangeDelegate OnSpeedChange;
-
-    protected virtual void OnEnable(){
-        GameManager.instance.OnTurnStart1 += ReserveMovement;
-        GameManager.instance.OnTurnStart2 += FindNeighbors;
-
-    }
-
-    protected virtual void OnDisable()
+    public override void ReserveMovement(List<Vector3> route)
     {
-        GameManager.instance.OnTurnStart1 -= ReserveMovement;
-        GameManager.instance.OnTurnStart2 -= FindNeighbors;
-    }
-
-    public virtual void ReserveMovement(List<Vector3> route)
-    {
-        
         movementReserve = null;
+        
+        //dirBeforeWind = dir;
         int index = -1; // index in wind route
-        bool intentToMove = true;
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, 0);
         Vector3 previousDir = dir;
-        if (route.Contains(pos)) // Check if the object is in the wind route
+        if (route.Contains(pos) && !pushedByWind) // Check if the object is in the wind route
         {
             // Determines the movement direction
 
@@ -69,11 +39,7 @@ public class ObjectMoveController : MonoBehaviour
             }
             else
             {
-                if (index == 0)
-                {
-                    intentToMove = false;
-                }
-                else
+                if (index > 0)
                 {
                     dir = route[index] - route[index - 1];
                 }
@@ -81,11 +47,9 @@ public class ObjectMoveController : MonoBehaviour
         }
         else
         {
-            hasSpeed = false;
-            intentToMove = false;
+            dir = Utility.DirToVectorDir(moveDir);
         }
 
-        //if (!reserveMov) return;
 
         Vector3 from = transform.position;
         Vector3 to = from + dir;
@@ -93,16 +57,17 @@ public class ObjectMoveController : MonoBehaviour
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.intentToMove = intentToMove;
+        movementReserve.intentToMove = true;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
+
         if (GameManager.instance.isFirstTurn)
         {
             GameManager.instance.oldCommands.Add(movementReserve);
         }
     }
 
-    public virtual void FindNeighbors(List<Vector3> route)
+    public override void FindNeighbors(List<Vector3> route)
     {
         if (movementReserve == null)
         {
@@ -122,7 +87,7 @@ public class ObjectMoveController : MonoBehaviour
             if (hit)
             {
                 GameObject obj = hit.transform.gameObject;
-                
+
                 if (movementReserve.intentToMove && this.dir == dir)
                 {
                     //Debug.Log("destination tile layer: " + obj.layer);
@@ -161,11 +126,17 @@ public class ObjectMoveController : MonoBehaviour
             }
             else
             {
-                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir))
+                if(!destinationObj.intentToMove || destinationObj.dir != -movementReserve.dir)
                 {
                     gameManager.momentumTransferMoves.Add(movementReserve);
-                    Debug.LogWarning("MOMENTUM TRANSFER");
+                    destinationObj.intentToMove = false;
+                    //Debug.LogWarning("MOMENTUM TRANSFER");
                 }
+                else
+                {
+                    gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                }
+
             }
         }
         else
@@ -173,55 +144,58 @@ public class ObjectMoveController : MonoBehaviour
             gameManager.emptyDestinationMoves.Add(movementReserve);
             //Debug.LogWarning("EMPTY MOVE");
         }
-        //Debug.Log("destination tile = " + destinationTile);
+
+        ChainPush(dir);
     }
 
-    public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
+    public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
     {
-        Vector3 startPos = transform.position;
-        tween = transform.DOMove(startPos + dir, GameManager.instance.turnDur).SetEase(Ease.InOutQuad); //.SetEase(Ease.Linear)
-        hasSpeed = true;
+        base.Move(dir, stopAftermoving, pushed);
+        if (turn)
+        {
+            Turn();
+        }
     }
 
-    public virtual void FailedMove()
+    public override void FailedMove()
     {
-        tween = transform.DOPunchPosition(dir / 5, GameManager.instance.turnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
-        hasSpeed = false;
+        base.FailedMove();
+        //Debug.LogWarning("ROBOT FAILED MOVE");
+        Turn();
     }
 
-    public virtual void PlayMoveAnim()
+
+    private void Turn()
     {
+        TurnDirection turn = new TurnDirection(this, -dir);
+        turn.Execute();
+        this.turn = false;
+        GameManager.instance.oldCommands.Add(turn);
+        /*if (GameManager.instance.isFirstTurn)
+        {
+            GameManager.instance.oldCommands.Add(turn);
+        }*/
 
     }
 
-    public virtual void PlayTurnAnim()
-    {
-
-    }
-
-    public virtual void PlayFailedMoveAnim()
-    {
-
-    }
-
-    public virtual void ChainPush(Vector3 dir)
+    public override void ChainPush(Vector3 dir)
     {
         MoveTo destinationObj;
         if (movementReserve.neighbors.TryGetValue(dir, out destinationObj))
         {
             if (destinationObj == null) return;
-            if (destinationObj.intentToMove && destinationObj.dir != -dir) return;
+            //if (destinationObj.intentToMove && destinationObj.dir != -dir) return;
+            if (destinationObj.indexInWind >= 0) return;
 
+            //destinationObj.dir = dir;
+            //destinationObj.intentToMove = true;
             destinationObj.pushed = true;
             destinationObj.hasSpeed = true;
+            //destinationObj.intentToMove = false;
             destinationObj.obj.ChainPush(dir);
+
+            if(movementReserve.indexInWind < 0)
+                turn = true;
         }
     }
-
-    public virtual void SetState(State state)
-    {
-        this.curState = state;
-    }
-
-
 }

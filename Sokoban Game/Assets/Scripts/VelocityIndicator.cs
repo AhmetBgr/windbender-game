@@ -14,6 +14,8 @@ public class VelocityIndicator : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
+        ShowWithDelay(GameManager.instance.state, GameManager.instance.state);
+        HideWithDelay(GameManager.instance.state, GameManager.instance.state);
     }
 
     private void OnEnable()

@@ -4,9 +4,24 @@ using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum Direction {
+    right,
+    left,
+    up,
+    down,
+    none
+}
+
 public static class Utility 
 {
-   	public static T[] ShuffleArray<T>(T[] array) {
+    static readonly Vector3[] vectorDirections = new Vector3[] {
+        Vector3.right,
+        Vector3.left,
+        Vector3.up,
+        Vector3.down,
+        Vector3.zero
+    };
+    public static T[] ShuffleArray<T>(T[] array) {
 		System.Random prng = new System.Random ();
 
 		for (int i =0; i < array.Length -1; i ++) {
@@ -64,5 +79,24 @@ public static class Utility
         }
         return null;
 
+    }
+
+    public static Vector3 DirToVectorDir(Direction dir)
+    {
+        return vectorDirections[(int)dir];
+    }
+
+    public static Direction VectorDirToDir(Vector3 vectorDir)
+    {
+        if (vectorDir == Vector3.right)
+            return Direction.right;
+        else if (vectorDir == Vector3.left)
+            return Direction.left;
+        else if (vectorDir == Vector3.up)
+            return Direction.up;
+        else if (vectorDir == Vector3.down)
+            return Direction.down;
+        else
+            return Direction.none;
     }
 }

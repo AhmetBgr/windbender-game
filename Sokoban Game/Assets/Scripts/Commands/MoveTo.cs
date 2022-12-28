@@ -21,6 +21,7 @@ public class MoveTo : Command
     public string tag;
     public ObjectMoveController.State state;
     public bool hasSpeed;
+    public bool pushed;
 
 
     public IDictionary<Vector3, MoveTo> neighbors = new Dictionary<Vector3, MoveTo>();
@@ -36,6 +37,7 @@ public class MoveTo : Command
         this.tag = tag;
         this.dir = to - from;
         this.previousDir = previousDir;
+        this.pushed = false;
     }
 
 
@@ -64,7 +66,7 @@ public class MoveTo : Command
     public void Move(bool stopAftermoving = true)
     {
         stopAftermoving = isMomentumTransferred;
-        obj.Move(dir, stopAftermoving);
+        obj.Move(dir, stopAftermoving, pushed);
         Debug.Log(obj.name + " is moving");
         isMovementChecked = true;
 
@@ -168,7 +170,9 @@ public class MoveTo : Command
 
             if ( (destinationObjA.obj.curState == ObjectMoveController.State.standing) |
                  (destinationObjA.obj.curState == ObjectMoveController.State.layingHorizantal && dir.y != 0) |
-                 (destinationObjA.obj.curState == ObjectMoveController.State.layingVertical && dir.x != 0))
+                 (destinationObjA.obj.curState == ObjectMoveController.State.layingVertical && dir.x != 0) |
+                 destinationObjA.pushed
+                 ) 
             {
                 destinationObjA.dir = dir;
                 destinationObjA.to = destinationObjA.from + dir;
@@ -182,6 +186,7 @@ public class MoveTo : Command
                         // Extends chain failed move to the neighbor object
                         destinationObjA.destinationTile = 2;
                         destinationObjA.ChainFailedMove();
+                        Debug.LogWarning("DESTÝNATÝON OBJ FAILED MOVE");
                     }
                     else // Checks if moveable object in the way for objA
                     {

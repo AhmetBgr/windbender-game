@@ -109,70 +109,25 @@ public class BarrelMovement : ObjectMoveController
         }
     }
 
-    public override void Move(Vector3 dir, bool stopAftermoving = false)
+    public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
     {
-        stop = stopAftermoving;
+        
         this.dir = dir;
         Ease ease = Ease.InOutQuad;
-        if (dir == Vector3.right && curState == State.standing)
+        
+
+        if ( (curState == State.layingHorizantal && (dir == Vector3.up | dir == Vector3.down))
+            | (curState == State.layingVertical && (dir == Vector3.right | dir == Vector3.left)) ) // Checks if rolling
         {
-            animator.Play("Barrel_fall_right");
-            curState = State.layingHorizantal;
-            stop = true;
-        }
-        else if (dir == Vector3.left && curState == State.standing)
-        {
-            animator.Play("Barrel_fall_left");
-            curState = State.layingHorizantal;
-            stop = true;
-        }
-        else if (dir == Vector3.down && curState == State.standing)
-        {
-            animator.Play("Barrel_fall_down");
-            curState = State.layingVertical;
-            stop = true;
-        }
-        else if (dir == Vector3.up && curState == State.standing)
-        {
-            animator.Play("Barrel_fall_up");
-            curState = State.layingVertical;
-            stop = true;
-        }
-        else if (dir == Vector3.right && curState == State.layingHorizantal)
-        {
-            animator.Play("Barrel_rise_right");
-            curState = State.standing;
-            stop = true;
-        }
-        else if (dir == Vector3.left && curState == State.layingHorizantal)
-        {
-            animator.Play("Barrel_rise_left");
-            curState = State.standing;
-            stop = true;
-        }
-        else if (dir == Vector3.up && curState == State.layingVertical)
-        {
-            animator.Play("Barrel_rise_up");
-            curState = State.standing;
-            stop = true;
-        }
-        else if (dir == Vector3.down && curState == State.layingVertical)
-        {
-            animator.Play("Barrel_rise_down");
-            curState = State.standing;
-            stop = true;
+            if(!pushed)
+                ease = Ease.Linear;
+            
+            stopAftermoving = false;
+            Debug.LogWarning("BARREL ROLLING");
         }
         else
         {
-            if(dir == Vector3.up)
-                animator.Play("Barrel_roll_up");
-            else if (dir == Vector3.right)
-                animator.Play("Barrel_roll_right");
-            else if (dir == Vector3.down)
-                animator.Play("Barrel_roll_down");
-            else if (dir == Vector3.left)
-                animator.Play("Barrel_roll_left");
-            ease = Ease.Linear;
+            stopAftermoving = true;
         }
 
         Vector3 startPos = transform.position;
@@ -181,25 +136,95 @@ public class BarrelMovement : ObjectMoveController
                 if (GameManager.instance.turnCount == 0)
                     SetState(curState);
 
-                if (stop)
+                if (stopAftermoving)
                     SetState(curState);
             });
 
         hasSpeed = true;
         if (!GameManager.instance.route.Contains(startPos + dir))
         {
-            if (stop)
+            if (stopAftermoving)
                 hasSpeed = false;
         }
 
-        animator.speed = 1 / GameManager.instance.turnDur;
+        
         movementReserve = null;
+        stop = stopAftermoving;
+
+        if (pushed) return;
+        PlayMoveAnim();
+
     }
     public override void FailedMove()
     {
         base.FailedMove();
         SetState(curState);
         movementReserve = null;
+    }
+
+    public override void PlayMoveAnim()
+    {
+        animator.speed = 1 / GameManager.instance.turnDur;
+        if (dir == Vector3.right && curState == State.standing)
+        {
+            animator.Play("Barrel_fall_right");
+            curState = State.layingHorizantal;
+            //stop = true;
+        }
+        else if (dir == Vector3.left && curState == State.standing)
+        {
+            animator.Play("Barrel_fall_left");
+            curState = State.layingHorizantal;
+            //stop = true;
+        }
+        else if (dir == Vector3.down && curState == State.standing)
+        {
+            animator.Play("Barrel_fall_down");
+            curState = State.layingVertical;
+            //stop = true;
+        }
+        else if (dir == Vector3.up && curState == State.standing)
+        {
+            animator.Play("Barrel_fall_up");
+            curState = State.layingVertical;
+            //stop = true;
+        }
+        else if (dir == Vector3.right && curState == State.layingHorizantal)
+        {
+            animator.Play("Barrel_rise_right");
+            curState = State.standing;
+            //stop = true;
+        }
+        else if (dir == Vector3.left && curState == State.layingHorizantal)
+        {
+            animator.Play("Barrel_rise_left");
+            curState = State.standing;
+            //stop = true;
+        }
+        else if (dir == Vector3.up && curState == State.layingVertical)
+        {
+            animator.Play("Barrel_rise_up");
+            curState = State.standing;
+            //stop = true;
+        }
+        else if (dir == Vector3.down && curState == State.layingVertical)
+        {
+            animator.Play("Barrel_rise_down");
+            curState = State.standing;
+            //stop = true;
+        }
+        else
+        {
+            if (dir == Vector3.up)
+                animator.Play("Barrel_roll_up");
+            else if (dir == Vector3.right)
+                animator.Play("Barrel_roll_right");
+            else if (dir == Vector3.down)
+                animator.Play("Barrel_roll_down");
+            else if (dir == Vector3.left)
+                animator.Play("Barrel_roll_left");
+            //ease = Ease.Linear;
+        }
     }
 
     public override void SetState(State state)

@@ -23,6 +23,7 @@ public class ButtonEntity : MonoBehaviour
     public void OnDisable()
     {
         GameManager.instance.OnTurnEnd -= CheckForObject;
+        GameManager.instance.OnTurnStart1 -= SaveState;
     }
 
     public void CheckForObject()
@@ -35,7 +36,7 @@ public class ButtonEntity : MonoBehaviour
             obj = hit.transform.gameObject.GetComponent<ObjectMoveController>();
         }
         ChangeButtonState(obj);
-        GameManager.instance.OnTurnStart1 -= SaveState;
+        
     }
 
     private void ChangeButtonState(ObjectMoveController obj)
@@ -59,8 +60,8 @@ public class ButtonEntity : MonoBehaviour
     private void SaveState(List<Vector3> route)
     {
         ChangeButtonState buttonState = new ChangeButtonState(this, isDown, Time.time);
-        if (GameManager.instance.isFirstTurn)
-            GameManager.instance.oldCommands.Add(buttonState);
+        //if (GameManager.instance.isFirstTurn)
+        GameManager.instance.oldCommands.Add(buttonState);
     }
 
 

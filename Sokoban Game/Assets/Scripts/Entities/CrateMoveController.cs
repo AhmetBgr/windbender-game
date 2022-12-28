@@ -6,10 +6,24 @@ public class CrateMoveController : ObjectMoveController
 {
     public Animator animator;
 
-    public override void Move(Vector3 dir, bool stopAftermoving = false)
+    public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
     {
         base.Move(dir, stopAftermoving);
 
+        if (pushed) return;
+
+        PlayMoveAnim();
+    }
+
+    public override void FailedMove()
+    {
+        base.FailedMove();
+
+        PlayFailedMoveAnim();
+    }
+
+    public override void PlayMoveAnim()
+    {
         animator.speed = 1 / GameManager.instance.turnDur;
 
         if (dir == Vector3.right)
@@ -22,10 +36,8 @@ public class CrateMoveController : ObjectMoveController
             animator.Play("Crate_move_up");
     }
 
-    public override void FailedMove()
+    public override void PlayFailedMoveAnim()
     {
-        base.FailedMove();
-
         if (dir == Vector3.right)
             animator.Play("Crate_failed_move_right");
         else if (dir == Vector3.left)
