@@ -7,6 +7,7 @@ public class CancelRouteDrawing : Command
     public WindSourceController windSource;
     public RouteManager routeManager;
     private GameManager gameManager;
+    private GameState oldState;
     public List<Vector3> route = new List<Vector3>();
     public CancelRouteDrawing(WindSourceController windSource, RouteManager routeManager, List<Vector3> route)
     {
@@ -15,6 +16,7 @@ public class CancelRouteDrawing : Command
         this.route = new List<Vector3>();
         this.route.AddRange(route);
         this.gameManager = GameManager.instance;
+        this.oldState = gameManager.state;
     }
     public override void Execute()
     {
@@ -38,7 +40,7 @@ public class CancelRouteDrawing : Command
         GameManager.instance.curWindSource = windSource;
         GameManager.instance.route = new List<Vector3>();
         GameManager.instance.route.AddRange(route);
-        GameManager.instance.state = GameState.DrawingRoute;
+        GameManager.instance.state = oldState;
 
         // Undo route tile manager stuff
         routeManager.route = new List<Vector3>();

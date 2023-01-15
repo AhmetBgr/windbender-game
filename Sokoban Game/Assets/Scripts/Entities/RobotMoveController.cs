@@ -9,8 +9,9 @@ public class RobotMoveController : ObjectMoveController
     public Direction moveDir;
 
     //private Vector3 dirBeforeWind;
-    private bool turn = false;
-    private bool pushedByWind = false;
+    private bool turnAfterMoving = false;
+    //private bool pushedByWind = false;
+    public bool onOff = true; // true = on, false = off
 
     public void Start()
     {
@@ -26,7 +27,7 @@ public class RobotMoveController : ObjectMoveController
         int index = -1; // index in wind route
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, 0);
         Vector3 previousDir = dir;
-        if (route.Contains(pos) && !pushedByWind) // Check if the object is in the wind route
+        if (route.Contains(pos)) // Check if the object is in the wind route // && !pushedByWind
         {
             // Determines the movement direction
 
@@ -44,10 +45,12 @@ public class RobotMoveController : ObjectMoveController
                     dir = route[index] - route[index - 1];
                 }
             }
+            OnOff(false);
         }
         else
         {
             dir = Utility.DirToVectorDir(moveDir);
+            OnOff(true);
         }
 
 
@@ -61,10 +64,10 @@ public class RobotMoveController : ObjectMoveController
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
 
-        if (GameManager.instance.isFirstTurn)
-        {
-            GameManager.instance.oldCommands.Add(movementReserve);
-        }
+        //if (GameManager.instance.isFirstTurn)
+        //{
+        GameManager.instance.oldCommands.Add(movementReserve);
+        //}
     }
 
     public override void FindNeighbors(List<Vector3> route)
@@ -126,15 +129,21 @@ public class RobotMoveController : ObjectMoveController
             }
             else
             {
-                if(!destinationObj.intentToMove || destinationObj.dir != -movementReserve.dir)
+                //gameManager.momentumTransferMoves.Add(movementReserve);
+
+                /*if (!destinationObj.intentToMove || ( destinationObj.dir != -movementReserve.dir | destinationObj.dir != dir ) )
                 {
                     gameManager.momentumTransferMoves.Add(movementReserve);
-                    destinationObj.intentToMove = false;
-                    //Debug.LogWarning("MOMENTUM TRANSFER");
+                    
                 }
                 else
                 {
                     gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                }*/
+
+                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir))
+                {
+                    gameManager.momentumTransferMoves.Add(movementReserve);
                 }
 
             }
@@ -151,7 +160,7 @@ public class RobotMoveController : ObjectMoveController
     public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
     {
         base.Move(dir, stopAftermoving, pushed);
-        if (turn)
+        if (turnAfterMoving)
         {
             Turn();
         }
@@ -160,7 +169,6 @@ public class RobotMoveController : ObjectMoveController
     public override void FailedMove()
     {
         base.FailedMove();
-        //Debug.LogWarning("ROBOT FAILED MOVE");
         Turn();
     }
 
@@ -169,7 +177,7 @@ public class RobotMoveController : ObjectMoveController
     {
         TurnDirection turn = new TurnDirection(this, -dir);
         turn.Execute();
-        this.turn = false;
+        this.turnAfterMoving = false;
         GameManager.instance.oldCommands.Add(turn);
         /*if (GameManager.instance.isFirstTurn)
         {
@@ -180,22 +188,34 @@ public class RobotMoveController : ObjectMoveController
 
     public override void ChainPush(Vector3 dir)
     {
+        if (movementReserve.pushed)
+            OnOff(false);
+
         MoveTo destinationObj;
         if (movementReserve.neighbors.TryGetValue(dir, out destinationObj))
         {
             if (destinationObj == null) return;
-            //if (destinationObj.intentToMove && destinationObj.dir != -dir) return;
-            if (destinationObj.indexInWind >= 0) return;
+            if (destinationObj.intentToMove && (destinationObj.dir == -dir | destinationObj.dir == dir)) {
+                Debug.LogWarning("should not push");
+                return;
+            }
 
-            //destinationObj.dir = dir;
-            //destinationObj.intentToMove = true;
             destinationObj.pushed = true;
-            destinationObj.hasSpeed = true;
-            //destinationObj.intentToMove = false;
+            destinationObj.obj.hasSpeed = true;
+            destinationObj.intentToMove = false;
             destinationObj.obj.ChainPush(dir);
 
-            if(movementReserve.indexInWind < 0)
-                turn = true;
+            if (movementReserve.indexInWind < 0 && onOff)
+            {
+                turnAfterMoving = true;
+            }
         }
+        
+    }
+
+    private void OnOff(bool newState)
+    {
+        OnOffRobot onOffRobot = new OnOffRobot(this, onOff, newState);
+        onOffRobot.Execute();
     }
 }

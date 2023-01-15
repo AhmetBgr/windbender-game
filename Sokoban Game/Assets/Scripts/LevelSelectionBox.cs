@@ -37,7 +37,8 @@ public class LevelSelectionBox : MonoBehaviour
         if (level.state == LevelData.State.locked) return;
 
         // load Level
-        SceneLoader.LoadSceneWithName(level.name);
+        //SceneLoader.LoadSceneWithName(level.name);
+        SceneLoader.LoadSceneWithIndex(level.sceneIndex);
     }
 
     public void OnClick()

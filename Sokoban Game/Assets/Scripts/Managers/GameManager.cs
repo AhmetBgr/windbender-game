@@ -27,12 +27,12 @@ public class GameManager : MonoBehaviour
     }
     public List<WindRoute> windRoutes = new List<WindRoute>();
 
-    public RouteManager routeManager;
-    public Cursor cursor;
+    [HideInInspector] public RouteManager routeManager;
+    [HideInInspector] public Cursor cursor;
     public WindSourceController curWindSource;
 
     public List<Vector3> route = new List<Vector3>();
-    public int cutLenght;
+    [HideInInspector] public int cutLenght;
 
     public List<MoveTo> emptyDestinationMoves = new List<MoveTo>();
     public List<MoveTo> momentumTransferMoves = new List<MoveTo>();             // object at the  not moving or moving opposite direction
@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
 
                 if (defTurnCount - turnCount == 1){
                     isFirstTurn = true;
-                    
+                    //undoTimes.Add(Time.time);
                 }
                 else{
                     isFirstTurn = false;
@@ -211,6 +211,13 @@ public class GameManager : MonoBehaviour
         }
         else if(state == GameState.DrawingRoute) // drawing route for wind
         {
+
+            if (route.Count == 0)
+            {
+                state = GameState.Waiting;
+                return;
+            }
+
             if (isDrawingCompleted && Input.GetKeyUp(KeyCode.Space))
             {
                 StartWindBlow();
@@ -320,29 +327,51 @@ public class GameManager : MonoBehaviour
         isDrawingCompleted = false;
     }
 
+    /*public void WaitTurns()
+    {
+        InvokeRepeating("WaitATurn", 0, turnDur);
+    }*/
+    
     public void WaitATurn()
     {
         turnCount = 1;
+        undoTimes.Add(Time.time);
+
+        // Cancels wind route drawing
+        if (route.Count >= 1) 
+        {
+            CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
+            cancelDrawing.Execute();
+        }
+
         state = GameState.Running;
     }
 
-    // Cuts wind route from given index. This is happen when a wall appears on the wind route. ie: when door closses
+    /*public void StopWaiting()
+    {
+        CancelInvoke("WaitATurn");
+    }*/
+
+
+    // Cuts wind route from given index. 
+    // This is happens when a wall appears on the wind route. Eg: when door closses
     public void CutWindRoute(int index)
     {
-        if (index == 0 | index > route.Count - 1) return;
+        if (index <= 0 | index > route.Count - 1) return;
 
-        // Cut
+        // removes positions from the route
         int count = route.Count;
         int tempCutLenght = count - index;
         cutLenght += tempCutLenght;
         route.RemoveRange(index, tempCutLenght);
 
-        // Redraw wind route
+        // Redraws the wind route
         routeManager.DeleteTiles();
         routeManager.DrawWindRoute(route);
     }
 
-    // Restores wind route with straight line after cut position. (does not restore to the route before cut)
+    // Restores wind route to straight route after cut position.
+    // This is happens when a wall dissappears from the cut possition. Eg: when door opens
     public void RestoreWindRoute(Vector3 cutPos)
     {
         if (cutLenght == 0) return;
@@ -354,7 +383,6 @@ public class GameManager : MonoBehaviour
 
             route.Add(cutPos);
 
-            // TODO: this is very unoptimized. find an optimization
             routeManager.DeleteTiles();
             routeManager.DrawWindRoute(route); 
 
@@ -459,16 +487,20 @@ public class GameManager : MonoBehaviour
         {
             if(destination.objMC == null)
             {
-                Debug.LogWarning("destination is not satisfied: " + destination.gameObject.name);
+                Debug.Log("destination is not satisfied: " + destination.gameObject.name);
                 return; 
             }
         }
-        Debug.LogWarning("LEVEL COMPLETED");
+        Debug.Log("LEVEL COMPLETED");
         
         destinations.Clear();
 
+
+
         if(OnLevelComplete != null)
         {
+            oldCommands.Clear();
+            curWindSource = null;
             OnLevelComplete();
         }
     }
@@ -493,18 +525,18 @@ public class GameManager : MonoBehaviour
             float executionTime = oldCommands[oldCommands.Count - 1].executionTime;
             if (executionTime < undoTime)
             {
-                Debug.LogWarning("Undo BREAK: + " + executionTime + ":::::" + undoTime);
+                //Debug.LogWarning("Undo BREAK: + " + executionTime + ":::::" + undoTime);
                 break;
             }
-                
 
+            //Debug.LogWarning("Undo count: + " + oldCommands.Count + ":::::" + undoTime);
             oldCommands[oldCommands.Count - 1].Undo();
             oldCommands.Remove(oldCommands[oldCommands.Count - 1]);
 
 
 
         }
-
+        //Debug.LogWarning("Undo count: + " + oldCommands.Count + ":::::" + undoTime);
         /*float executionTime = oldCommands[oldCommands.Count - 1].executionTime;
 
         for(int i = oldCommands.Count -1; i >= 0; i--)

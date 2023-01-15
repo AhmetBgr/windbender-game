@@ -96,10 +96,10 @@ public class ObjectMoveController : MonoBehaviour
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
-        if (GameManager.instance.isFirstTurn)
-        {
-            GameManager.instance.oldCommands.Add(movementReserve);
-        }
+        //if (GameManager.instance.isFirstTurn)
+        //{
+        GameManager.instance.oldCommands.Add(movementReserve);
+        //}
     }
 
     public virtual void FindNeighbors(List<Vector3> route)
@@ -157,21 +157,19 @@ public class ObjectMoveController : MonoBehaviour
             if (destinationObj == null) // wall at destination
             {
                 gameManager.obstacleAtDestinationMoves.Add(movementReserve);
-                //Debug.LogWarning("WALL");
             }
             else
             {
                 if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir))
                 {
                     gameManager.momentumTransferMoves.Add(movementReserve);
-                    Debug.LogWarning("MOMENTUM TRANSFER");
+                    //Debug.Log("MOMENTUM TRANSFER");
                 }
             }
         }
         else
         {
             gameManager.emptyDestinationMoves.Add(movementReserve);
-            //Debug.LogWarning("EMPTY MOVE");
         }
         //Debug.Log("destination tile = " + destinationTile);
     }
@@ -213,7 +211,7 @@ public class ObjectMoveController : MonoBehaviour
             if (destinationObj.intentToMove && destinationObj.dir != -dir) return;
 
             destinationObj.pushed = true;
-            destinationObj.hasSpeed = true;
+            destinationObj.obj.hasSpeed = true;
             destinationObj.obj.ChainPush(dir);
         }
     }

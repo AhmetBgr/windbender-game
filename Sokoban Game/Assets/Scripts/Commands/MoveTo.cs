@@ -52,7 +52,7 @@ public class MoveTo : Command
         obj.SetState(state);
         obj.hasSpeed = hasSpeed;
         obj.dir = previousDir;
-        if(obj.tween != null)
+        if (obj.tween != null)
         {
             obj.tween.Kill();
         }
@@ -70,10 +70,10 @@ public class MoveTo : Command
         Debug.Log(obj.name + " is moving");
         isMovementChecked = true;
 
-        if(obj.name == "Barrel")
+        /*if(obj.name == "Barrel")
         {
             Debug.Log("stop after moving : " + stopAftermoving);
-        }
+        }*/
 
     }
 
@@ -92,7 +92,7 @@ public class MoveTo : Command
                     chainNeighbors.Add(kvp.Value);
                 }
             }
-            /**if(kvp.Value.to == from && kvp.Value.dir == dir)
+            /*if(kvp.Value.to == from && kvp.Value.dir == dir)
             {
                 kvp.Value.ChainMove();
             }

@@ -103,10 +103,10 @@ public class BarrelMovement : ObjectMoveController
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
 
-        if (GameManager.instance.isFirstTurn)
-        {
-            GameManager.instance.oldCommands.Add(movementReserve);
-        }
+        //if (GameManager.instance.isFirstTurn)
+        //{
+        GameManager.instance.oldCommands.Add(movementReserve);
+        //}
     }
 
     public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
@@ -123,7 +123,7 @@ public class BarrelMovement : ObjectMoveController
                 ease = Ease.Linear;
             
             stopAftermoving = false;
-            Debug.LogWarning("BARREL ROLLING");
+            //Debug.Log("BARREL ROLLING");
         }
         else
         {

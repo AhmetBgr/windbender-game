@@ -50,6 +50,7 @@ public class Door : MonoBehaviour
         animator.SetBool("isOpen", isOpen);
         col.enabled = false;
 
+        // Wind route restoring
         if (isWindRouteInterrupted && GameManager.instance.turnCount > 0)
         {
             GameManager.instance.RestoreWindRoute(transform.position);
@@ -62,7 +63,7 @@ public class Door : MonoBehaviour
         animator.SetBool("isOpen", isOpen);
         col.enabled = true;
 
-
+        // Wind route cutting
         GameManager gameManager = GameManager.instance;
         if (gameManager.route.Contains(transform.position) && gameManager.turnCount > 0)
         {

@@ -463,6 +463,12 @@ public class RouteManager : MonoBehaviour
     {
         if (from != GameState.Running && to != GameState.Waiting) return;
 
+        if(tilemap == null)
+        {
+            Debug.LogWarning("tilemap is null");
+            return;
+        }
+
         Color clearColor = new Color(1f, 1f, 1f, 0f);
         Color startColor = tilemap.color;
         routine = Utility.ChangeTilemapColor(tilemap, clearColor, GameManager.instance.turnDur / 2, onCompleteCallBack: () =>
