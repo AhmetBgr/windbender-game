@@ -16,6 +16,9 @@ public class LevelSelectionBox : MonoBehaviour
     // Start is called before the first frame update
     public LevelSelectionBox[] unlocks;
 
+    public delegate void OnLevelSelectDelegate(LevelData level);
+    public static event OnLevelSelectDelegate OnLevelSelect;
+
     void Start()
     {
         // get state 
@@ -38,6 +41,11 @@ public class LevelSelectionBox : MonoBehaviour
 
         // load Level
         //SceneLoader.LoadSceneWithName(level.name);
+        if(OnLevelSelect != null)
+        {
+            OnLevelSelect(level);
+        }
+
         SceneLoader.LoadSceneWithIndex(level.sceneIndex);
     }
 

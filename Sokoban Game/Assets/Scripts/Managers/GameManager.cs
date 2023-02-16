@@ -207,6 +207,7 @@ public class GameManager : MonoBehaviour
                 obstacleAtDestinationMoves.Clear();
 
                 Invoke("OnTurnEndEvent", turnDur - (turnDur/20f));
+                return;
             }
         }
         else if(state == GameState.DrawingRoute) // drawing route for wind
