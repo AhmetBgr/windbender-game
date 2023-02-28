@@ -12,6 +12,7 @@ public class DoorState : Command
         this.door = door;
         this.isOpen = isOpen;
         this.executionTime = executionTime;
+        turnID = GameManager.instance.turnID;
     }
 
 

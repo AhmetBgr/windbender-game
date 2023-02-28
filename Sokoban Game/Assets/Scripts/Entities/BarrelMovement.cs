@@ -8,6 +8,19 @@ public class BarrelMovement : ObjectMoveController
     public Animator animator;
     private bool stop;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GameManager.instance.OnUndo += UpdateAnimState;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GameManager.instance.OnUndo -= UpdateAnimState;
+    }
+
+
     private void Start()
     {
         if(startingState == State.standing)
@@ -26,6 +39,8 @@ public class BarrelMovement : ObjectMoveController
             curState = State.layingVertical;
         }
         hasSpeed = false;
+
+        
     }
 
     public override void ReserveMovement(List<Vector3> route)
@@ -97,21 +112,30 @@ public class BarrelMovement : ObjectMoveController
         Vector3 to = from + dir;
 
         // Reserves movement
-        movementReserve = new MoveTo(this, from, to, previousDir, index, tag);
+        movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
+        movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
 
         //if (GameManager.instance.isFirstTurn)
-        //{
-        GameManager.instance.oldCommands.Add(movementReserve);
-        //}
+            //GameManager.instance.oldCommands.Add(movementReserve);
+    }
+
+    public override void FindNeighbors(List<Vector3> route)
+    {
+        base.FindNeighbors(route);
     }
 
     public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
     {
         
+
+        //if(GameManager.instance.isFirstTurn || GameManager.instance.state == GameState.Waiting)
+        GameManager.instance.oldCommands.Add(movementReserve);
+
+
         this.dir = dir;
         Ease ease = Ease.InOutQuad;
         
@@ -122,7 +146,7 @@ public class BarrelMovement : ObjectMoveController
             if(!pushed)
                 ease = Ease.Linear;
             
-            stopAftermoving = false;
+            //stopAftermoving = false;
             //Debug.Log("BARREL ROLLING");
         }
         else
@@ -139,7 +163,7 @@ public class BarrelMovement : ObjectMoveController
                 if (stopAftermoving)
                     SetState(curState);
             });
-
+        //tween.OnKill(() => UpdateAnimState());
         hasSpeed = true;
         if (!GameManager.instance.route.Contains(startPos + dir))
         {
@@ -157,6 +181,9 @@ public class BarrelMovement : ObjectMoveController
     }
     public override void FailedMove()
     {
+        //if (GameManager.instance.isFirstTurn || GameManager.instance.state == GameState.Waiting)
+        GameManager.instance.oldCommands.Add(movementReserve);
+
         base.FailedMove();
         SetState(curState);
         movementReserve = null;
@@ -229,12 +256,19 @@ public class BarrelMovement : ObjectMoveController
 
     public override void SetState(State state)
     {
+        Debug.LogWarning("state changed to: " + state.ToString());
         curState = state;
-        if (state == State.standing)
+        UpdateAnimState();
+
+    }
+
+    private void UpdateAnimState()
+    {
+        if (curState == State.standing)
         {
             animator.Play("Barrel_stand");
         }
-        else if(state == State.layingHorizantal)
+        else if (curState == State.layingHorizantal)
         {
             animator.Play("Barrel_lay_horizantal");
         }
@@ -242,7 +276,6 @@ public class BarrelMovement : ObjectMoveController
         {
             animator.Play("Barrel_lay_vertical");
         }
-
     }
 
 

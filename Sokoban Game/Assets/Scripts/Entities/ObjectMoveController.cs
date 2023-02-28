@@ -91,8 +91,9 @@ public class ObjectMoveController : MonoBehaviour
         Vector3 to = from + dir;
 
         // Reserves movement
-        movementReserve = new MoveTo(this, from, to, previousDir, index, tag);
+        movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
+        movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;

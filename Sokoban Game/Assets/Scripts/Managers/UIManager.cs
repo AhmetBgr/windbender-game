@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject pausedPanel;
     public Button blowButton;
     public Button waitButton;
+    public Button returnToLevelSelButton;
     public Transform routeDrawingPanel;
     Tween blowButtonTween;
     private void OnEnable()
@@ -36,25 +37,43 @@ public class UIManager : MonoBehaviour
         {
             GameManager.instance.StartWindBlow();
         });
-        waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
-        pausedPanel.SetActive(true);
 
-        // Adds events to the wait button trigger events 
-        /*EventTrigger trigger = waitButton.GetComponent<EventTrigger>();
+        //waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
+        EventTrigger trigger = waitButton.GetComponent<EventTrigger>();
+
         EventTrigger.Entry entry = new EventTrigger.Entry();
-        EventTrigger.Entry entry2 = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerDown;
-        entry2.eventID = EventTriggerType.PointerUp;
-        entry.callback.AddListener((data) => { GameManager.instance.WaitATurn(); });
-        entry2.callback.AddListener((data) => { GameManager.instance.WaitATurn(); });
+        entry.callback.AddListener((data) => { OnWaitButtonDownDelegate((PointerEventData)data); });
         trigger.triggers.Add(entry);
-        trigger.triggers.Add(entry2);*/
 
+        EventTrigger.Entry entry2 = new EventTrigger.Entry();
+        entry2.eventID = EventTriggerType.PointerUp;
+        entry2.callback.AddListener((data) => { OnWaitButtonUpDelegate((PointerEventData)data); });
+        trigger.triggers.Add(entry2);
+
+
+        if (LevelManager.instance != null)
+        {
+            returnToLevelSelButton.onClick.AddListener(LevelManager.instance.LoadOverWorld);
+        }
+
+        pausedPanel.SetActive(true);
+    }
+
+    private void OnWaitButtonDownDelegate(PointerEventData data)
+    {
+        GameManager.instance.StartWaiting();
+    }
+
+    private void OnWaitButtonUpDelegate(PointerEventData data)
+    {
+        //waitButton.gameObject.SetActive(false);
+        GameManager.instance.StopWaiting();
     }
 
     private void UpdateTurnCounterText(int turnCount)
     {
-        if (turnCount <= 0)
+        if (turnCount <= 0 | GameManager.instance.isWaiting)
         {
             turnCountText.gameObject.SetActive(false);
         }
@@ -65,6 +84,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
     public void OnUndoButtonDown()
     {
         GameManager.instance.Undo();
@@ -72,32 +92,39 @@ public class UIManager : MonoBehaviour
 
     private void ToggleRouteDrawingPanel(GameState from, GameState to)
     {
-        if (to == GameState.DrawingRoute)
-        {
+        if (to == GameState.DrawingRoute){
             routeDrawingPanel.gameObject.SetActive(true);
         }
-        else
-        {
+        else{
             routeDrawingPanel.gameObject.SetActive(false);
         }
     }
 
     private void TogglePausedText(GameState from, GameState to)
     {
-        if (to == GameState.Running)
+        if (to == GameState.Running) 
+        {
             pausedPanel.SetActive(false);
+            //if (GameManager.instance.isWaiting) return;
+            //waitButton.gameObject.SetActive(false);
+        }
         else
+        {
+            //if (pausedPanel.activeInHierarchy) return;
             StartCoroutine(Utility.SetActiveObjWithDelay(pausedPanel, true, GameManager.instance.turnDur));
-            
-        
-
+            if (waitButton.gameObject.activeInHierarchy) return;
+            StartCoroutine(Utility.SetActiveObjWithDelay(waitButton.gameObject, true, GameManager.instance.turnDur));
+            //pausedPanel.SetActive(true);
+            //waitButton.gameObject.SetActive(true);
+        }
     }
 
     public void ToggleBlowButton(bool value)
     {
         blowButton.gameObject.SetActive(value);
 
-        waitButton.gameObject.SetActive(!value);
+        if(value || GameManager.instance.state != GameState.Running)
+            waitButton.gameObject.SetActive(!value);
        
 
         if (blowButtonTween != null)

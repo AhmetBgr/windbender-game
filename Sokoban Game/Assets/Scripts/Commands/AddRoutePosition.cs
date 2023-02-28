@@ -26,6 +26,7 @@ public class AddRoutePosition : Command
         ///windSource.AddPosition(pos);
         windSource.UpdateWindSP(gameManager.route.Count);
         executionTime = Time.time;
+        turnID = GameManager.instance.turnID;
     }
 
     public override void Undo()

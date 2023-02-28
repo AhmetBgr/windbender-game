@@ -27,11 +27,12 @@ public class MoveTo : Command
     public IDictionary<Vector3, MoveTo> neighbors = new Dictionary<Vector3, MoveTo>();
 
 
-    public MoveTo(ObjectMoveController obj, Vector3 from, Vector3 to, Vector3 previousDir, int indexInWind, string tag)
+    public MoveTo(ObjectMoveController obj, Vector3 from, Vector3 to, Vector3 previousDir, ObjectMoveController.State state, int indexInWind, string tag)
     {
         this.obj = obj;
         this.from = from;
         this.to = to;
+        this.state = state;
         //this.destinationTile = destinationTile;
         this.indexInWind = indexInWind;
         this.tag = tag;
@@ -49,7 +50,9 @@ public class MoveTo : Command
     public override void Undo()
     {
         obj.transform.position = from;
-        obj.SetState(state);
+        //obj.SetState(state);
+        obj.curState = state;
+        Debug.LogWarning("state name : " + state.ToString());
         obj.hasSpeed = hasSpeed;
         obj.dir = previousDir;
         if (obj.tween != null)
@@ -202,6 +205,8 @@ public class MoveTo : Command
                     emptyDestintionTileMoves.Add(destinationObjA);
                     destinationObjA.isMomentumTransferred = false;
                 }
+                if( indexInWind < 0 )
+                    ChainFailedMove();
                 isMomentumTransferred = true;
             }
             else

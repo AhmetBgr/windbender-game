@@ -459,11 +459,13 @@ public class RouteManager : MonoBehaviour
         FixPreviousTile(positions);
     }
 
-    private void ClearTiles(GameState from, GameState to)
+    public void ClearTiles(GameState from, GameState to)
     {
-        if (from != GameState.Running && to != GameState.Waiting) return;
+        if (from != GameState.Running && to != GameState.Paused) return;
 
-        if(tilemap == null)
+        //if (from != GameState.Running || to != GameState.Waiting && to != GameState.Paused) return;
+
+        if (tilemap == null)
         {
             Debug.LogWarning("tilemap is null");
             return;

@@ -27,8 +27,9 @@ public class CancelRouteDrawing : Command
         gameManager.curWindSource.windSP = GameManager.instance.curWindSource.defWindSP;
         ///gameManager.curWindSource.route.Clear();
         gameManager.curWindSource = null;
-        gameManager.state = GameState.Waiting;
+        gameManager.state = GameState.Paused;
         executionTime = Time.time;
+        turnID = GameManager.instance.turnID;
     }
 
     public override void Undo()

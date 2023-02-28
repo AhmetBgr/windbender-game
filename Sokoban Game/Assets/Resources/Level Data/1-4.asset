@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: 1-4
   m_EditorClassIdentifier: 
   name: 1-4
-  sceneIndex: 4
-  state: 1
+  debugName: 1-4
+  sceneIndex: 6
+  state: 2
+  connectedLevels:
+  - {fileID: 11400000, guid: 570b17d2aedffac4cad01756362666c5, type: 2}
+  - {fileID: 11400000, guid: 96488413f8a7f514ca20a58ec723c673, type: 2}
+  - {fileID: 11400000, guid: c4bdfe99d20680a4186c24b1b30ab393, type: 2}
+  info: 

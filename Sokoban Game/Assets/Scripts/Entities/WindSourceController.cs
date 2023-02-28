@@ -64,6 +64,11 @@ public class WindSourceController : MonoBehaviour
         gameManager.OnStateChange -= TryToToggle;
     }
 
+    private void Start()
+    {
+        GameManager.instance.windSources.Add(this);
+    }
+
     private void Update()
     {
 

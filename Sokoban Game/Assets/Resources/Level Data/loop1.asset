@@ -10,8 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
-  m_Name: 1-6
+  m_Name: loop1
   m_EditorClassIdentifier: 
-  name: 
-  sceneIndex: 3
-  state: 1
+  name: loop1
+  debugName: loop 1
+  sceneIndex: 6
+  state: 2
+  connectedLevels:
+  - {fileID: 11400000, guid: aec2c216be4afd74db70f4c1cc7381e8, type: 2}
+  - {fileID: 11400000, guid: da749e08844e22c4397a2719d96677d7, type: 2}
+  info: 

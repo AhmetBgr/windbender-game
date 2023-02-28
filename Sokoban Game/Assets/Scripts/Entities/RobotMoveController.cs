@@ -58,7 +58,7 @@ public class RobotMoveController : ObjectMoveController
         Vector3 to = from + dir;
 
         // Reserves movement
-        movementReserve = new MoveTo(this, from, to, previousDir, index, tag);
+        movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
         movementReserve.intentToMove = true;
         movementReserve.state = curState;

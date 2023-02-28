@@ -6,14 +6,15 @@ using UnityEngine.Tilemaps;
 using DG.Tweening;
 
 public enum GameState {
-    Waiting,
+    Paused,
     DrawingRoute,
-    Running,
+    Running/*,
+    Waiting*/
 }
 
 public class GameManager : MonoBehaviour
 {
-    public struct WindRoute{
+    /*public struct WindRoute{
         public List<Vector3> route;
         public WindSourceController windSource;
         public bool isCompleted;
@@ -25,7 +26,8 @@ public class GameManager : MonoBehaviour
             this.isCompleted = isCompleted;
         }
     }
-    public List<WindRoute> windRoutes = new List<WindRoute>();
+
+    public List<WindRoute> windRoutes = new List<WindRoute>();*/
 
     [HideInInspector] public RouteManager routeManager;
     [HideInInspector] public Cursor cursor;
@@ -38,8 +40,11 @@ public class GameManager : MonoBehaviour
     public List<MoveTo> momentumTransferMoves = new List<MoveTo>();             // object at the  not moving or moving opposite direction
     public List<MoveTo> obstacleAtDestinationMoves = new List<MoveTo>();        // wall or obstacle
 
-    public List<Command> oldCommands = new List<Command>();                     // Stores gameplay related commands to undo them 
+    public List<Command> oldCommands = new List<Command>();
+    private List<float> undoTimes = new List<float>();// Stores gameplay related commands to undo them 
+
     public List<ObjectDestination> destinations = new List<ObjectDestination>();// Stores all destinations in the level to check for level completion
+    public List<WindSourceController> windSources = new List<WindSourceController>();
 
     public delegate void OnTurnStartDelegate(List<Vector3> route);
     public event OnTurnStartDelegate OnTurnStart1;
@@ -81,22 +86,27 @@ public class GameManager : MonoBehaviour
 
     public float turnDur;
     private float t = 0;
+
+    public int turnID = 0;
     
     private int _turnCount;
     public int turnCount{
         get { return _turnCount; }
         set{
             // This makes sure turn count is never larger than power of the wind source
-            _turnCount = (curWindSource && value > curWindSource.defWindSP) ? curWindSource.defWindSP : value; 
+            //_turnCount = (curWindSource && value > curWindSource.defWindSP) ? curWindSource.defWindSP : value; 
+
+            _turnCount = value;
 
             if (OnTurnCountChange != null)
                 OnTurnCountChange(_turnCount);
         }
     }
 
-    private List<float> undoTimes = new List<float>();
+    
     public bool isLooping = false;
     public bool isFirstTurn = true;
+    public bool isWaiting = false;
     private bool _isDrawingCompleted;
     public bool isDrawingCompleted { get { return _isDrawingCompleted; } 
         set {
@@ -130,83 +140,91 @@ public class GameManager : MonoBehaviour
     {
         cursor = FindObjectOfType<Cursor>();
         turnCount = 0;
-        state = GameState.Waiting;
+        state = GameState.Paused;
     }
 
     void Update()
     {
         if (state == GameState.Running)
         {
-            if (turnCount <= 0){ // All turns end
-                state = GameState.Waiting;
-                CheckForLevelComplete();
+            if (turnCount <= 0  ){ // All turns end 
+                state = GameState.Paused;
                 return;
             }
-
-            // Star new turn
+            
+            // Start new turn
             t += Time.deltaTime;
             if (t >= turnDur){
                 turnCount--;
                 t = 0;
-
-                if (defTurnCount - turnCount == 1){
-                    isFirstTurn = true;
-                    //undoTimes.Add(Time.time);
-                }
-                else{
-                    isFirstTurn = false;
-
-                    // Gets all movement reservs
-                    if (OnTurnStart1 != null)
-                    {
-                        OnTurnStart1(route);
-                    }
-
-                    // Object which reserved movement will find their negihboring objects
-                    if (OnTurnStart2 != null)
-                    {
-                        OnTurnStart2(route);
-                    }
-                }
-
-                for (int i = 0; i < obstacleAtDestinationMoves.Count; i++)
-                {
-                    obstacleAtDestinationMoves[i].ChainFailedMove();
-                }
-
-                for (int i = 0; i < momentumTransferMoves.Count; i++)
-                {
-                    
-                    momentumTransferMoves[i].ChainMomentumTransfer(emptyDestinationMoves);
-                }
-
-                for (int i = 0; i < emptyDestinationMoves.Count; i++)
-                {
-                    List<MoveTo> sameDestinationMoves = new List<MoveTo>();
-                    for(int j = 0; j < emptyDestinationMoves.Count; j++)
-                    {
-                        if(emptyDestinationMoves[i].to == emptyDestinationMoves[j].to)
-                        {
-                            sameDestinationMoves.Add(emptyDestinationMoves[j]);
-                        }
-                    }
-
-                    sameDestinationMoves = GetMoveWithHighestPriority(sameDestinationMoves, Vector3.zero);
-                    if (emptyDestinationMoves[i] == sameDestinationMoves[0])
-                    {
-                        emptyDestinationMoves[i].ChainMove();
-                    }
-                    else
-                    {
-                        emptyDestinationMoves[i].ChainFailedMove();
-                    }
-                }
+                turnID++;
 
                 emptyDestinationMoves.Clear();
                 momentumTransferMoves.Clear();
                 obstacleAtDestinationMoves.Clear();
 
-                Invoke("OnTurnEndEvent", turnDur - (turnDur/20f));
+                isFirstTurn = defTurnCount - turnCount == 1 ? true : false;
+
+                // Gets all movement reservs
+                if (OnTurnStart1 != null){
+                    OnTurnStart1(route);
+                }
+                // Object which reserved movement will find their negihboring objects
+                if (OnTurnStart2 != null){
+                    OnTurnStart2(route);
+                }
+
+                for (int i = 0; i < obstacleAtDestinationMoves.Count; i++){
+                    obstacleAtDestinationMoves[i].ChainFailedMove();
+                }
+                for (int i = 0; i < momentumTransferMoves.Count; i++){
+                    
+                    momentumTransferMoves[i].ChainMomentumTransfer(emptyDestinationMoves);
+                }
+                for (int i = 0; i < emptyDestinationMoves.Count; i++){
+                    List<MoveTo> sameDestinationMoves = new List<MoveTo>();
+
+                    for(int j = 0; j < emptyDestinationMoves.Count; j++){
+                        if(emptyDestinationMoves[i].to == emptyDestinationMoves[j].to){
+                            sameDestinationMoves.Add(emptyDestinationMoves[j]);
+                        }
+                    }
+
+                    sameDestinationMoves = GetMoveWithHighestPriority(sameDestinationMoves, Vector3.zero);
+                    if (emptyDestinationMoves[i] == sameDestinationMoves[0]){
+                        emptyDestinationMoves[i].ChainMove();
+                    }
+                    else{
+                        emptyDestinationMoves[i].ChainFailedMove();
+                    }
+                }
+
+                if (isWaiting){
+                    undoTimes.Add(turnID);
+                }
+
+                if ((isWaiting && turnCount == 0)){
+                    if (!CheckForUnusedWindSources()){
+                        CheckForLevelComplete();
+                        isWaiting = false;
+                        state = GameState.Paused;
+                        //return;
+                    }
+                    isWaiting = true;
+                    turnCount = 1;
+                    defTurnCount = turnCount;
+
+                }
+                else if (turnCount == 0 && (emptyDestinationMoves.Count > 0 || momentumTransferMoves.Count > 0) && !CheckForUnusedWindSources()){
+                    route.Clear();
+                    routeManager.ClearTiles(GameState.Running, GameState.Paused);
+                    isWaiting = true;
+                    turnCount = 10;
+                    defTurnCount = turnCount;
+                }
+
+
+                Invoke("OnTurnEndEvent", turnDur - (turnDur/15));
                 return;
             }
         }
@@ -215,7 +233,7 @@ public class GameManager : MonoBehaviour
 
             if (route.Count == 0)
             {
-                state = GameState.Waiting;
+                state = GameState.Paused;
                 return;
             }
 
@@ -280,7 +298,7 @@ public class GameManager : MonoBehaviour
 
             turnCount = route.Count;
         }
-        else if( state == GameState.Waiting)
+        else if( state == GameState.Paused)
         {
             // Starts route drawing if player clicks on a wind source
             if (Input.GetMouseButtonDown(0))
@@ -319,6 +337,8 @@ public class GameManager : MonoBehaviour
         curWindSource.isUsed = true;
         SetRoute setRoute = new SetRoute(curWindSource, routeManager, route, isLooping);
         setRoute.executionTime = Time.time;
+        setRoute.turnID = turnID +1;
+        undoTimes.Add(turnID + 1);
         SetRoute(route);
         routeManager.WindTransition(route, isLooping);
         oldCommands.Add(setRoute);
@@ -327,32 +347,29 @@ public class GameManager : MonoBehaviour
         previousRoute = setRoute;
         isDrawingCompleted = false;
     }
-
-    /*public void WaitTurns()
-    {
-        InvokeRepeating("WaitATurn", 0, turnDur);
-    }*/
     
-    public void WaitATurn()
+    public void StartWaiting()
     {
-        turnCount = 1;
-        undoTimes.Add(Time.time);
+        t = turnDur - Time.deltaTime * 2;
 
         // Cancels wind route drawing
-        if (route.Count >= 1) 
+        if (route.Count >= 1)
         {
             CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
             cancelDrawing.Execute();
         }
-
         state = GameState.Running;
+        isWaiting = true;
+        turnCount = 1;
+        defTurnCount = turnCount;
     }
 
-    /*public void StopWaiting()
+    public void StopWaiting()
     {
-        CancelInvoke("WaitATurn");
-    }*/
-
+        turnCount = 0;
+        state = GameState.Paused;
+        isWaiting = false;
+    }
 
     // Cuts wind route from given index. 
     // This is happens when a wall appears on the wind route. Eg: when door closses
@@ -448,28 +465,13 @@ public class GameManager : MonoBehaviour
         //this.route = route;
         turnCount = route.Count;
         defTurnCount = turnCount;
-        undoTimes.Add(Time.time);
+        
         //tilesCleared = false;
         state  = GameState.Running;
         isFirstTurn = true;
+        //isWaited = false;
         routeManager.ClearValidPositions();
-        // Get move reserv
-        if (OnTurnStart1 != null)
-        {
-            OnTurnStart1(route);
-        }
-
-        // find neighbors
-        if (OnTurnStart2 != null)
-        {
-            OnTurnStart2(route);
-        }
     }
-
-    /*public void GetWindRoute(Vector3 pos)
-    {
-
-    }*/
 
     public void CancelTurns()
     {
@@ -483,22 +485,23 @@ public class GameManager : MonoBehaviour
 
     public void CheckForLevelComplete()
     {
+        Debug.LogWarning("Checking for level comp");
         if (destinations.Count == 0) return;
         foreach(ObjectDestination destination in destinations)
         {
             if(destination.objMC == null)
             {
-                Debug.Log("destination is not satisfied: " + destination.gameObject.name);
+                Debug.LogWarning("destination is not satisfied: " + destination.gameObject.name);
                 return; 
             }
         }
-        Debug.Log("LEVEL COMPLETED");
+        Debug.LogWarning("LEVEL COMPLETED");
         
         destinations.Clear();
+        state = GameState.Paused;
 
 
-
-        if(OnLevelComplete != null)
+        if (OnLevelComplete != null)
         {
             oldCommands.Clear();
             curWindSource = null;
@@ -506,11 +509,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Checks for unused wind sources. 
+    // Returns true if all wind sources used, returns false if unused wind source exists
+    private bool CheckForUnusedWindSources()
+    {
+        foreach(WindSourceController windSource in windSources)
+        {
+            if (!windSource.isUsed)
+                return true;
+        }
+
+        return false;
+    }
+
     public void Undo()
     {
         if (oldCommands.Count == 0) return;
 
         if (undoTimes.Count == 0) return;
+
+        if (route.Count >= 1)
+        {
+            CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
+            cancelDrawing.Execute();
+        }
 
         CancelTurns();
         CancelInvoke();
@@ -523,32 +545,16 @@ public class GameManager : MonoBehaviour
         {
             if (oldCommands.Count == 0) break;
 
-            float executionTime = oldCommands[oldCommands.Count - 1].executionTime;
+            float executionTime = oldCommands[oldCommands.Count - 1].turnID; //.executionTime
             if (executionTime < undoTime)
             {
-                //Debug.LogWarning("Undo BREAK: + " + executionTime + ":::::" + undoTime);
                 break;
             }
 
-            //Debug.LogWarning("Undo count: + " + oldCommands.Count + ":::::" + undoTime);
             oldCommands[oldCommands.Count - 1].Undo();
             oldCommands.Remove(oldCommands[oldCommands.Count - 1]);
 
-
-
         }
-        //Debug.LogWarning("Undo count: + " + oldCommands.Count + ":::::" + undoTime);
-        /*float executionTime = oldCommands[oldCommands.Count - 1].executionTime;
-
-        for(int i = oldCommands.Count -1; i >= 0; i--)
-        {
-            if (executionTime == oldCommands[i].executionTime)
-            {
-                oldCommands[i].Undo();
-                oldCommands.Remove(oldCommands[i]);
-            }
-
-        }*/
 
         if (OnUndo != null)
         {

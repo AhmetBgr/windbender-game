@@ -94,7 +94,7 @@ public class ObjectDestination : MonoBehaviour
 
     public void CheckForLookingForObjectAtTheDestination(GameState from, GameState to)
     {
-        if (from != GameState.Running && to != GameState.Waiting) return;
+        if (from != GameState.Running && to != GameState.Paused) return;
 
         GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
         if (obj != null)

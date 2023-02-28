@@ -29,16 +29,24 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.OnLevelComplete += SetCurLevelComplete;
-        GameManager.instance.OnLevelComplete += LoadOverWorld;
+        if (GameManager.instance)
+        {
+            GameManager.instance.OnLevelComplete += SetCurLevelComplete;
+            GameManager.instance.OnLevelComplete += LoadOverWorld;
+        }
+
 
         LevelSelectionBox.OnLevelSelect += SetCurLevel;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.OnLevelComplete -= SetCurLevelComplete;
-        GameManager.instance.OnLevelComplete -= LoadOverWorld;
+        if (GameManager.instance)
+        {
+            GameManager.instance.OnLevelComplete -= SetCurLevelComplete;
+            GameManager.instance.OnLevelComplete -= LoadOverWorld;
+        }
+
 
         LevelSelectionBox.OnLevelSelect -= SetCurLevel;
     }
@@ -53,8 +61,7 @@ public class LevelManager : MonoBehaviour
     {
         if (curLevel == null) return;
 
-        curLevel.state = LevelData.State.completed;
-        EditorUtility.SetDirty(curLevel);
+        curLevel.SetComplete();
     }
 
     

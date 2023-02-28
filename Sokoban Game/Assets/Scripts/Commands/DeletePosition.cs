@@ -13,6 +13,7 @@ public class DeletePosition : Command
         this.windSource = windSource;
         this.routeManager = routeManager;
         this.pos = pos;
+        turnID = GameManager.instance.turnID;
     }
 
 

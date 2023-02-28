@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Command
 {
     public float executionTime;
+    public int turnID;
 
     public delegate void OnExecuteDelegate(Command command);
     public static event OnExecuteDelegate OnExecute;

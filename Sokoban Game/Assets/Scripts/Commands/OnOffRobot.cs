@@ -18,6 +18,7 @@ public class OnOffRobot : Command
     {
         obj.onOff = newState;
         executionTime = Time.time;
+        turnID = GameManager.instance.turnID;
 
         GameManager.instance.oldCommands.Add(this);
     }

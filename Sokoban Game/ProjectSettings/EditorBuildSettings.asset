@@ -21,15 +21,48 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/1-3B.unity
     guid: 9888d0d56ff93d14f8f49d99e01238eb
   - enabled: 1
+    path: Assets/Scenes/Levels/1-3D.unity
+    guid: 1a4e3ffaf3327094bbaf3b6b42cdee32
+  - enabled: 1
     path: Assets/Scenes/Levels/1-4.unity
     guid: 12c1443c72b1fa344b71088b1da0b78c
+  - enabled: 1
+    path: Assets/Scenes/Levels/1-4Advanced.unity
+    guid: c79a6ecb5b4f26341b109a349d227776
+  - enabled: 1
+    path: Assets/Scenes/Levels/1-8A.unity
+    guid: 041554e91dc173e49a0e0292725bd03a
+  - enabled: 1
+    path: Assets/Scenes/Levels/2 barrel.unity
+    guid: 6a8182db49c57f44cb287cbab9a6fdf2
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button 01.unity
+    guid: b6dfe0629c634d34eb6bcc4d81c51d25
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button 02.unity
+    guid: bc29b9f3a1724e648988d63a93a57cf5
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button 03.unity
+    guid: 1f8b94481d85f8e4fb8058679e554189
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button 04 wind cutting.unity
+    guid: c92f9ff97a6a0e8468391ecea7d3068d
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 03A.unity
+    guid: 3fb1cf2f34954a34e92c6f56776a6e39
   - enabled: 1
     path: Assets/Scenes/1-3ATest.unity
     guid: acce69094c72f2749ae843263ba42015
   - enabled: 1
+    path: Assets/Scenes/Levels/Level_3_A.unity
+    guid: 19eb2eb19d2f8be40aef3a407e210ffc
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level_3_B.unity
+    guid: 290339a4d5733354aa26006194ea41e6
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop 1.unity
+    guid: 6b0fa0da1acd5d24098837a97e1f8c60
+  - enabled: 1
     path: Assets/Scenes/square wind sources.unity
     guid: aeeaa16ac3d3ea24582d2c3a00a3c6dd
-  - enabled: 1
-    path: Assets/Scenes/Levels/Button 02.unity
-    guid: bc29b9f3a1724e648988d63a93a57cf5
   m_configObjects: {}
