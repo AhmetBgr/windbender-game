@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum TargetTag {
-    Blue
+    Blue, Yellow
 }
 
 public class ButtonEntity : MonoBehaviour

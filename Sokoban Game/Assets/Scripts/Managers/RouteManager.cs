@@ -249,15 +249,15 @@ public class RouteManager : MonoBehaviour
         }
         
     }
-    public void DrawWindRoute(List<Vector3> route, bool isLooping = false)
+    public void DrawWindRoute(List<Vector3> route, bool isLooping = false, bool ignoreLastPos = false)
     {
-        int routCount = isLooping ? route.Count : route.Count - 1;
+        //int routCount = isLooping ? route.Count : route.Count - 1;
         for (int i = 0; i < route.Count; i++)
         {
             int lastPosIndex = i;
             int previousPosIndex = i - 1;
             //Debug.Log("last pos : " + lastPosIndex);
-            if (lastPosIndex == 0)
+            if (lastPosIndex == 0) // draws wind in first pos
             {
                 if (route[lastPosIndex + 1].x == route[lastPosIndex].x)
                 {
@@ -275,8 +275,11 @@ public class RouteManager : MonoBehaviour
                         tilemap.SetTile(tilemap.WorldToCell(route[lastPosIndex]), windRightToLeft);
                 }
             }
-            else if (lastPosIndex == route.Count - 1 && !isLooping)
-            {
+            else if (lastPosIndex == route.Count - 1 && !isLooping) {
+
+                if (ignoreLastPos) continue;
+
+                // draws wind in last pos
                 if (route[lastPosIndex].x == route[lastPosIndex -1].x)
                 {
                     if (route[lastPosIndex].y > route[lastPosIndex -1].y)
@@ -297,12 +300,14 @@ public class RouteManager : MonoBehaviour
             }
             else
             {
+                // draws winds  between first and last positions
+
                 // Find neighbors
                 int nextposIndex = lastPosIndex + 1;
                 Vector3 firstNeighbor;
                 Vector3 secondNeighbor;
 
-                if (isLooping && i == route.Count - 1)
+                if (isLooping  && i == route.Count - 1)
                 {
                     firstNeighbor = route[1] - route[lastPosIndex];
                     secondNeighbor = route[route.Count - 2] - route[lastPosIndex];

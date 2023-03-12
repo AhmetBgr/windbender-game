@@ -68,7 +68,7 @@ public class MoveTo : Command
 
     public void Move(bool stopAftermoving = true)
     {
-        stopAftermoving = isMomentumTransferred;
+        //stopAftermoving = isMomentumTransferred;
         obj.Move(dir, stopAftermoving, pushed);
         Debug.Log(obj.name + " is moving");
         isMovementChecked = true;
@@ -121,13 +121,14 @@ public class MoveTo : Command
             }
         }
 
-        bool stopAftermoving = isMomentumTransferred;
+        bool stopAftermoving = isMomentumTransferred && indexInWind < 0 ? true : false;
         Move(stopAftermoving);
         isMovementChecked = true;
     }
 
     public void FailedMove()
     {
+        obj.dir = dir;
         obj.FailedMove();
         isMovementChecked = true;
         intentToMove = false;

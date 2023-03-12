@@ -33,6 +33,18 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/1-8A.unity
     guid: 041554e91dc173e49a0e0292725bd03a
   - enabled: 1
+    path: Assets/Scenes/Levels/barrel 01.unity
+    guid: 34effffcbe061ef459e1cd5c81f0c7e4
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 02.unity
+    guid: 28064247c071ea04ea6cce9fd025930f
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 03.unity
+    guid: f99b349f9f22211428281dfd00c532e7
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 03A.unity
+    guid: 3fb1cf2f34954a34e92c6f56776a6e39
+  - enabled: 1
     path: Assets/Scenes/Levels/2 barrel.unity
     guid: 6a8182db49c57f44cb287cbab9a6fdf2
   - enabled: 1
@@ -47,9 +59,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Button 04 wind cutting.unity
     guid: c92f9ff97a6a0e8468391ecea7d3068d
-  - enabled: 1
-    path: Assets/Scenes/Levels/barrel 03A.unity
-    guid: 3fb1cf2f34954a34e92c6f56776a6e39
   - enabled: 1
     path: Assets/Scenes/1-3ATest.unity
     guid: acce69094c72f2749ae843263ba42015

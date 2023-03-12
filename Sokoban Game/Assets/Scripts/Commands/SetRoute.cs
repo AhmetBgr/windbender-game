@@ -43,7 +43,7 @@ public class SetRoute : Command
         //GameManager.instance.OnDrawingStartedFunc();
         GameManager.instance.isDrawingCompleted = true;
         GameManager.instance.isLooping = isLooping;
-        GameManager.instance.cutLenght = 0;
+        GameManager.instance.windRouteDeformInfo.cutLenght = 0;
         
         // Undo Route manager
         routeManager.DeleteTiles();

@@ -28,13 +28,34 @@ public class GameManager : MonoBehaviour
     }
 
     public List<WindRoute> windRoutes = new List<WindRoute>();*/
+    public struct WindRouteDeformInfo {
+        public Door door;
+        public int cutIndex;
+        public int cutLenght;
+        public bool restore;
+        public Vector3 restoreDir;
+
+        public WindRouteDeformInfo(Door door, int cutIndex, int cutLenght)
+        {
+            this.cutIndex = cutIndex;
+            this.door = door;
+            this.cutLenght = cutLenght;
+            this.restore = false;
+            this.restoreDir = Vector3.right;
+        }
+
+    }
 
     [HideInInspector] public RouteManager routeManager;
     [HideInInspector] public Cursor cursor;
     public WindSourceController curWindSource;
 
     public List<Vector3> route = new List<Vector3>();
-    [HideInInspector] public int cutLenght;
+    //public List<Door> _routeCuttingRequests = new List<Door>();
+    //public IDictionary<int, Door> routeCuttingRequests = new Dictionary<int, Door>();
+    public WindRouteDeformInfo windRouteDeformInfo = new WindRouteDeformInfo(null, -1, 0);
+    //[HideInInspector] public int cutLenght;
+    //[HideInInspector] public int windRouteCutIndex = -1;
 
     public List<MoveTo> emptyDestinationMoves = new List<MoveTo>();
     public List<MoveTo> momentumTransferMoves = new List<MoveTo>();             // object at the  not moving or moving opposite direction
@@ -68,16 +89,15 @@ public class GameManager : MonoBehaviour
     public delegate void OnDrawingCompletedDelegate(bool value);
     public event OnDrawingCompletedDelegate OnDrawingCompleted; // On drawing completed but not wind blowing started
 
+    public delegate void OnWindRouteGeneratedDelegate(List<Vector3> route);
+    public event OnWindRouteGeneratedDelegate OnWindRouteGenerated;
+
     private SetRoute previousRoute;
     private GameState _state;
-    [HideInInspector]
-    public GameState state
-    {
+    [HideInInspector] public GameState state{
         get { return _state; }
-        set
-        {
-            if (OnStateChange != null && value != _state) //
-            {
+        set{
+            if (OnStateChange != null && value != _state){
                 OnStateChange(_state, value);
             }
             _state = value; 
@@ -93,16 +113,12 @@ public class GameManager : MonoBehaviour
     public int turnCount{
         get { return _turnCount; }
         set{
-            // This makes sure turn count is never larger than power of the wind source
-            //_turnCount = (curWindSource && value > curWindSource.defWindSP) ? curWindSource.defWindSP : value; 
-
             _turnCount = value;
 
             if (OnTurnCountChange != null)
                 OnTurnCountChange(_turnCount);
         }
     }
-
     
     public bool isLooping = false;
     public bool isFirstTurn = true;
@@ -149,6 +165,7 @@ public class GameManager : MonoBehaviour
         {
             if (turnCount <= 0  ){ // All turns end 
                 state = GameState.Paused;
+                route.Clear();
                 return;
             }
             
@@ -199,7 +216,8 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                if (isWaiting){
+                if (isWaiting && (emptyDestinationMoves.Count > 0 || momentumTransferMoves.Count > 0 || obstacleAtDestinationMoves.Count > 0))
+                {
                     undoTimes.Add(turnID);
                 }
 
@@ -324,6 +342,47 @@ public class GameManager : MonoBehaviour
         {
             OnTurnEnd();
         }
+
+        CheckForWindDeform();
+
+        if (windRouteDeformInfo.cutIndex >= 0){
+            CutWindRoute(windRouteDeformInfo.cutIndex);
+
+            windRouteDeformInfo.door.isWindRouteInterrupted = true;
+            windRouteDeformInfo.cutIndex = -1;
+            windRouteDeformInfo.door = null;
+        }
+        else if( windRouteDeformInfo.cutLenght > 0 && windRouteDeformInfo.restore){
+            RestoreWindRoute(windRouteDeformInfo.restoreDir);
+            windRouteDeformInfo.restore = false;
+        }
+    }
+    public void CheckForWindDeform()
+    {
+        if (OnWindRouteGenerated != null && route.Count > 0){
+            OnWindRouteGenerated(route);
+        }
+    }
+
+    public void CutWindRoute(int index)
+    {
+        Vector3 cutPos = route[index];
+        CutWindRoute cutWindRoute = new CutWindRoute(routeManager, route, index);
+        cutWindRoute.Execute();
+
+        // Redraws the wind route
+        List<Vector3> route2 = new List<Vector3>();
+        route2.AddRange(route);
+        route2.Add(cutPos);
+        routeManager.DeleteTiles();
+        if (route.Count == 0) return;
+        routeManager.DrawWindRoute(route2, ignoreLastPos: true);
+    }
+
+    public void RestoreWindRoute(Vector3 restoreDir)
+    {
+        RestoreWindRoute restoreWindRoute = new RestoreWindRoute(routeManager, route, windRouteDeformInfo.cutIndex, windRouteDeformInfo.cutLenght);
+        restoreWindRoute.Execute();
     }
 
     public void StartWindBlow()
@@ -346,8 +405,21 @@ public class GameManager : MonoBehaviour
 
         previousRoute = setRoute;
         isDrawingCompleted = false;
+        
     }
-    
+    public void SetRoute(List<Vector3> route)
+    {
+        //this.route = route;
+        turnCount = route.Count;
+        defTurnCount = turnCount;
+
+        //tilesCleared = false;
+        state = GameState.Running;
+        isFirstTurn = true;
+        //isWaited = false;
+        routeManager.ClearValidPositions();
+    }
+
     public void StartWaiting()
     {
         t = turnDur - Time.deltaTime * 2;
@@ -369,44 +441,6 @@ public class GameManager : MonoBehaviour
         turnCount = 0;
         state = GameState.Paused;
         isWaiting = false;
-    }
-
-    // Cuts wind route from given index. 
-    // This is happens when a wall appears on the wind route. Eg: when door closses
-    public void CutWindRoute(int index)
-    {
-        if (index <= 0 | index > route.Count - 1) return;
-
-        // removes positions from the route
-        int count = route.Count;
-        int tempCutLenght = count - index;
-        cutLenght += tempCutLenght;
-        route.RemoveRange(index, tempCutLenght);
-
-        // Redraws the wind route
-        routeManager.DeleteTiles();
-        routeManager.DrawWindRoute(route);
-    }
-
-    // Restores wind route to straight route after cut position.
-    // This is happens when a wall dissappears from the cut possition. Eg: when door opens
-    public void RestoreWindRoute(Vector3 cutPos)
-    {
-        if (cutLenght == 0) return;
-        if ((cutPos - route[route.Count - 1]).magnitude > 1) return;
-
-        for (int i = 0; i < cutLenght; i++)
-        {
-            Vector3 lastPos = route[route.Count - 1];
-
-            route.Add(cutPos);
-
-            routeManager.DeleteTiles();
-            routeManager.DrawWindRoute(route); 
-
-            cutPos += cutPos - lastPos;
-        }
-        cutLenght = 0;
     }
     
     public List<MoveTo> GetMoveWithHighestPriority(List<MoveTo> moves, Vector3 relativeChainMoveDir) 
@@ -460,18 +494,7 @@ public class GameManager : MonoBehaviour
         turnCount = route.Count;
     }
 
-    public void SetRoute(List<Vector3> route)
-    {
-        //this.route = route;
-        turnCount = route.Count;
-        defTurnCount = turnCount;
-        
-        //tilesCleared = false;
-        state  = GameState.Running;
-        isFirstTurn = true;
-        //isWaited = false;
-        routeManager.ClearValidPositions();
-    }
+
 
     public void CancelTurns()
     {

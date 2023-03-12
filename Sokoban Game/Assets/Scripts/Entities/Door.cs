@@ -8,7 +8,8 @@ public class Door : MonoBehaviour
     public Collider2D col;
     public new TargetTag tag;
     public bool isOpen;
-    private bool isWindRouteInterrupted = false;
+    public int intentedCutIndex;
+    public bool isWindRouteInterrupted = false;
 
     void Start()
     {
@@ -24,12 +25,14 @@ public class Door : MonoBehaviour
     {
         ButtonEntity.OnButtonToggle += ToggleState;
         GameManager.instance.OnTurnStart1 += SaveState;
+        GameManager.instance.OnWindRouteGenerated += CheckForDeformRequest;
     }
 
     private void OnDisable()
     {
         ButtonEntity.OnButtonToggle -= ToggleState;
         GameManager.instance.OnTurnStart1 -= SaveState;
+        GameManager.instance.OnWindRouteGenerated -= CheckForDeformRequest;
     }
 
     // Toggles door state between open and close
@@ -44,33 +47,36 @@ public class Door : MonoBehaviour
             Open();
     }
 
-    public void Open()
+    private void CheckForDeformRequest(List<Vector3> route)
     {
+        // Wind route cutting
+        GameManager gameManager = GameManager.instance;
+        if ( gameManager.turnCount > 0){
+            if (isOpen && transform.position == route[route.Count -1] + gameManager.windRouteDeformInfo.restoreDir){
+
+                gameManager.windRouteDeformInfo.restore = true;
+            }
+            else if(route.Contains(transform.position) && !isOpen ){
+
+                intentedCutIndex = route.FindIndex(i => i == transform.position);
+                GameManager.WindRouteDeformInfo windRouteDeformInfo = gameManager.windRouteDeformInfo;
+                if (intentedCutIndex >= 0 && (windRouteDeformInfo.cutIndex == -1 || intentedCutIndex < windRouteDeformInfo.cutIndex)){
+                    gameManager.windRouteDeformInfo.cutIndex = intentedCutIndex;
+                    gameManager.windRouteDeformInfo.door = this;
+                }
+            }
+        }
+    }
+    public void Open(){
         isOpen = true;
         animator.SetBool("isOpen", isOpen);
         col.enabled = false;
-
-        // Wind route restoring
-        if (isWindRouteInterrupted && GameManager.instance.turnCount > 0)
-        {
-            GameManager.instance.RestoreWindRoute(transform.position);
-            isWindRouteInterrupted = false;
-        }
     }
-    public void Close()
-    {
+
+    public void Close(){
         isOpen = false;
         animator.SetBool("isOpen", isOpen);
         col.enabled = true;
-
-        // Wind route cutting
-        GameManager gameManager = GameManager.instance;
-        if (gameManager.route.Contains(transform.position) && gameManager.turnCount > 0)
-        {
-            int index = gameManager.route.FindIndex(i => i == transform.position);
-            gameManager.CutWindRoute(index);
-            isWindRouteInterrupted = true;
-        }
     }
 
     // Checks if there is an object at the location of the door before closing
@@ -82,7 +88,6 @@ public class Door : MonoBehaviour
 
         Close();
     }
-
     // Saves state of door at the beginning of a turn for undo function
     private void SaveState(List<Vector3> route)
     {

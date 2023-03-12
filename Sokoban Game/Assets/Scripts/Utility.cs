@@ -81,6 +81,19 @@ public static class Utility
 
     }
 
+    public static GameObject CheckForObjectFrom(Vector3 pos, Vector3 dir, float distance, LayerMask lm)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, distance: distance, lm);
+
+        if (hit)
+        {
+            return hit.transform.gameObject;
+        }
+        return null;
+
+    }
+
+
     public static Vector3 DirToVectorDir(Direction dir)
     {
         return vectorDirections[(int)dir];
