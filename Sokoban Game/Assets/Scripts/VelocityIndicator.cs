@@ -37,7 +37,7 @@ public class VelocityIndicator : MonoBehaviour
     {
         if (to == GameState.Running) return; //
 
-        Invoke("Show", GameManager.instance.turnDur + 0.2f);
+        Invoke("Show",  0.2f); //GameManager.instance.turnDur +
     }
 
     private void Show()

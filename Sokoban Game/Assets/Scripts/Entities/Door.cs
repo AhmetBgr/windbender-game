@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
 {
     public Animator animator;
     public Collider2D col;
+    public GameObject invinsibleMask;
     public new TargetTag tag;
     public bool isOpen;
     public int intentedCutIndex;
@@ -63,6 +64,7 @@ public class Door : MonoBehaviour
                 if (intentedCutIndex >= 0 && (windRouteDeformInfo.cutIndex == -1 || intentedCutIndex < windRouteDeformInfo.cutIndex)){
                     gameManager.windRouteDeformInfo.cutIndex = intentedCutIndex;
                     gameManager.windRouteDeformInfo.door = this;
+                    gameManager.windRouteDeformInfo.restoreDir = intentedCutIndex == 0 ? route[intentedCutIndex +1] - route[intentedCutIndex] : route[intentedCutIndex] - route[intentedCutIndex -1];
                 }
             }
         }
@@ -71,12 +73,14 @@ public class Door : MonoBehaviour
         isOpen = true;
         animator.SetBool("isOpen", isOpen);
         col.enabled = false;
+        invinsibleMask.SetActive(false);
     }
 
     public void Close(){
         isOpen = false;
         animator.SetBool("isOpen", isOpen);
         col.enabled = true;
+        invinsibleMask.SetActive(true);
     }
 
     // Checks if there is an object at the location of the door before closing

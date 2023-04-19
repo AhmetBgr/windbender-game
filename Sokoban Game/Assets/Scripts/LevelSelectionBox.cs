@@ -11,12 +11,12 @@ public class LevelSelectionBox : MonoBehaviour
     public Button button;
     public TextMeshProUGUI text;
     public TextMeshProUGUI debugNameText;
-    public LevelData level;
+    public Level level;
 
     // Start is called before the first frame update
     //public LevelSelectionBox[] unlocks;
 
-    public delegate void OnLevelSelectDelegate(LevelData level);
+    public delegate void OnLevelSelectDelegate(Level level);
     public static event OnLevelSelectDelegate OnLevelSelect;
 
     void Start()
@@ -26,11 +26,11 @@ public class LevelSelectionBox : MonoBehaviour
         // set state
         //state = State.unlocked;
 
-        if(level.state == LevelData.State.locked)
+        if(level.state == Level.State.locked)
         {
             button.gameObject.SetActive(false);
         }
-        else if(level.state == LevelData.State.completed)
+        else if(level.state == Level.State.completed)
         {
             button.GetComponent<CanvasGroup>().alpha = 0.8f;
         }
@@ -48,7 +48,7 @@ public class LevelSelectionBox : MonoBehaviour
     {
         Debug.LogWarning("clicked");
 
-        if (level.state == LevelData.State.locked) return;
+        if (level.state == Level.State.locked) return;
 
         if(OnLevelSelect != null)
         {

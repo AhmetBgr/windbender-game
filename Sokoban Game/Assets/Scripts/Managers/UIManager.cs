@@ -111,9 +111,11 @@ public class UIManager : MonoBehaviour
         else
         {
             //if (pausedPanel.activeInHierarchy) return;
-            StartCoroutine(Utility.SetActiveObjWithDelay(pausedPanel, true, GameManager.instance.turnDur));
+            //StartCoroutine(Utility.SetActiveObjWithDelay(pausedPanel, true, GameManager.instance.turnDur));
+            pausedPanel.SetActive(true);
             if (waitButton.gameObject.activeInHierarchy) return;
-            StartCoroutine(Utility.SetActiveObjWithDelay(waitButton.gameObject, true, GameManager.instance.turnDur));
+            //StartCoroutine(Utility.SetActiveObjWithDelay(waitButton.gameObject, true, GameManager.instance.turnDur));
+            waitButton.gameObject.SetActive(true);
             //pausedPanel.SetActive(true);
             //waitButton.gameObject.SetActive(true);
         }

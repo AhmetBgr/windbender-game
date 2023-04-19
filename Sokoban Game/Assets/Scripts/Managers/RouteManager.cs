@@ -57,13 +57,15 @@ public class RouteManager : MonoBehaviour
         tilemap = GetComponent<Tilemap>();
         cursor = Cursor.instance;
         defColor = tilemap.color;
-        GameManager.instance.OnStateChange += ClearTiles;
+        //GameManager.instance.OnStateChange += ClearTiles;
+        //GameManager.instance.OnTurnStart2 += ClearTiles;
         GameManager.instance.OnUndo += CancelCoroutine;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.OnStateChange += ClearTiles;
+        //GameManager.instance.OnStateChange += ClearTiles;
+        //GameManager.instance.OnTurnStart2 -= ClearTiles;
         GameManager.instance.OnUndo -= CancelCoroutine;
     }
     public void StartDrawing(Vector3 pos)
@@ -376,7 +378,10 @@ public class RouteManager : MonoBehaviour
         float appearDur = GameManager.instance.turnDur - disappearDur;
         Color clearColor = new Color(1f, 1f, 1f, 0f);
         Color startColor = tilemap.color;
-        routine = Utility.ChangeTilemapColor(tilemap, clearColor, disappearDur, onCompleteCallBack: () => { DrawWindRoute(route, isLooping); });
+        routine = Utility.ChangeTilemapColor(tilemap, clearColor, disappearDur, onCompleteCallBack: () => {
+            tilemap.transform.position = new Vector3(0f, 0.2f, 0f);
+            DrawWindRoute(route, isLooping); 
+        });
         StartCoroutine( routine );
 
         routine = Utility.ChangeTilemapColor(tilemap, startColor, appearDur, delay: disappearDur);
@@ -464,9 +469,11 @@ public class RouteManager : MonoBehaviour
         FixPreviousTile(positions);
     }
 
-    public void ClearTiles(GameState from, GameState to)
+    public void ClearTiles() //GameState from, GameState to
     {
-        if (from != GameState.Running && to != GameState.Paused) return;
+        //if (GameManager.instance.turnCount != 0) return;
+
+        //if (from != GameState.Running && to != GameState.Paused) return;
 
         //if (from != GameState.Running || to != GameState.Waiting && to != GameState.Paused) return;
 
@@ -475,11 +482,13 @@ public class RouteManager : MonoBehaviour
             Debug.LogWarning("tilemap is null");
             return;
         }
+        
 
         Color clearColor = new Color(1f, 1f, 1f, 0f);
         Color startColor = tilemap.color;
         routine = Utility.ChangeTilemapColor(tilemap, clearColor, GameManager.instance.turnDur / 2, onCompleteCallBack: () =>
         {
+            tilemap.transform.position = Vector3.zero;
             tilemap.ClearAllTiles();
             tilemap.color = startColor;
         });

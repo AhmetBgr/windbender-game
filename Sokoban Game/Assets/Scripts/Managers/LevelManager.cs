@@ -6,10 +6,12 @@ using UnityEditor;
 
 public class LevelManager : MonoBehaviour
 {
-    public SceneLoader SceneLoader;
-    public LevelData[] levels;
+    public static string levelDataFolderName = "/LevelData/";
 
-    public LevelData curLevel;
+    public SceneLoader SceneLoader;
+    public Level[] levels;
+
+    public Level curLevel;
 
     public static LevelManager instance = null;
 
@@ -66,7 +68,7 @@ public class LevelManager : MonoBehaviour
 
     
 
-    private void SetCurLevel(LevelData level)
+    private void SetCurLevel(Level level)
     {
         Debug.LogWarning("Level selected: " + level.name);
         curLevel = level;

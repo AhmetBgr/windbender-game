@@ -35,8 +35,7 @@ public class GameManager : MonoBehaviour
         public bool restore;
         public Vector3 restoreDir;
 
-        public WindRouteDeformInfo(Door door, int cutIndex, int cutLenght)
-        {
+        public WindRouteDeformInfo(Door door, int cutIndex, int cutLenght){ //, Vector3 restoreDir
             this.cutIndex = cutIndex;
             this.door = door;
             this.cutLenght = cutLenght;
@@ -48,8 +47,9 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public RouteManager routeManager;
     [HideInInspector] public Cursor cursor;
-    public WindSourceController curWindSource;
 
+    public WindSourceController curWindSource;
+    public ParticleSystem cutEffect;
     public List<Vector3> route = new List<Vector3>();
     //public List<Door> _routeCuttingRequests = new List<Door>();
     //public IDictionary<int, Door> routeCuttingRequests = new Dictionary<int, Door>();
@@ -163,11 +163,11 @@ public class GameManager : MonoBehaviour
     {
         if (state == GameState.Running)
         {
-            if (turnCount <= 0  ){ // All turns end 
+            /*if (turnCount <= 0  ){ // All turns end 
                 state = GameState.Paused;
                 route.Clear();
                 return;
-            }
+            }*/
             
             // Start new turn
             t += Time.deltaTime;
@@ -190,6 +190,12 @@ public class GameManager : MonoBehaviour
                 if (OnTurnStart2 != null){
                     OnTurnStart2(route);
                 }
+
+                if (turnCount == 0){
+                    routeManager.ClearTiles();
+                    cutEffect.gameObject.SetActive(false);
+                }
+                    
 
                 for (int i = 0; i < obstacleAtDestinationMoves.Count; i++){
                     obstacleAtDestinationMoves[i].ChainFailedMove();
@@ -228,18 +234,22 @@ public class GameManager : MonoBehaviour
                         state = GameState.Paused;
                         //return;
                     }
-                    isWaiting = true;
-                    turnCount = 1;
-                    defTurnCount = turnCount;
+                    else{
+                        isWaiting = true;
+                        turnCount = 1;
+                        defTurnCount = turnCount;
+                    }
+
 
                 }
                 else if (turnCount == 0 && (emptyDestinationMoves.Count > 0 || momentumTransferMoves.Count > 0) && !CheckForUnusedWindSources()){
                     route.Clear();
-                    routeManager.ClearTiles(GameState.Running, GameState.Paused);
+                    //routeManager.ClearTiles(); //GameState.Running, GameState.Paused
                     isWaiting = true;
                     turnCount = 10;
                     defTurnCount = turnCount;
                 }
+
 
 
                 Invoke("OnTurnEndEvent", turnDur - (turnDur/15));
@@ -346,6 +356,7 @@ public class GameManager : MonoBehaviour
         CheckForWindDeform();
 
         if (windRouteDeformInfo.cutIndex >= 0){
+            
             CutWindRoute(windRouteDeformInfo.cutIndex);
 
             windRouteDeformInfo.door.isWindRouteInterrupted = true;
@@ -355,6 +366,12 @@ public class GameManager : MonoBehaviour
         else if( windRouteDeformInfo.cutLenght > 0 && windRouteDeformInfo.restore){
             RestoreWindRoute(windRouteDeformInfo.restoreDir);
             windRouteDeformInfo.restore = false;
+        }
+
+        if (turnCount <= 0){ // All turns end 
+            state = GameState.Paused;
+            route.Clear();
+            return;
         }
     }
     public void CheckForWindDeform()
@@ -366,8 +383,10 @@ public class GameManager : MonoBehaviour
 
     public void CutWindRoute(int index)
     {
+        //cutEffect.gameObject.SetActive(true);
+
         Vector3 cutPos = route[index];
-        CutWindRoute cutWindRoute = new CutWindRoute(routeManager, route, index);
+        CutWindRoute cutWindRoute = new CutWindRoute(routeManager, route, index, cutEffect);
         cutWindRoute.Execute();
 
         // Redraws the wind route
@@ -381,7 +400,8 @@ public class GameManager : MonoBehaviour
 
     public void RestoreWindRoute(Vector3 restoreDir)
     {
-        RestoreWindRoute restoreWindRoute = new RestoreWindRoute(routeManager, route, windRouteDeformInfo.cutIndex, windRouteDeformInfo.cutLenght);
+        cutEffect.gameObject.SetActive(false);
+        RestoreWindRoute restoreWindRoute = new RestoreWindRoute(routeManager, route, windRouteDeformInfo.cutIndex, windRouteDeformInfo.cutLenght, cutEffect);
         restoreWindRoute.Execute();
     }
 
@@ -494,8 +514,6 @@ public class GameManager : MonoBehaviour
         turnCount = route.Count;
     }
 
-
-
     public void CancelTurns()
     {
         turnCount = 0;
@@ -559,7 +577,7 @@ public class GameManager : MonoBehaviour
 
         CancelTurns();
         CancelInvoke();
-
+        cutEffect.gameObject.SetActive(false);
 
         float undoTime = undoTimes[undoTimes.Count - 1];
         undoTimes.RemoveAt(undoTimes.Count - 1);

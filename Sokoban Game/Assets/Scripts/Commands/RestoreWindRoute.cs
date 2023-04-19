@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RestoreWindRoute : Command
+public class RestoreWindRoute : WindDeform
 {
-    public RouteManager routeManager;
-    public List<Vector3> route;
-    public List<Vector3> routeBeforeRestoring = new List<Vector3>();
+    //public RouteManager routeManager;
+    //public List<Vector3> route;
     public Vector3 cutPos;
     public int cutIndex;
-    public int cutLenght;
+    //public int cutLenght;
     public bool isLooping;
 
-    public RestoreWindRoute(RouteManager routeManager, List<Vector3> route, int cutIndex, int cutLenght)
+    public RestoreWindRoute(RouteManager routeManager, List<Vector3> route, int cutIndex, int cutLenght, ParticleSystem cutEffect = null)
     {
         this.routeManager = routeManager;
         this.route = route;
         this.cutIndex = cutIndex;
         this.cutLenght = cutLenght;
-        routeBeforeRestoring.AddRange(route);
+        routeBeforeDeforming.AddRange(route);
+        this.cutEffect = cutEffect;
     }
 
     // Restores wind route linearly after cut position.
@@ -34,7 +34,15 @@ public class RestoreWindRoute : Command
 
         if (hit){
             cutLenght = Mathf.FloorToInt(hit.distance);
+
+            if (cutEffect)
+                SetUpEndPlayCutEffect(restoreDir, (Vector3)hit.point + restoreDir/2);
         }
+        else{
+            if (cutEffect)
+                cutEffect.gameObject.SetActive(false);
+        }
+            
 
         for (int i = 0; i < cutLenght; i++){
             Vector3 restorePos = route[route.Count - 1];
@@ -55,7 +63,7 @@ public class RestoreWindRoute : Command
         GameManager gameManager = GameManager.instance;
 
         gameManager.route.Clear();
-        gameManager.route.AddRange(routeBeforeRestoring);
+        gameManager.route.AddRange(routeBeforeDeforming);
         gameManager.windRouteDeformInfo.cutLenght = cutLenght;
         gameManager.windRouteDeformInfo.cutIndex = cutIndex;
 

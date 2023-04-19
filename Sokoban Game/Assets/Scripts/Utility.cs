@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public enum Direction {
     right,
@@ -93,6 +95,31 @@ public static class Utility
 
     }
 
+    public static void BinarySerialization(string folderName, string fileName, object saveData)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        string path = Application.persistentDataPath + folderName;
+
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+
+        FileStream file = File.Create(path + "/" + fileName + ".save");
+        bf.Serialize(file, saveData);
+        file.Close();
+    }
+
+    public static object BinaryDeserialization(string folderName, string fileName)
+    {
+        string filePath = Application.persistentDataPath + folderName + fileName + ".save";
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Open(filePath, FileMode.Open);
+
+        var saveData = bf.Deserialize(file);
+        file.Close();
+
+        return saveData;
+    }
 
     public static Vector3 DirToVectorDir(Direction dir)
     {

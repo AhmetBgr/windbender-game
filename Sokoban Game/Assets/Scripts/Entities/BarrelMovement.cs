@@ -73,7 +73,7 @@ public class BarrelMovement : ObjectMoveController
                     */
                     if (hasSpeed)
                     {
-                        if (stop)
+                        /*if (stop)
                         {
                             hasSpeed = false;
                             intentToMove = false;
@@ -82,8 +82,8 @@ public class BarrelMovement : ObjectMoveController
                         else
                         {
                             intentToMove = true;
-                        }
-                        
+                        }*/
+                        intentToMove = true;
                     }
                     else
                     {
@@ -98,11 +98,10 @@ public class BarrelMovement : ObjectMoveController
         }
         else
         {
-            if (hasSpeed && stop)
-                hasSpeed = false;
+            //if (hasSpeed && stop)
+                //hasSpeed = false;
 
-            if (hasSpeed)
-                intentToMove = true;
+            intentToMove = hasSpeed;
         }
 
         if (!reserveMove) return;
@@ -128,9 +127,7 @@ public class BarrelMovement : ObjectMoveController
         base.FindNeighbors(route);
     }
 
-    public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
-    {
-        
+    public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false){
 
         //if(GameManager.instance.isFirstTurn || GameManager.instance.state == GameState.Waiting)
         GameManager.instance.oldCommands.Add(movementReserve);
@@ -155,7 +152,7 @@ public class BarrelMovement : ObjectMoveController
         }
 
         Vector3 startPos = transform.position;
-        tween = transform.DOMove(startPos + dir, GameManager.instance.turnDur).SetEase(ease)/*.SetEase(Ease.Linear)*/
+        tween = transform.DOMove(startPos + dir, GameManager.instance.turnDur).SetEase(ease)
             .OnComplete(() => {
                 if (GameManager.instance.turnCount == 0)
                     SetState(curState);
@@ -163,18 +160,19 @@ public class BarrelMovement : ObjectMoveController
                 if (stopAftermoving)
                     SetState(curState);
             });
-        //tween.OnKill(() => UpdateAnimState());
-        hasSpeed = true;
-        if (!GameManager.instance.route.Contains(startPos + dir))
+
+        //hasSpeed = true;
+        hasSpeed = !stopAftermoving;
+        /*if (!GameManager.instance.route.Contains(startPos + dir))
         {
             if (stopAftermoving)
                 hasSpeed = false;
-        }
+        }*/
 
         
         movementReserve = null;
         stop = stopAftermoving;
-
+        
         if (pushed) return;
         PlayMoveAnim();
 
