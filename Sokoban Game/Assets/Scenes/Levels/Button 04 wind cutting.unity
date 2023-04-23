@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: 7440307854305903695, guid: 7f4f72485d306d64480c8d43cd83e7db,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -464,6 +464,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Grid 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215112188476189417, guid: 31dddbf4ab155594283228ad57f1f5d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215112188476189419, guid: 31dddbf4ab155594283228ad57f1f5d1,
         type: 3}

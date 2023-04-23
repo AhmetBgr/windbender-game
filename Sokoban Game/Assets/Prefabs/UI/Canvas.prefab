@@ -1319,6 +1319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnCountText: {fileID: 4108662786213559385}
   pausedPanel: {fileID: 2670585960691910452}
+  undoButton: {fileID: 983058427077002806}
   blowButton: {fileID: 2895721267085628079}
   waitButton: {fileID: 5888793660654832320}
   returnToLevelSelButton: {fileID: 7702743852570430603}
@@ -3083,19 +3084,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 852263756529707958}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5009979222329731905}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnUndoButtonDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &8302739258474957034
 GameObject:
   m_ObjectHideFlags: 0

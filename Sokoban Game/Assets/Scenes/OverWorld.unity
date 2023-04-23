@@ -2476,7 +2476,7 @@ PrefabInstance:
     - target: {fileID: 5728126160888509373, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
         type: 3}
       propertyPath: turnDur
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5728126160888509373, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
         type: 3}

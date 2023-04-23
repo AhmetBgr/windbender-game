@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI turnCountText;
     public GameObject pausedPanel;
+    public Button undoButton;
     public Button blowButton;
     public Button waitButton;
     public Button returnToLevelSelButton;
@@ -37,6 +38,8 @@ public class UIManager : MonoBehaviour
         {
             GameManager.instance.StartWindBlow();
         });
+
+        undoButton.onClick.AddListener(GameManager.instance.Undo);
 
         //waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
         EventTrigger trigger = waitButton.GetComponent<EventTrigger>();

@@ -15,7 +15,7 @@ MonoBehaviour:
   name: 2Barrel
   debugName: 2 barrel
   sceneIndex: 6
-  state: 0
+  state: 1
   connectedLevels:
   - {fileID: 11400000, guid: 6188728bda09fe449aa184bfa08d4801, type: 2}
   info: 

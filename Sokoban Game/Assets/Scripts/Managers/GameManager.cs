@@ -152,6 +152,16 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    private void OnEnable()
+    {
+        SceneLoader.OnSceneLoad += ResetVariables;
+    }
+
+    private void OnDisable()
+    {
+        SceneLoader.OnSceneLoad -= ResetVariables;
+    }
+
     private void Start()
     {
         cursor = FindObjectOfType<Cursor>();
@@ -162,13 +172,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (state == GameState.Running)
-        {
-            /*if (turnCount <= 0  ){ // All turns end 
-                state = GameState.Paused;
-                route.Clear();
-                return;
-            }*/
-            
+        {   
             // Start new turn
             t += Time.deltaTime;
             if (t >= turnDur){
@@ -230,8 +234,6 @@ public class GameManager : MonoBehaviour
                 if ((isWaiting && turnCount == 0)){
                     if (!CheckForUnusedWindSources()){
                         CheckForLevelComplete();
-                        isWaiting = false;
-                        state = GameState.Paused;
                         //return;
                     }
                     else{
@@ -239,14 +241,19 @@ public class GameManager : MonoBehaviour
                         turnCount = 1;
                         defTurnCount = turnCount;
                     }
-
-
                 }
-                else if (turnCount == 0 && (emptyDestinationMoves.Count > 0 || momentumTransferMoves.Count > 0) && !CheckForUnusedWindSources()){
+                else if (turnCount == 0 && (emptyDestinationMoves.Count > 0 ) && !CheckForUnusedWindSources()){ // || momentumTransferMoves.Count > 0
                     route.Clear();
                     //routeManager.ClearTiles(); //GameState.Running, GameState.Paused
                     isWaiting = true;
                     turnCount = 10;
+                    defTurnCount = turnCount;
+                }
+                else if (turnCount == 0 && !CheckForUnusedWindSources())
+                {
+                    route.Clear();
+                    isWaiting = true;
+                    turnCount = 2;
                     defTurnCount = turnCount;
                 }
 
@@ -524,6 +531,14 @@ public class GameManager : MonoBehaviour
         obstacleAtDestinationMoves.Clear();
     }
 
+    private void ResetVariables()
+    {
+        windSources.Clear();
+        destinations.Clear();
+        isWaiting = false;
+        state = GameState.Paused;
+    }
+
     public void CheckForLevelComplete()
     {
         Debug.LogWarning("Checking for level comp");
@@ -537,10 +552,6 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.LogWarning("LEVEL COMPLETED");
-        
-        destinations.Clear();
-        state = GameState.Paused;
-
 
         if (OnLevelComplete != null)
         {

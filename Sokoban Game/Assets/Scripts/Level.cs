@@ -16,19 +16,24 @@ public class Level : ScriptableObject
 
     [TextArea] public string info;
 
+
     public enum State {
         locked, unlocked, completed
     }
 
     private void Awake()
     {
-        if( File.Exists(Application.persistentDataPath + LevelManager.levelDataFolderName + name + ".save") ){
-            LoadLevelData();
-        }
+        bool overrideSaveWithSO = false;
+
+        #if UNITY_EDITOR
+            overrideSaveWithSO = true;
+            Debug.LogWarning("Unity Editor: " + this);
+        #endif
+        
+        if ( File.Exists(Application.persistentDataPath + LevelManager.levelDataFolderName + name + ".save")  && !overrideSaveWithSO)
+            LoadAndSetLevelData();
         else
-        {
-            SaveLevelData();
-        }
+            SaveAndSetLevelData();
     }
 
     public void SetComplete()
@@ -40,7 +45,7 @@ public class Level : ScriptableObject
             level.Unlock();
         }
 
-        SaveLevelData();
+        SaveAndSetLevelData();
 
         //#if UNITY_EDITOR
         //    EditorUtility.SetDirty(this);
@@ -53,14 +58,14 @@ public class Level : ScriptableObject
 
         state = Level.State.unlocked;
 
-        SaveLevelData();
+        SaveAndSetLevelData();
 
         //#if UNITY_EDITOR
         //    EditorUtility.SetDirty(this);
         //#endif
     }
 
-    private void SaveLevelData()
+    private void SaveAndSetLevelData()
     {
         LevelData levelData = new LevelData();
         levelData.levelName = name;
@@ -71,7 +76,7 @@ public class Level : ScriptableObject
         Utility.BinarySerialization(LevelManager.levelDataFolderName, levelData.levelName, levelData);
     }
 
-    private void LoadLevelData()
+    private LevelData LoadAndSetLevelData()
     {
         LevelData levelData = (LevelData)Utility.BinaryDeserialization(LevelManager.levelDataFolderName, name);
         name = levelData.levelName;
@@ -84,6 +89,8 @@ public class Level : ScriptableObject
             state = State.unlocked;
         else
             state = State.completed;
+
+        return levelData;
         
     }
 
