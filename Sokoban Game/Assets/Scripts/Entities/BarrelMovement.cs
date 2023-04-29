@@ -38,9 +38,8 @@ public class BarrelMovement : ObjectMoveController
             animator.Play("Barrel_lay_vertical");
             curState = State.layingVertical;
         }
-        hasSpeed = false;
 
-        
+        hasSpeed = dir.magnitude > 0 ? true : false;
     }
 
     public override void ReserveMovement(List<Vector3> route)

@@ -47,9 +47,9 @@ public class Level : ScriptableObject
 
         SaveAndSetLevelData();
 
-        //#if UNITY_EDITOR
-        //    EditorUtility.SetDirty(this);
-        //#endif
+        #if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+        #endif
     }
 
     public void Unlock()
@@ -60,9 +60,9 @@ public class Level : ScriptableObject
 
         SaveAndSetLevelData();
 
-        //#if UNITY_EDITOR
-        //    EditorUtility.SetDirty(this);
-        //#endif
+        #if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+        #endif
     }
 
     private void SaveAndSetLevelData()

@@ -15,7 +15,7 @@ MonoBehaviour:
   name: loop1
   debugName: loop 1
   sceneIndex: 6
-  state: 1
+  state: 2
   connectedLevels:
   - {fileID: 11400000, guid: aec2c216be4afd74db70f4c1cc7381e8, type: 2}
   - {fileID: 11400000, guid: da749e08844e22c4397a2719d96677d7, type: 2}
