@@ -6,7 +6,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 
-public class UIManager : MonoBehaviour
+public class GameplayUIManager : MonoBehaviour
 {
     public TextMeshProUGUI turnCountText;
     public GameObject pausedPanel;

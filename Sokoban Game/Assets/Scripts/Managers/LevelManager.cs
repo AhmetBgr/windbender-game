@@ -76,6 +76,7 @@ public class LevelManager : MonoBehaviour
 
     public void LoadOverWorld()
     {
-        SceneLoader.LoadSceneWithName("OverWorld");
+        //SceneLoader.LoadSceneWithName("OverWorld");
+        StartCoroutine(SceneLoader.LoadAsyncSceneWithName("OverWorld"));
     }
 }

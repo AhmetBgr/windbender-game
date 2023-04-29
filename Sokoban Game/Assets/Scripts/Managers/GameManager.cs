@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
                 {
                     route.Clear();
                     isWaiting = true;
-                    turnCount = 2;
+                    turnCount = 1;
                     defTurnCount = turnCount;
                 }
 

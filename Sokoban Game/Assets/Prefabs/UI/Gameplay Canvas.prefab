@@ -76,7 +76,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4285325539
-  m_fontColor: {r: 0.284, g: 0.25754318, b: 0.233732, a: 1}
+  m_fontColor: {r: 0.36078432, g: 0.23137257, b: 0.14509805, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1208,7 +1208,7 @@ GameObject:
   - component: {fileID: 5009979222329731905}
   - component: {fileID: 5027234086768198015}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Gameplay Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,6 +12,10 @@ public class SceneLoader : MonoBehaviour
     public delegate void OnSceneLoadDelegate();
     public static event OnSceneLoadDelegate OnSceneLoad;
 
+    public delegate void OnSceneLoadCompleteDelegate();
+    public static event OnSceneLoadCompleteDelegate OnSceneLoadComplete;
+
+    public static float loadDelay = 1f;
 
     /**public static SceneLoader  instance = null;
 
@@ -54,11 +58,38 @@ public class SceneLoader : MonoBehaviour
         OnSceneLoadEvent();
     }
 
+    public static IEnumerator LoadAsyncSceneWithName(string name)
+    {
+        // The Application loads the Scene in the background as the current Scene runs.
+        // This is particularly good for creating loading screens.
+        // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
+        // a sceneBuildIndex of 1 as shown in Build Settings.
+        OnSceneLoadEvent();
+        yield return new WaitForSeconds(loadDelay);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(name);
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+            OnSceneLoadCompleteEvent();
+        }
+    }
+
     public static void OnSceneLoadEvent()
     {
         if(OnSceneLoad != null)
         {
             OnSceneLoad();
+        }
+    }
+
+    public static void OnSceneLoadCompleteEvent()
+    {
+        if (OnSceneLoadComplete != null)
+        {
+            OnSceneLoadComplete();
         }
     }
 
