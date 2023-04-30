@@ -238,3 +238,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneTransitionPanel: {fileID: 3355427388821009637}
+  transitionProperty1:
+    startColor: {r: 1, g: 1, b: 1, a: 0}
+    endColor: {r: 1, g: 1, b: 1, a: 1}
+    ease: 2
+    durationFH: 0.75
+    durationSH: 0.75
+  transitionProperty2:
+    startColor: {r: 0, g: 0, b: 0, a: 0}
+    endColor: {r: 0, g: 0, b: 0, a: 1}
+    ease: 2
+    durationFH: 0.1
+    durationSH: 0.1

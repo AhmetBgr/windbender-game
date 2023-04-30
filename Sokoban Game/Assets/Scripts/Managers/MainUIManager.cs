@@ -9,7 +9,21 @@ using UnityEngine.EventSystems;
 
 public class MainUIManager : MonoBehaviour
 {
+    [System.Serializable]
+    public struct TransitionProperty {
+        public Color startColor;
+        public Color endColor;
+
+        public Ease ease;
+
+        public float durationFH;    // duration first half
+        public float durationSH;    // duration second half
+    }
+
     public Image sceneTransitionPanel;
+
+    public TransitionProperty transitionProperty1;
+    public TransitionProperty transitionProperty2;
 
     public static MainUIManager instance = null;
 
@@ -23,56 +37,48 @@ public class MainUIManager : MonoBehaviour
         {
             instance = this;
         }
-        instance.SceneTranstion2();
+        //instance.SceneTranstionSH(transitionProperty1);
         DontDestroyOnLoad(this.gameObject);
     }
 
     private void OnEnable()
     {
         //GameManager.instance.OnLevelComplete += SceneTranstion;
-        SceneLoader.OnSceneLoad += SceneTranstion;
-        SceneLoader.OnSceneLoadComplete += SceneTranstion2;
+        //SceneLoader.OnSceneLoad += SceneTranstionFH;
+        //SceneLoader.OnSceneLoadComplete += SceneTranstionSH;
     }
     private void OnDisable()
     {
         //GameManager.instance.OnLevelComplete -= SceneTranstion;
-        SceneLoader.OnSceneLoad -= SceneTranstion;
-        SceneLoader.OnSceneLoadComplete -= SceneTranstion2;
+        //SceneLoader.OnSceneLoad -= SceneTranstionFH;
+        //SceneLoader.OnSceneLoadComplete -= SceneTranstionSH;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    /*private void SceneTranstionFH()
     {
-        
+        _SceneTranstionFH(transitionProperty1);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SceneTranstionSH()
     {
-        
+        _SceneTranstionSH(transitionProperty1);
     }
+    */
 
-    private void SceneTranstion()
-    {
-        sceneTransitionPanel.gameObject.SetActive(true);
-        sceneTransitionPanel.color = new Color(1f, 1f, 1f, 0f);
-
-
-        Color endColor = new Color(1f, 1f, 1f, 1f);
-
-        sceneTransitionPanel.DOColor(endColor, SceneLoader.loadDelay).SetEase(Ease.InSine);
-            //.OnComplete( () => { instance.SceneTranstion2(); } );
-    }
-
-    private void SceneTranstion2()
+    public void SceneTranstionFH(TransitionProperty tp)
     {
         sceneTransitionPanel.gameObject.SetActive(true);
-        sceneTransitionPanel.color = new Color(1f, 1f, 1f, 1f);
+        sceneTransitionPanel.color = tp.startColor;
 
+        sceneTransitionPanel.DOColor(tp.endColor, tp.durationFH).SetEase(tp.ease);
+    }
 
-        Color endColor = new Color(1f, 1f, 1f, 0f);
+    public void SceneTranstionSH(TransitionProperty tp)
+    {
+        sceneTransitionPanel.gameObject.SetActive(true);
+        sceneTransitionPanel.color = tp.endColor;
 
-        sceneTransitionPanel.DOColor(endColor, SceneLoader.loadDelay).SetEase(Ease.InSine)
+        sceneTransitionPanel.DOColor(tp.startColor, tp.durationSH).SetEase(tp.ease)
             .OnComplete(() => { sceneTransitionPanel.gameObject.SetActive(false); });
     }
 }

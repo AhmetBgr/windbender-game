@@ -56,7 +56,7 @@ public class LevelSelectionBox : MonoBehaviour
         }
 
         //SceneLoader.LoadSceneWithIndex(level.sceneIndex);
-        StartCoroutine(SceneLoader.LoadAsyncSceneWithName(level.debugName));
+        
     }
 
 

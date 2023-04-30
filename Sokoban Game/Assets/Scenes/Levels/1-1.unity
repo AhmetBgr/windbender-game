@@ -4871,6 +4871,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1556939544291573570, guid: 1b69a39892a047840b3b8180a79bcace,
+        type: 3}
+      propertyPath: transitionProperty1.duration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9141704347974451262, guid: 1b69a39892a047840b3b8180a79bcace,
         type: 3}
       propertyPath: m_Name

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +16,7 @@ public class SceneLoader : MonoBehaviour
     public delegate void OnSceneLoadCompleteDelegate();
     public static event OnSceneLoadCompleteDelegate OnSceneLoadComplete;
 
-    public static float loadDelay = 1f;
+    //public static float loadDelay = 1f;
 
     /**public static SceneLoader  instance = null;
 
@@ -58,14 +59,16 @@ public class SceneLoader : MonoBehaviour
         OnSceneLoadEvent();
     }
 
-    public static IEnumerator LoadAsyncSceneWithName(string name)
+    public static IEnumerator LoadAsyncSceneWithName(string name, float delay, Action preLoadCallBack = null, Action onCompleteCallBack = null) 
     {
         // The Application loads the Scene in the background as the current Scene runs.
         // This is particularly good for creating loading screens.
         // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
         // a sceneBuildIndex of 1 as shown in Build Settings.
         OnSceneLoadEvent();
-        yield return new WaitForSeconds(loadDelay);
+        if (preLoadCallBack != null)
+            preLoadCallBack();
+        yield return new WaitForSeconds(delay);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(name);
 
@@ -73,8 +76,14 @@ public class SceneLoader : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             yield return null;
-            OnSceneLoadCompleteEvent();
         }
+
+        Debug.LogWarning("scene load completed");
+
+        OnSceneLoadCompleteEvent();
+
+        if (onCompleteCallBack != null)
+            onCompleteCallBack();
     }
 
     public static void OnSceneLoadEvent()

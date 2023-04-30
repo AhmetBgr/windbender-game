@@ -13,17 +13,8 @@ public class CamController : MonoBehaviour
         Camera cam = Camera.main;
         float zoomAmount = cam.orthographicSize / 10;
         cam.orthographicSize -= zoomAmount;
-        cam.DOOrthoSize(cam.orthographicSize + zoomAmount, 2.5f).SetEase(Ease.OutSine);
+        cam.DOOrthoSize(cam.orthographicSize + zoomAmount, 2f).SetEase(Ease.OutSine);
     }
 
-    private void OnEnable()
-    {
-       
-    }
-
-    private void OnDisable()
-    {
-        
-    }
 
 }

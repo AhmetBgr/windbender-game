@@ -57,7 +57,7 @@ public class GameplayUIManager : MonoBehaviour
 
         if (LevelManager.instance != null)
         {
-            returnToLevelSelButton.onClick.AddListener(LevelManager.instance.LoadOverWorld);
+            returnToLevelSelButton.onClick.AddListener(() => LevelManager.instance._LoadOverWorld(MainUIManager.instance.transitionProperty2));
         }
 
         pausedPanel.SetActive(true);

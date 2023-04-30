@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
         }
 
 
-        LevelSelectionBox.OnLevelSelect += SetCurLevel;
+        LevelSelectionBox.OnLevelSelect += SetAndLoadCurLevel;
     }
 
     private void OnDisable()
@@ -50,14 +50,13 @@ public class LevelManager : MonoBehaviour
         }
 
 
-        LevelSelectionBox.OnLevelSelect -= SetCurLevel;
+        LevelSelectionBox.OnLevelSelect -= SetAndLoadCurLevel;
     }
 
     void Start()
     {
         
     }
-
 
     public void SetCurLevelComplete()
     {
@@ -66,17 +65,28 @@ public class LevelManager : MonoBehaviour
         curLevel.SetComplete();
     }
 
-    
-
-    private void SetCurLevel(Level level)
+    private void SetAndLoadCurLevel(Level level)
     {
         Debug.LogWarning("Level selected: " + level.name);
+        MainUIManager mainUIManager = MainUIManager.instance;
+        MainUIManager.TransitionProperty tp = level.state == Level.State.completed ? mainUIManager.transitionProperty2 : mainUIManager.transitionProperty1;
         curLevel = level;
+        StartCoroutine( SceneLoader.LoadAsyncSceneWithName(level.debugName, tp.durationFH,
+            preLoadCallBack : () => mainUIManager.SceneTranstionFH(tp),
+            onCompleteCallBack : () => mainUIManager.SceneTranstionSH(tp)) );
     }
 
     public void LoadOverWorld()
     {
-        //SceneLoader.LoadSceneWithName("OverWorld");
-        StartCoroutine(SceneLoader.LoadAsyncSceneWithName("OverWorld"));
+        _LoadOverWorld(MainUIManager.instance.transitionProperty1);
+    }
+
+    public void _LoadOverWorld(MainUIManager.TransitionProperty tp)
+    {
+        MainUIManager mainUIManager = MainUIManager.instance;
+
+        StartCoroutine(SceneLoader.LoadAsyncSceneWithName("OverWorld", tp.durationFH,
+            preLoadCallBack: () => mainUIManager.SceneTranstionFH(tp),
+            onCompleteCallBack: () => mainUIManager.SceneTranstionSH(tp)));
     }
 }
