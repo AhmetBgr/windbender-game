@@ -92,6 +92,9 @@ public class GameManager : MonoBehaviour
     public delegate void OnWindRouteGeneratedDelegate(List<Vector3> route);
     public event OnWindRouteGeneratedDelegate OnWindRouteGenerated;
 
+    public delegate void OnSpeedChangedDelegate(float gameSpeed);
+    public event OnSpeedChangedDelegate OnSpeedChanged;
+
     private SetRoute previousRoute;
     private GameState _state;
     [HideInInspector] public GameState state{
@@ -104,7 +107,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public float turnDur;
+    private List<float> gameSpeeds = new List<float> { 0.5f, 1f, 2f };
+    public float gameSpeed = 1;
+    private int curGameSpeedIndex = 1;
+    public float realTurnDur;
+    public float defTurnDur = 0.5f;
     private float t = 0;
 
     public int turnID = 0;
@@ -155,11 +162,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         SceneLoader.OnSceneLoad += ResetVariables;
+        SettingsManager.OnSettingsDataLoaded += SetGameSpeed;
     }
 
     private void OnDisable()
     {
         SceneLoader.OnSceneLoad -= ResetVariables;
+        SettingsManager.OnSettingsDataLoaded -= SetGameSpeed;
     }
 
     private void Start()
@@ -167,6 +176,7 @@ public class GameManager : MonoBehaviour
         cursor = FindObjectOfType<Cursor>();
         turnCount = 0;
         state = GameState.Paused;
+        realTurnDur = defTurnDur / gameSpeed;
     }
 
     void Update()
@@ -174,12 +184,14 @@ public class GameManager : MonoBehaviour
         if (state == GameState.Running)
         {   
             // Start new turn
-            t += Time.deltaTime;
-            if (t >= turnDur){
+            t += Time.deltaTime* gameSpeed;
+            
+            if (t >= defTurnDur)
+            {
                 turnCount--;
                 t = 0;
                 turnID++;
-
+                realTurnDur = defTurnDur / gameSpeed;
                 emptyDestinationMoves.Clear();
                 momentumTransferMoves.Clear();
                 obstacleAtDestinationMoves.Clear();
@@ -256,10 +268,7 @@ public class GameManager : MonoBehaviour
                     turnCount = 1;
                     defTurnCount = turnCount;
                 }
-
-
-
-                Invoke("OnTurnEndEvent", turnDur - (turnDur/15));
+                Invoke("OnTurnEndEvent", realTurnDur - (realTurnDur / 15));
                 return;
             }
         }
@@ -419,7 +428,7 @@ public class GameManager : MonoBehaviour
         {
             previousRoute.nextWS = curWindSource;
         }
-
+        realTurnDur = defTurnDur / gameSpeed;
         curWindSource.isUsed = true;
         SetRoute setRoute = new SetRoute(curWindSource, routeManager, route, isLooping);
         setRoute.executionTime = Time.time;
@@ -449,7 +458,7 @@ public class GameManager : MonoBehaviour
 
     public void StartWaiting()
     {
-        t = turnDur - Time.deltaTime * 2;
+        t = defTurnDur - Time.deltaTime * 2;
 
         // Cancels wind route drawing
         if (route.Count >= 1)
@@ -519,6 +528,56 @@ public class GameManager : MonoBehaviour
         routeManager.StartDrawing(cursor.cursorPos);
         state = GameState.DrawingRoute;
         turnCount = route.Count;
+    }
+
+    public void SetGameSpeed(SettingsData settingsData) 
+    {
+        
+        float value = settingsData.gameSpeed;
+        if (value <= 0 || value > 10) return;
+
+        //turnDur = defTurnDur / value;
+        gameSpeed = value;
+
+        UpdateCurGameSpeedIndex(value);
+
+        if(OnSpeedChanged != null)
+        {
+            OnSpeedChanged(gameSpeed);
+        }
+    }
+
+    public void SetNextGameSpeed(bool bypassStateCheck = false)
+    {
+        int nextIndex = curGameSpeedIndex;
+
+        nextIndex = curGameSpeedIndex == gameSpeeds.Count - 1 ? 0 : curGameSpeedIndex + 1;
+        curGameSpeedIndex = nextIndex;
+
+        gameSpeed = gameSpeeds[curGameSpeedIndex];
+        
+        if (OnSpeedChanged != null)
+        {
+            OnSpeedChanged(gameSpeed);
+        }
+    }
+
+    public float GetPreviousGameSpeed()
+    {
+        int index = curGameSpeedIndex == 0 ? gameSpeeds.Count - 1 : curGameSpeedIndex - 1;
+        return gameSpeeds[index];
+    }
+
+    private void UpdateCurGameSpeedIndex(float gameSpeed)
+    {
+        for (int i = gameSpeeds.Count -1; i >= 0; i--)
+        {
+            if (gameSpeed >= gameSpeeds[i])
+            {
+                curGameSpeedIndex = i;
+                break;
+            }
+        }
     }
 
     public void CancelTurns()

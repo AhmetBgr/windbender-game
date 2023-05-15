@@ -20,6 +20,8 @@ public class MainUIManager : MonoBehaviour
         public float durationSH;    // duration second half
     }
 
+    public SettingsManager settings;
+
     public Image sceneTransitionPanel;
 
     public TransitionProperty transitionProperty1;

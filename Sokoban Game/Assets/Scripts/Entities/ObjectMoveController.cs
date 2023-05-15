@@ -39,13 +39,14 @@ public class ObjectMoveController : MonoBehaviour
     protected virtual void OnEnable(){
         GameManager.instance.OnTurnStart1 += ReserveMovement;
         GameManager.instance.OnTurnStart2 += FindNeighbors;
-
+        GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
     }
 
     protected virtual void OnDisable()
     {
         GameManager.instance.OnTurnStart1 -= ReserveMovement;
         GameManager.instance.OnTurnStart2 -= FindNeighbors;
+        GameManager.instance.OnSpeedChanged -= UpdateAnimSpeed;
     }
 
     public virtual void ReserveMovement(List<Vector3> route)
@@ -177,15 +178,19 @@ public class ObjectMoveController : MonoBehaviour
 
     public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
     {
+        
         Vector3 startPos = transform.position;
-        tween = transform.DOMove(startPos + dir, GameManager.instance.turnDur).SetEase(Ease.InOutQuad); //.SetEase(Ease.Linear)
+        tween = transform.DOMove(startPos + dir, GameManager.instance.realTurnDur).SetEase(Ease.InOutQuad); //.SetEase(Ease.Linear)
         hasSpeed = true;
+        tween.timeScale = 1;
     }
 
     public virtual void FailedMove()
     {
-        tween = transform.DOPunchPosition(dir / 5, GameManager.instance.turnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
+        
+        tween = transform.DOPunchPosition(dir / 5, GameManager.instance.realTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
         hasSpeed = false;
+        tween.timeScale = 1;
     }
 
     public virtual void PlayMoveAnim()
@@ -222,5 +227,11 @@ public class ObjectMoveController : MonoBehaviour
         this.curState = state;
     }
 
+    public virtual void UpdateAnimSpeed(float gameSpeed)
+    {
+        float previousGameSpeed = GameManager.instance.GetPreviousGameSpeed();
 
+        if (tween == null) return;
+        tween.timeScale = gameSpeed / previousGameSpeed;
+    }
 }

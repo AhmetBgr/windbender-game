@@ -52,7 +52,7 @@ public class MoveTo : Command
         obj.transform.position = from;
         //obj.SetState(state);
         obj.curState = state;
-        Debug.LogWarning("state name : " + state.ToString());
+        //Debug.LogWarning("state name : " + state.ToString());
         obj.hasSpeed = hasSpeed;
         obj.dir = previousDir;
         if (obj.tween != null)
@@ -70,7 +70,7 @@ public class MoveTo : Command
     {
         //stopAftermoving = isMomentumTransferred;
         obj.Move(dir, stopAftermoving, pushed);
-        Debug.Log(obj.name + " is moving");
+        //Debug.Log(obj.name + " is moving");
         isMovementChecked = true;
 
         /*if(obj.name == "Barrel")

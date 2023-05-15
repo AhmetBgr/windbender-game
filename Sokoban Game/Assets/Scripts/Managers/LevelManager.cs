@@ -69,8 +69,11 @@ public class LevelManager : MonoBehaviour
     {
         Debug.LogWarning("Level selected: " + level.name);
         MainUIManager mainUIManager = MainUIManager.instance;
-        MainUIManager.TransitionProperty tp = level.state == Level.State.completed ? mainUIManager.transitionProperty2 : mainUIManager.transitionProperty1;
+        MainUIManager.TransitionProperty tp = (level.seen | level.state == Level.State.completed) 
+            ? mainUIManager.transitionProperty2 : mainUIManager.transitionProperty1;
         curLevel = level;
+        curLevel.seen = true;
+        curLevel.SaveAndSetLevelData();
         StartCoroutine( SceneLoader.LoadAsyncSceneWithName(level.debugName, tp.durationFH,
             preLoadCallBack : () => mainUIManager.SceneTranstionFH(tp),
             onCompleteCallBack : () => mainUIManager.SceneTranstionSH(tp)) );

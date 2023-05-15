@@ -57,11 +57,11 @@ public static class Utility
         Color startColor = tilemap.color;
         float startTime = Time.time;
         float time = 0;
-
+        GameManager gameManager = GameManager.instance;
         while (time < duration)
         {
             float t = (Time.time - startTime) / duration;
-            time += Time.deltaTime;
+            time += Time.deltaTime; // * gameManager.gameSpeed
             tilemap.color = Color.Lerp(startColor, endColor, t);
 
             yield return null;

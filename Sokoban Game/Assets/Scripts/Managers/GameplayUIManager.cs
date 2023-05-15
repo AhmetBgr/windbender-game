@@ -9,12 +9,16 @@ using UnityEngine.EventSystems;
 public class GameplayUIManager : MonoBehaviour
 {
     public TextMeshProUGUI turnCountText;
+    public TextMeshProUGUI gameSpeedText;
     public GameObject pausedPanel;
     public Button undoButton;
     public Button blowButton;
     public Button waitButton;
+    public Button gameSpeedButton;
     public Button returnToLevelSelButton;
     public Transform routeDrawingPanel;
+
+
     Tween blowButtonTween;
     private void OnEnable()
     {
@@ -38,9 +42,12 @@ public class GameplayUIManager : MonoBehaviour
         {
             GameManager.instance.StartWindBlow();
         });
-
+        
         undoButton.onClick.AddListener(GameManager.instance.Undo);
-
+        
+        gameSpeedButton.onClick.AddListener(() => GameManager.instance.SetNextGameSpeed());
+        gameSpeedButton.onClick.AddListener(UpdateGameSpeedText);
+        UpdateGameSpeedText();
         //waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
         EventTrigger trigger = waitButton.GetComponent<EventTrigger>();
 
@@ -87,6 +94,10 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
+    private void UpdateGameSpeedText()
+    {
+        gameSpeedText.text = GameManager.instance.gameSpeed.ToString() + "x";
+    }
 
     public void OnUndoButtonDown()
     {

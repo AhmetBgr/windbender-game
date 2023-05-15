@@ -66,7 +66,7 @@ public class VelocityIndicator : MonoBehaviour
     {
         if (to != GameState.Running) return; // 
 
-        Invoke("Hide", GameManager.instance.turnDur - 0.04f);
+        Invoke("Hide", GameManager.instance.realTurnDur - 0.04f);
     }
 
     private void Hide()

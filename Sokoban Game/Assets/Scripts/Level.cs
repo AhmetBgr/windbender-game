@@ -11,6 +11,7 @@ public class Level : ScriptableObject
     public string debugName;
     public int sceneIndex;
     public State state;
+    public bool seen = false;
 
     public Level[] connectedLevels;
 
@@ -57,7 +58,6 @@ public class Level : ScriptableObject
         if (state != State.locked) return;
 
         state = Level.State.unlocked;
-
         SaveAndSetLevelData();
 
         #if UNITY_EDITOR
@@ -65,13 +65,14 @@ public class Level : ScriptableObject
         #endif
     }
 
-    private void SaveAndSetLevelData()
+    public void SaveAndSetLevelData()
     {
         LevelData levelData = new LevelData();
         levelData.levelName = name;
         levelData.sceneName = debugName;
         levelData.sceneIndex = sceneIndex;
         levelData.state = (int)state;
+        levelData.seen = seen;
 
         Utility.BinarySerialization(LevelManager.levelDataFolderName, levelData.levelName, levelData);
     }

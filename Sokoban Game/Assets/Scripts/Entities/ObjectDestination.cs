@@ -73,7 +73,7 @@ public class ObjectDestination : MonoBehaviour
 
         if (objMC != null && objMC.curState == lookingFor)
         {
-            Debug.LogWarning("destination satisfied");
+            //Debug.LogWarning("destination satisfied");
             if (particleEffect)
             {
                 particleEffect.Play();

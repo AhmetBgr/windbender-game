@@ -24,7 +24,7 @@ public class CrateMoveController : ObjectMoveController
 
     public override void PlayMoveAnim()
     {
-        animator.speed = 1 / GameManager.instance.turnDur;
+        animator.speed = 1 / GameManager.instance.realTurnDur;
 
         if (dir == Vector3.right)
             animator.Play("Crate_move_right");
@@ -47,4 +47,12 @@ public class CrateMoveController : ObjectMoveController
         else if (dir == Vector3.up)
             animator.Play("Crate_failed_move_up");
     }
+
+    public override void UpdateAnimSpeed(float gameSpeed)
+    {
+        base.UpdateAnimSpeed(gameSpeed);
+
+        animator.speed = gameSpeed;
+    }
+
 }

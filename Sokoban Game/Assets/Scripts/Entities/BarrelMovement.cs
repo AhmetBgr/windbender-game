@@ -7,7 +7,6 @@ public class BarrelMovement : ObjectMoveController
 {
     public Animator animator;
     private bool stop;
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -149,9 +148,10 @@ public class BarrelMovement : ObjectMoveController
         {
             stopAftermoving = true;
         }
-
+        
         Vector3 startPos = transform.position;
-        tween = transform.DOMove(startPos + dir, GameManager.instance.turnDur).SetEase(ease)
+        float gameSpeed = GameManager.instance.gameSpeed;
+        tween = transform.DOMove(startPos + dir, GameManager.instance.realTurnDur).SetEase(ease)
             .OnComplete(() => {
                 if (GameManager.instance.turnCount == 0)
                     SetState(curState);
@@ -168,7 +168,7 @@ public class BarrelMovement : ObjectMoveController
                 hasSpeed = false;
         }*/
 
-        
+        tween.timeScale = 1;
         movementReserve = null;
         stop = stopAftermoving;
         
@@ -188,7 +188,9 @@ public class BarrelMovement : ObjectMoveController
 
     public override void PlayMoveAnim()
     {
-        animator.speed = 1 / GameManager.instance.turnDur;
+
+        float gameSpeed = GameManager.instance.gameSpeed;
+        animator.speed = gameSpeed ; //1 / GameManager.instance.turnDur
         if (dir == Vector3.right && curState == State.standing)
         {
             animator.Play("Barrel_fall_right");
@@ -253,7 +255,7 @@ public class BarrelMovement : ObjectMoveController
 
     public override void SetState(State state)
     {
-        Debug.LogWarning("state changed to: " + state.ToString());
+        //Debug.LogWarning("state changed to: " + state.ToString());
         curState = state;
         UpdateAnimState();
 
@@ -276,7 +278,12 @@ public class BarrelMovement : ObjectMoveController
     }
 
 
+    public override void UpdateAnimSpeed(float gameSpeed)
+    {
+        base.UpdateAnimSpeed(gameSpeed);
 
+        animator.speed = gameSpeed;
+    }
 
 
 }
