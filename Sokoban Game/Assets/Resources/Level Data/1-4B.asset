@@ -16,7 +16,11 @@ MonoBehaviour:
   debugName: 1-3D
   sceneIndex: 5
   state: 1
+  seen: 0
+  justUnlocked: 0
+  isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 96488413f8a7f514ca20a58ec723c673, type: 2}
-  - {fileID: 11400000, guid: 67db4dc7358fcf544aa7422f0ff1a619, type: 2}
+  - {fileID: 11400000, guid: 2cf7261452b1fa54bb5ad7d4497cace3, type: 2}
+  - {fileID: 11400000, guid: c4bdfe99d20680a4186c24b1b30ab393, type: 2}
   info: 

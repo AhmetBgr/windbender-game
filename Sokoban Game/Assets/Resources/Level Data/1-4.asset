@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
   m_Name: 1-4
   m_EditorClassIdentifier: 
-  name: 1-4
+  name: 3
   debugName: 1-4
   sceneIndex: 6
-  state: 2
-  seen: 1
+  state: 1
+  seen: 0
+  justUnlocked: 0
+  isFirstLevel: 0
   connectedLevels:
-  - {fileID: 11400000, guid: 570b17d2aedffac4cad01756362666c5, type: 2}
-  - {fileID: 11400000, guid: 96488413f8a7f514ca20a58ec723c673, type: 2}
+  - {fileID: 11400000, guid: 7cf9cb933bbd01848afbf46b36d8b335, type: 2}
+  - {fileID: 11400000, guid: 67db4dc7358fcf544aa7422f0ff1a619, type: 2}
+  - {fileID: 11400000, guid: a39a36c485abceb4fbc0de3f23426dd2, type: 2}
   - {fileID: 11400000, guid: c4bdfe99d20680a4186c24b1b30ab393, type: 2}
   info: 

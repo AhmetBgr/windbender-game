@@ -40,7 +40,7 @@ public class SettingsManager : MonoBehaviour {
 
         string jsonData = JsonUtility.ToJson(settingsData, true);
         //JsonUtility.FromJsonOverwrite(jsonData, settingsData);
-
+        
         WriteToFile(fileName, jsonData);
     }
 
@@ -51,12 +51,14 @@ public class SettingsManager : MonoBehaviour {
         if(json == null){
             GetDefSettingsData();
             SaveSettingsData();
+            Debug.LogWarning("Default settings loaded");
         }
         else
             JsonUtility.FromJsonOverwrite(json, settingsData);
-        
 
-        if(OnSettingsDataLoaded!= null)
+        Debug.LogWarning("Settings loaded");
+
+        if (OnSettingsDataLoaded!= null)
         {
             // Apply loaded data
             OnSettingsDataLoaded(settingsData);
@@ -100,6 +102,7 @@ public class SettingsManager : MonoBehaviour {
     {
         settingsData.gameSpeed = gameSpeed;
         SaveSettingsData();
+        
     }
 
     private string GetFilePath(string fileName)

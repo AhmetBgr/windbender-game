@@ -97,9 +97,10 @@ GameObject:
   - component: {fileID: 8892289325253819531}
   - component: {fileID: 2605384681551157887}
   - component: {fileID: 389045094645471589}
+  - component: {fileID: 872415305344806241}
   m_Layer: 7
   m_Name: Crate
-  m_TagString: Untagged
+  m_TagString: Crate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,7 +190,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.3}
-    oldSize: {x: 1, y: 1.5}
+    oldSize: {x: 1.28, y: 1.92}
     newSize: {x: 0.8125, y: 1.21875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -234,3 +235,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!210 &872415305344806241
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8892289325253819527}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
+  m_SortAtRoot: 0

@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 29
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,6 +115,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -164,7 +176,7 @@ TextureImporter:
       name: barrel_sprite_sheet_2
       rect:
         serializedVersion: 2
-        x: 97
+        x: 96
         y: 208
         width: 48
         height: 48
@@ -463,7 +475,7 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -476,49 +488,28 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: barrel_sprite_sheet_10
+      name: barrel_sprite_sheet_9
       rect:
         serializedVersion: 2
         x: 192
         y: 160
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7607cb3da384ab42a9a94ad3f5687f6
-      internalID: 1957262671
+      spriteID: 15f987d52d4cf1c42b0006ec36fb23b9
+      internalID: -607141308
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: barrel_sprite_sheet_15
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 112
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a28984f9cb4ae6e4184d6cbcc5ef6e64
-      internalID: 1171581021
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: barrel_sprite_sheet_16
+      name: barrel_sprite_sheet_10
       rect:
         serializedVersion: 2
         x: 0
@@ -532,14 +523,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48ec0608d32da9048b409ed19b3ad4b0
-      internalID: 992217838
+      spriteID: 02056cb34d2cb8d41a9a56c63cf295ab
+      internalID: 1957262671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: barrel_sprite_sheet_21
+      name: barrel_sprite_sheet_15
       rect:
         serializedVersion: 2
         x: 48
@@ -553,14 +544,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e3c8d2d8ea58ab45ac08f66c1b2858c
-      internalID: -164701134
+      spriteID: 83f922e19ddd1614785fec251203eabd
+      internalID: 1171581021
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: barrel_sprite_sheet_22
+      name: barrel_sprite_sheet_16
       rect:
         serializedVersion: 2
         x: 96
@@ -574,8 +565,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e49ef32d863c7514fa654a32f17a8798
-      internalID: -1732698456
+      spriteID: 00978a419bd866c41afa8f1cccdfd48d
+      internalID: 992217838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: barrel_sprite_sheet_21
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 112
+        width: 48
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 094f03a9ca58b6f46b397a4e6c09b1ef
+      internalID: -164701134
       vertices: []
       indices: 
       edges: []

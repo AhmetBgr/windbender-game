@@ -6,8 +6,9 @@ public class Cursor : MonoBehaviour
 {
     private Camera cam;
     public bool snapToGrid = false;
-    public Vector3 cursorPos;
-
+    //public bool onlyUpdateOnHover = false;
+    public Vector3 pos;
+    public bool isHiden = false;
     public static Cursor instance = null;
 
     void Awake()
@@ -23,15 +24,16 @@ public class Cursor : MonoBehaviour
             cam = Camera.main;
         }
         DontDestroyOnLoad(this.gameObject);
+
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (snapToGrid)
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            cursorPos = new Vector3(HalfRound(mouseWorldPos.x), HalfRound(mouseWorldPos.y), 0f);
-            transform.position = cursorPos;
+            pos = new Vector3(HalfRound(mouseWorldPos.x), HalfRound(mouseWorldPos.y), 0f);
+            transform.position = pos;
         }
         else
         {
@@ -45,6 +47,7 @@ public class Cursor : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
         snapToGrid = false;
+        isHiden = true;
     }
 
     public void ShowCursor()
@@ -52,6 +55,7 @@ public class Cursor : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = true;
         snapToGrid = true;
+        isHiden = false;
     }
 
     float HalfRound(float value)

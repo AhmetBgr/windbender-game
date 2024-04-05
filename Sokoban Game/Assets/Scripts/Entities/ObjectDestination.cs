@@ -56,26 +56,45 @@ public class ObjectDestination : MonoBehaviour
 
     public void CheckForLookingForObjectAtTheDestination2()
     {
+
         GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
+
         if (obj != null)
         {
-            
+            if (objMC && objMC.gameObject == obj) return;
 
-            if (objMC)  return;
+            if (obj.tag == "MetalCage")
+            {
+                objMC = null;
+                return;
+            }
 
-            objMC = obj.GetComponent<ObjectMoveController>();
+            objMC = obj.GetComponent<ObjectMoveController>(); ;
         }
         else
         {
             objMC = null;
             //outlineSR.color = initialOutlineColor;
+
+            return;
         }
 
         if (objMC != null && objMC.curState == lookingFor)
         {
-            //Debug.LogWarning("destination satisfied");
+            Debug.LogWarning("destination satisfied: " + obj.name);
             if (particleEffect)
             {
+
+                Debug.LogWarning("particle played: " + obj.name);
+
+                if (particleEffect.isPlaying)
+                {
+                    ParticleSystem particleEffect2 = Instantiate(particleEffect);
+                    particleEffect2.transform.position = transform.position;
+                    particleEffect2.Play();
+                    return;
+                }
+
                 particleEffect.Play();
             }
             //outlineSR.color = Color.white;

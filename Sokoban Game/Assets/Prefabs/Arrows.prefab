@@ -50,7 +50,7 @@ Tilemap:
   m_TileColorArray: []
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
   m_Size: {x: 0, y: 0, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -161,5 +161,6 @@ MonoBehaviour:
   windEndTop: {fileID: 11400000, guid: a6ffd273632737b49b6c7651b1ac7cf1, type: 2}
   windEndBottom: {fileID: 11400000, guid: d8f6a68f1e969594581c244339140163, type: 2}
   route: []
+  windColor: {r: 1, g: 1, b: 1, a: 0.6}
   validPos: []
   maxLenght: 0

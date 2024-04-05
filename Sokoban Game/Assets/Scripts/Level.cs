@@ -12,7 +12,8 @@ public class Level : ScriptableObject
     public int sceneIndex;
     public State state;
     public bool seen = false;
-
+    public bool justUnlocked = true;
+    public bool isFirstLevel;
     public Level[] connectedLevels;
 
     [TextArea] public string info;
@@ -24,17 +25,28 @@ public class Level : ScriptableObject
 
     private void Awake()
     {
-        bool overrideSaveWithSO = false;
+        /*bool overrideSaveWithSO = false;
 
         #if UNITY_EDITOR
             overrideSaveWithSO = true;
             Debug.LogWarning("Unity Editor: " + this);
         #endif
-        
-        if ( File.Exists(Application.persistentDataPath + LevelManager.levelDataFolderName + name + ".save")  && !overrideSaveWithSO)
+        */
+        if ( File.Exists(Application.persistentDataPath + LevelManager.levelDataFolderName + name + ".save")) //&& !overrideSaveWithSO
             LoadAndSetLevelData();
         else
-            SaveAndSetLevelData();
+        {
+            // Generates default level data
+            state = isFirstLevel ? State.unlocked : State.locked;
+            seen = false;
+            SaveLevelData(); 
+        }
+            
+    }
+
+    private void OnDisable()
+    {
+        justUnlocked = true;
     }
 
     public void SetComplete()
@@ -46,10 +58,10 @@ public class Level : ScriptableObject
             level.Unlock();
         }
 
-        SaveAndSetLevelData();
+        SaveLevelData();
 
         #if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
+        EditorUtility.SetDirty(this);
         #endif
     }
 
@@ -58,23 +70,31 @@ public class Level : ScriptableObject
         if (state != State.locked) return;
 
         state = Level.State.unlocked;
-        SaveAndSetLevelData();
+        justUnlocked = true;
+        SaveLevelData();
 
         #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
         #endif
     }
 
-    public void SaveAndSetLevelData()
+    public void SaveLevelData(bool isFirstLevel = false)
+    {
+        LevelData levelData = GenerateLevelData(state, seen, isFirstLevel);    
+
+        Utility.BinarySerialization(LevelManager.levelDataFolderName, levelData.levelName, levelData);
+    }
+
+    private LevelData GenerateLevelData(State state, bool seen, bool isFirstLevel = false)
     {
         LevelData levelData = new LevelData();
         levelData.levelName = name;
         levelData.sceneName = debugName;
         levelData.sceneIndex = sceneIndex;
-        levelData.state = (int)state;
+        levelData.state = isFirstLevel ? (int)State.unlocked : (int)state;
         levelData.seen = seen;
 
-        Utility.BinarySerialization(LevelManager.levelDataFolderName, levelData.levelName, levelData);
+        return levelData;
     }
 
     private LevelData LoadAndSetLevelData()

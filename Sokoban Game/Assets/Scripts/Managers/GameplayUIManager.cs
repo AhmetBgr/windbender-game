@@ -18,7 +18,6 @@ public class GameplayUIManager : MonoBehaviour
     public Button returnToLevelSelButton;
     public Transform routeDrawingPanel;
 
-
     Tween blowButtonTween;
     private void OnEnable()
     {

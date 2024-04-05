@@ -7,47 +7,44 @@ public class BarrelMovement : ObjectMoveController
 {
     public Animator animator;
     private bool stop;
-    protected override void OnEnable()
-    {
+
+    protected override void OnEnable(){
         base.OnEnable();
         GameManager.instance.OnUndo += UpdateAnimState;
     }
 
-    protected override void OnDisable()
-    {
+    protected override void OnDisable(){
         base.OnDisable();
         GameManager.instance.OnUndo -= UpdateAnimState;
     }
 
 
-    private void Start()
-    {
-        if(startingState == State.standing)
-        {
+    protected override void Start(){
+        base.Start();
+
+        if(startingState == State.standing){
             animator.Play("Barrel_stand");
             curState = State.standing;
         }
-        else if (startingState == State.layingHorizantal)
-        {
+        else if (startingState == State.layingHorizantal){
             animator.Play("Barrel_lay_horizantal");
             curState = State.layingHorizantal;
         }
-        else
-        {
+        else{
             animator.Play("Barrel_lay_vertical");
             curState = State.layingVertical;
         }
-
-        hasSpeed = dir.magnitude > 0 ? true : false;
+        
+        hasSpeed = dir.magnitude > 0;
     }
 
-    public override void ReserveMovement(List<Vector3> route)
-    {
+    public override void ReserveMovement(List<Vector3> route){
+        pushedByInfos.Clear();
         Vector3 previousDir = dir;
         int index = -1; // index in wind route
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, 0);
         bool intentToMove = false;
-        bool reserveMove = true;
+        bool pushed = false;
         if (route.Contains(pos)) // Checks if the object is in the wind route
         {
             intentToMove = true;
@@ -55,22 +52,18 @@ public class BarrelMovement : ObjectMoveController
             index = route.FindIndex(i => i == pos); // finds index in wind
 
             // Calculates the direction depand on the index in the route
-            if (GameManager.instance.isLooping && (pos == route[0]) )
-            {
+            if (GameManager.instance.isLooping && (pos == route[0]) ){
                 dir = route[0] - route[route.Count - 2];
             }
-            else
-            {
-                if (index == 0)
-                {
+            else{
+                if (index == 0){
                     /*if (hasSpeed && stop)
                     {
                         hasSpeed = false;
                         intentToMove = false;
                     }
                     */
-                    if (hasSpeed)
-                    {
+                    if (hasSpeed){
                         /*if (stop)
                         {
                             hasSpeed = false;
@@ -83,54 +76,71 @@ public class BarrelMovement : ObjectMoveController
                         }*/
                         intentToMove = true;
                     }
-                    else
-                    {
+                    else{
                         intentToMove = false;
                     }
                 }
-                else
-                {
+                else{
                     dir = route[index] - route[index - 1];
                 }
             }
         }
-        else
-        {
+        else if(!gameManager.isWaiting && gameManager.isLooping && gameManager.turnCount > 0){
+            Vector3 windMoveDir = gameManager.windMoveDir;
+            if(route.Contains(transform.position - windMoveDir)){
+                intentToMove = true;
+                dir = windMoveDir;
+                index = -1;
+                pushed = true;
+
+                PushInfo pushInfo = new PushInfo();
+                pushInfo.pushedBy = null;
+                pushInfo.pushOrigin = 0;
+                pushInfo.indexInChainPush = 0;
+                pushInfo.pushDir = dir;
+                pushInfo.isValidated = 2;
+                pushedByInfos.Add(dir, pushInfo);
+                pushInfoThis = pushInfo;
+            }
+            else{
+                //hasSpeed = false;
+                intentToMove = hasSpeed;
+            }
+        }
+        else{
             //if (hasSpeed && stop)
                 //hasSpeed = false;
 
             intentToMove = hasSpeed;
         }
-
-        if (!reserveMove) return;
-
-        
+        //Debug.LogWarning("has speed ?_1: " + hasSpeed);
         Vector3 from = transform.position;
         Vector3 to = from + dir;
 
         // Reserves movement
-        movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
-        movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
-        movementReserve.intentToMove = intentToMove;
-        movementReserve.state = curState;
-        movementReserve.hasSpeed = hasSpeed;
-
+        movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag)
+        {
+            executionTime = Time.time,
+            turnID = GameManager.instance.turnID,
+            intentToMove = intentToMove,
+            state = curState,
+            hasSpeed = hasSpeed,
+            pushed = pushed
+        };
         //if (GameManager.instance.isFirstTurn)
-            //GameManager.instance.oldCommands.Add(movementReserve);
+        GameManager.instance.oldCommands.Add(movementReserve);
     }
 
-    public override void FindNeighbors(List<Vector3> route)
-    {
+    public override void FindNeighbors(List<Vector3> route){
         base.FindNeighbors(route);
     }
 
     public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false){
 
         //if(GameManager.instance.isFirstTurn || GameManager.instance.state == GameState.Waiting)
-        GameManager.instance.oldCommands.Add(movementReserve);
+        //GameManager.instance.oldCommands.Add(movementReserve);
 
-
+        
         this.dir = dir;
         Ease ease = Ease.InOutQuad;
         
@@ -148,7 +158,7 @@ public class BarrelMovement : ObjectMoveController
         {
             stopAftermoving = true;
         }
-        
+        //Debug.LogWarning("stop after moving: " + stopAftermoving);
         Vector3 startPos = transform.position;
         float gameSpeed = GameManager.instance.gameSpeed;
         tween = transform.DOMove(startPos + dir, GameManager.instance.realTurnDur).SetEase(ease)
@@ -162,6 +172,7 @@ public class BarrelMovement : ObjectMoveController
 
         //hasSpeed = true;
         hasSpeed = !stopAftermoving;
+        //Debug.LogWarning("has speed ?_2: " + hasSpeed);
         /*if (!GameManager.instance.route.Contains(startPos + dir))
         {
             if (stopAftermoving)
@@ -171,7 +182,6 @@ public class BarrelMovement : ObjectMoveController
         tween.timeScale = 1;
         movementReserve = null;
         stop = stopAftermoving;
-        
         if (pushed) return;
         PlayMoveAnim();
 
@@ -190,7 +200,7 @@ public class BarrelMovement : ObjectMoveController
     {
 
         float gameSpeed = GameManager.instance.gameSpeed;
-        animator.speed = gameSpeed ; //1 / GameManager.instance.turnDur
+        animator.speed = gameSpeed*2 ; //1 / GameManager.instance.turnDur
         if (dir == Vector3.right && curState == State.standing)
         {
             animator.Play("Barrel_fall_right");
@@ -252,6 +262,21 @@ public class BarrelMovement : ObjectMoveController
             //ease = Ease.Linear;
         }
     }
+
+    public override void Hit(List<MoveTo> emptyDestintionTileMoves)
+    {
+        base.Hit(emptyDestintionTileMoves);
+
+
+    }
+
+    public virtual void ChainMomentumTranfer(){
+
+    }
+
+    /*public override void ChainPush(MoveTo moveRes, List<MoveTo> emptyDestintionTileMoves){
+        base.ChainPush(moveRes, emptyDestintionTileMoves);
+    }*/
 
     public override void SetState(State state)
     {

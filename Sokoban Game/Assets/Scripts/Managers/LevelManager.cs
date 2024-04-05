@@ -11,8 +11,12 @@ public class LevelManager : MonoBehaviour
     public SceneLoader SceneLoader;
     public Level[] levels;
 
+    public Level previousLevel;
+    public Vector3 previousLevelPos; // pos in level canvas
     public Level curLevel;
 
+    public AreaData are02Data;
+    
     public static LevelManager instance = null;
 
     public void Awake()
@@ -36,7 +40,10 @@ public class LevelManager : MonoBehaviour
             GameManager.instance.OnLevelComplete += SetCurLevelComplete;
             GameManager.instance.OnLevelComplete += LoadOverWorld;
         }
-
+        if(SceneLoader.sceneName == "-OverWorld")
+        {
+            Cursor.instance.gameObject.SetActive(false);
+        }
 
         LevelSelectionBox.OnLevelSelect += SetAndLoadCurLevel;
     }
@@ -65,15 +72,21 @@ public class LevelManager : MonoBehaviour
         curLevel.SetComplete();
     }
 
-    private void SetAndLoadCurLevel(Level level)
+    private void SetAndLoadCurLevel(Level level, Vector3 pos)
     {
         Debug.LogWarning("Level selected: " + level.name);
         MainUIManager mainUIManager = MainUIManager.instance;
         MainUIManager.TransitionProperty tp = (level.seen | level.state == Level.State.completed) 
             ? mainUIManager.transitionProperty2 : mainUIManager.transitionProperty1;
+
+        //Cursor.instance.ShowCursor();
+        Cursor.instance.gameObject.SetActive(true);
+
+        previousLevel = curLevel == null ? level : curLevel;
+        previousLevelPos = pos;
         curLevel = level;
         curLevel.seen = true;
-        curLevel.SaveAndSetLevelData();
+        curLevel.SaveLevelData();
         StartCoroutine( SceneLoader.LoadAsyncSceneWithName(level.debugName, tp.durationFH,
             preLoadCallBack : () => mainUIManager.SceneTranstionFH(tp),
             onCompleteCallBack : () => mainUIManager.SceneTranstionSH(tp)) );
@@ -87,9 +100,13 @@ public class LevelManager : MonoBehaviour
     public void _LoadOverWorld(MainUIManager.TransitionProperty tp)
     {
         MainUIManager mainUIManager = MainUIManager.instance;
-
-        StartCoroutine(SceneLoader.LoadAsyncSceneWithName("OverWorld", tp.durationFH,
+        //Cursor.instance.HideCursor();
+        StartCoroutine(SceneLoader.LoadAsyncSceneWithName("-OverWorld", tp.durationFH,
             preLoadCallBack: () => mainUIManager.SceneTranstionFH(tp),
-            onCompleteCallBack: () => mainUIManager.SceneTranstionSH(tp)));
+            onCompleteCallBack: () => { 
+                mainUIManager.SceneTranstionSH(tp);
+                //Cursor.instance.HideCursor();
+                Cursor.instance.gameObject.SetActive(false);
+            }));
     }
 }

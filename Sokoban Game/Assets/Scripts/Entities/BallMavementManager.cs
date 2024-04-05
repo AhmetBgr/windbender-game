@@ -14,10 +14,10 @@ public class BallMavementManager : ObjectMoveController
         if (route.Contains(pos)) // Checks if the object is in the wind route
         {
             intentToMove = true;
-
+            
             index = route.FindIndex(i => i == pos); // finds index in wind
 
-           
+            
             if ( index > 0 || GameManager.instance.isLooping )
             {
                 if(index == route.Count)

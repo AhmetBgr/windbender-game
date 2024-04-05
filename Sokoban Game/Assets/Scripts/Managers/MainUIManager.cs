@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
@@ -48,12 +47,16 @@ public class MainUIManager : MonoBehaviour
         //GameManager.instance.OnLevelComplete += SceneTranstion;
         //SceneLoader.OnSceneLoad += SceneTranstionFH;
         //SceneLoader.OnSceneLoadComplete += SceneTranstionSH;
+
     }
+    
     private void OnDisable()
     {
         //GameManager.instance.OnLevelComplete -= SceneTranstion;
         //SceneLoader.OnSceneLoad -= SceneTranstionFH;
         //SceneLoader.OnSceneLoadComplete -= SceneTranstionSH;
+        
+        
     }
 
     /*private void SceneTranstionFH()

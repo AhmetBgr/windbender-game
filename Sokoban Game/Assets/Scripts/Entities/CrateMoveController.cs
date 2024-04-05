@@ -18,8 +18,9 @@ public class CrateMoveController : ObjectMoveController
     public override void FailedMove()
     {
         base.FailedMove();
-
-        PlayFailedMoveAnim();
+    
+        //PlayFailedMoveAnim();
+        
     }
 
     public override void PlayMoveAnim()

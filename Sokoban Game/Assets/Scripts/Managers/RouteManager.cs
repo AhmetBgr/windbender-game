@@ -41,6 +41,8 @@ public class RouteManager : MonoBehaviour
     //public List<Tile> tiles = new List<Tile>();
     public List<Vector3> route = new List<Vector3>();
 
+    public Color windColor = Color.white;
+
     private Tilemap tilemap;
     private Cursor cursor;
     private WindSourceController curWindSource;
@@ -72,13 +74,13 @@ public class RouteManager : MonoBehaviour
     }
     public void StartDrawing(Vector3 pos)
     {
-        UpdateValidPositions(pos);
+        //UpdateValidPositions(pos);
         SetLastTile(route);
     }
 
     public void AddPosition(Vector3 pos, bool isLooping = false)
     {
-        UpdateValidPositions(pos);
+        //UpdateValidPositions(pos);
         this.route.Add(pos);
         SetLastTile(this.route);
     }
@@ -89,7 +91,7 @@ public class RouteManager : MonoBehaviour
         route.RemoveAt(index);
         SetLastTile(route);
         SetOriginTile(route);
-        UpdateValidPositions(route[route.Count - 1]);
+        //UpdateValidPositions(route[route.Count - 1]);
     }
 
     private void SetOriginTile(List<Vector3> route)
@@ -113,9 +115,17 @@ public class RouteManager : MonoBehaviour
     }
 
 
-    public void UpdateValidPositions(Vector3 cursorPos)
+    /*public void UpdateValidPositions(Vector3 cursorPos, bool setAllValid = false)
     {
         ClearValidPositions();
+        if(setAllValid){
+            foreach (Vector3 neighborVector in neighborVectors){
+                Vector3 origin = cursorPos + neighborVector;
+                validPos.Add(origin);
+                tilemap.SetTile(tilemap.WorldToCell(origin), validPosTile);
+            }
+            return;
+        }
 
         if(route.Count == maxLenght) return;
         
@@ -136,7 +146,7 @@ public class RouteManager : MonoBehaviour
                 Vector3 origin = cursorPos + neighborVector;
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall"));
 
-                if (!hit && !route.Contains(origin))
+                if ( !hit && !route.Contains(origin) )
                 {
                     validPos.Add(origin);
                 }
@@ -147,7 +157,7 @@ public class RouteManager : MonoBehaviour
         {
             tilemap.SetTile(tilemap.WorldToCell(pos), validPosTile);
         }
-    }
+    }*/
 
     public void ClearValidPositions()
     {
@@ -383,14 +393,15 @@ public class RouteManager : MonoBehaviour
         Debug.LogWarning("game Speed: " + GameManager.instance.gameSpeed);
         
         Color clearColor = new Color(1f, 1f, 1f, 0f);
-        Color startColor = tilemap.color;
+        Color startColor = new Color(1f, 1f, 1f, 0.75f); //tilemap.color;
         routine = Utility.ChangeTilemapColor(tilemap, clearColor, disappearDur, onCompleteCallBack: () => {
-            tilemap.transform.position = new Vector3(0f, 0.2f, 0f);
+            tilemap.transform.position = new Vector3(0f, 0.1f, 0f);
+            DeleteTiles();
             DrawWindRoute(route, isLooping);
         });
-        StartCoroutine( routine );
+        StartCoroutine(routine);
 
-        routine = Utility.ChangeTilemapColor(tilemap, startColor, appearDur, delay: disappearDur);
+        routine = Utility.ChangeTilemapColor(tilemap, windColor, appearDur, delay: disappearDur);
         StartCoroutine(routine);
 
     }

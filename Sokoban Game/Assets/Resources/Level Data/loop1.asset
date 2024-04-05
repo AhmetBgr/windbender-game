@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
   m_Name: loop1
   m_EditorClassIdentifier: 
-  name: loop1
+  name: 6
   debugName: loop 1
   sceneIndex: 6
   state: 1
+  seen: 0
+  justUnlocked: 0
+  isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: aec2c216be4afd74db70f4c1cc7381e8, type: 2}
-  - {fileID: 11400000, guid: da749e08844e22c4397a2719d96677d7, type: 2}
+  - {fileID: 11400000, guid: 0ca446eb93ed8414aa062e3a1ec8ad94, type: 2}
+  - {fileID: 11400000, guid: d378078d3bd319345920b9a8e17f7cae, type: 2}
+  - {fileID: 11400000, guid: d4bca6f3359889947856ff0107f5fae3, type: 2}
   info: 

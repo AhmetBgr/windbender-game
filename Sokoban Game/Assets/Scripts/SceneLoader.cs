@@ -16,23 +16,18 @@ public class SceneLoader : MonoBehaviour
     public delegate void OnSceneLoadCompleteDelegate();
     public static event OnSceneLoadCompleteDelegate OnSceneLoadComplete;
 
+    public static string sceneName;
+
     //public static float loadDelay = 1f;
 
-    /**public static SceneLoader  instance = null;
+    public static SceneLoader  instance = null;
 
     public void Awake()
     {
-        if(instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
+        sceneName = SceneManager.GetActiveScene().name;
+    }
 
-        DontDestroyOnLoad(this.gameObject);
-    }*/
+
 
     public void LoadNextScene()
     {
@@ -92,7 +87,10 @@ public class SceneLoader : MonoBehaviour
         {
             OnSceneLoad();
         }
+
+        sceneName = SceneManager.GetActiveScene().name;
     }
+
 
     public static void OnSceneLoadCompleteEvent()
     {

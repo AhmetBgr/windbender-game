@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
+  m_Name: loop test 4
+  m_EditorClassIdentifier: 
+  name: 9
+  debugName: loop test 4
+  sceneIndex: 6
+  state: 1
+  seen: 0
+  justUnlocked: 0
+  isFirstLevel: 0
+  connectedLevels:
+  - {fileID: 11400000, guid: c4bdfe99d20680a4186c24b1b30ab393, type: 2}
+  - {fileID: 11400000, guid: 435d18765afbf8e48a307677f1a0961c, type: 2}
+  info: 

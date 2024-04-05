@@ -10,6 +10,7 @@ public class MoveTo : Command
     public Vector3 to;
     public Vector3 dir;
     public Vector3 previousDir;
+    public Vector3 pushedBy; // dir of pushing coming from. zero means this obj didn't pushed by something
 
     public int indexInWind; // -1 is outside of wind
     public int destinationTile; // 0 is empty, 1 is moveable object, 2 is obstacle
@@ -26,6 +27,8 @@ public class MoveTo : Command
 
     public IDictionary<Vector3, MoveTo> neighbors = new Dictionary<Vector3, MoveTo>();
 
+    public delegate void OnMoveDelegate(MoveTo movRes);
+    public event OnMoveDelegate OnMove;
 
     public MoveTo(ObjectMoveController obj, Vector3 from, Vector3 to, Vector3 previousDir, ObjectMoveController.State state, int indexInWind, string tag)
     {
@@ -80,7 +83,13 @@ public class MoveTo : Command
 
     }
 
-    public void ChainMove()
+    public void Hit(List<MoveTo> emptyDestintionTileMoves){
+        obj.Hit(emptyDestintionTileMoves);
+
+
+    }
+
+    public virtual void ChainMove()
     {
         List<MoveTo> chainNeighbors = new List<MoveTo>();
 
@@ -134,7 +143,7 @@ public class MoveTo : Command
         intentToMove = false;
     }
 
-    public void ChainFailedMove(float moveAmount = 0.5f)
+    public virtual void ChainFailedMove(float moveAmount = 0.5f)
     {
         isMovementChecked = true;
 
@@ -154,7 +163,7 @@ public class MoveTo : Command
         FailedMove();
     }
 
-    public void ChainMomentumTransfer(List<MoveTo> emptyDestintionTileMoves)
+    public virtual void ChainMomentumTransfer(List<MoveTo> emptyDestintionTileMoves)
     {
         MoveTo destinationObjA;
         if (neighbors.TryGetValue(dir, out destinationObjA)) // Checks if there is something in the way for current movement. if so add that object to the destinationObjA
@@ -190,7 +199,7 @@ public class MoveTo : Command
                         // Extends chain failed move to the neighbor object
                         destinationObjA.destinationTile = 2;
                         destinationObjA.ChainFailedMove();
-                        Debug.LogWarning("DESTÝNATÝON OBJ FAILED MOVE");
+                        Debug.LogWarning("DESTï¿½NATï¿½ON OBJ FAILED MOVE");
                     }
                     else // Checks if moveable object in the way for objA
                     {

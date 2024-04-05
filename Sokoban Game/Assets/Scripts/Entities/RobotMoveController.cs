@@ -21,6 +21,7 @@ public class RobotMoveController : ObjectMoveController
 
     public override void ReserveMovement(List<Vector3> route)
     {
+        pushedByInfos.Clear();
         movementReserve = null;
         
         //dirBeforeWind = dir;
@@ -60,6 +61,7 @@ public class RobotMoveController : ObjectMoveController
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
+        movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = true;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
@@ -144,6 +146,15 @@ public class RobotMoveController : ObjectMoveController
                 if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir))
                 {
                     gameManager.momentumTransferMoves.Add(movementReserve);
+
+                    /*destinationObj.dir = dir;
+                    destinationObj.to = destinationObj.from + dir;
+                    destinationObj.intentToMove = true;
+                    destinationObj.pushedBy = dir;
+                    destinationObj.pushed = true;
+                    movementReserve.isMomentumTransferred = true;
+
+                    gameManager.momentumTransferMoves.Add(destinationObj);*/
                 }
 
             }
@@ -154,7 +165,7 @@ public class RobotMoveController : ObjectMoveController
             //Debug.LogWarning("EMPTY MOVE");
         }
 
-        ChainPush(dir);
+        //ChainPush(dir);
     }
 
     public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
@@ -172,6 +183,21 @@ public class RobotMoveController : ObjectMoveController
         Turn();
     }
 
+    public override void Hit(List<MoveTo> emptyDestintionTileMoves)
+    {
+
+        PushInfo pushInfo = new PushInfo();
+        pushInfo.pushedBy = null;
+        pushInfo.pushOrigin = gameObject.GetInstanceID();
+        pushInfo.indexInChainPush = -1;
+        pushInfo.pushDir = dir;
+
+        //pushedByInfos.Add(dir, pushInfo);
+        pushInfoThis = pushInfo;
+        pushedByInfos.Add(pushInfo.pushDir, pushInfo);
+        TryToPush(pushInfo);
+    }
+
 
     private void Turn()
     {
@@ -186,7 +212,7 @@ public class RobotMoveController : ObjectMoveController
 
     }
 
-    public override void ChainPush(Vector3 dir)
+    /*public override void ChainPush(Vector3 dir)
     {
         if (movementReserve.pushed)
             OnOff(false);
@@ -210,8 +236,7 @@ public class RobotMoveController : ObjectMoveController
                 turnAfterMoving = true;
             }
         }
-        
-    }
+    }*/
 
     private void OnOff(bool newState)
     {

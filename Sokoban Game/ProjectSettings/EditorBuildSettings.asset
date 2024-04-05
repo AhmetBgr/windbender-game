@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OverWorld.unity
+    path: Assets/Scenes/Levels/-OverWorld.unity
     guid: 3c9d4f744a4d72f458e37adecf6e2f31
   - enabled: 1
     path: Assets/Scenes/Levels/1-1.unity
@@ -60,9 +60,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Button 04 wind cutting.unity
     guid: c92f9ff97a6a0e8468391ecea7d3068d
   - enabled: 1
-    path: Assets/Scenes/1-3ATest.unity
-    guid: acce69094c72f2749ae843263ba42015
-  - enabled: 1
     path: Assets/Scenes/Levels/Level_3_A.unity
     guid: 19eb2eb19d2f8be40aef3a407e210ffc
   - enabled: 1
@@ -74,4 +71,46 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/square wind sources.unity
     guid: aeeaa16ac3d3ea24582d2c3a00a3c6dd
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 02ATest.unity
+    guid: 5e0a0cc97ff4e1f4eb4ac2efa94647b8
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 02ATest 1.unity
+    guid: 209988bb922327146be1a8d2de9d0248
+  - enabled: 1
+    path: Assets/Scenes/Levels/barrel 04.unity
+    guid: b8e843e44fb174d43bebcb6772fb0c52
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop Test.unity
+    guid: ce968b779aac70f468dc50452b219d1b
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop Test 1.unity
+    guid: 264e7c4865c0c594a8b502720ebce08f
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop test 3.unity
+    guid: 9bea8df109d2efd44ad468ed0f9d27ea
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop test 4.unity
+    guid: a795efd4b058fa5468b3d46f7a2d26b8
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop test 5.unity
+    guid: 732ec94da840e69489d6729d82eeee95
+  - enabled: 1
+    path: Assets/Scenes/Levels/square wind sourcesA.unity
+    guid: beb46958c03ea104d9be496a236ea1f8
+  - enabled: 1
+    path: Assets/Scenes/Levels/robot 1.unity
+    guid: b118d299e4967f845bf51ecde475e8de
+  - enabled: 1
+    path: Assets/Scenes/Levels/robot 2.unity
+    guid: 094d6a9ea53772444bc81174bcfb8648
+  - enabled: 1
+    path: Assets/Scenes/Levels/robot 3.unity
+    guid: c52772fbd749c514daf5e601f7ffa74e
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button 05.unity
+    guid: 8884c5110029ff245ab307bcf86a53d9
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop test 6.unity
+    guid: 161de325492fbb24ebc2a4e2ac5b1f5f
   m_configObjects: {}

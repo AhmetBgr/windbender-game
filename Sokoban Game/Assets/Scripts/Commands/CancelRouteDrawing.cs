@@ -26,6 +26,7 @@ public class CancelRouteDrawing : Command
 
         gameManager.curWindSource.windSP = GameManager.instance.curWindSource.defWindSP;
         ///gameManager.curWindSource.route.Clear();
+        gameManager.UpdateValidPositions(Vector3.zero, none: true);
         gameManager.curWindSource = null;
         gameManager.state = GameState.Paused;
         executionTime = Time.time;
@@ -46,7 +47,7 @@ public class CancelRouteDrawing : Command
         // Undo route tile manager stuff
         routeManager.route = new List<Vector3>();
         routeManager.route.AddRange(route);
-        routeManager.UpdateValidPositions(route[route.Count - 1]);
+        GameManager.instance.UpdateValidPositions(route[route.Count - 1]);
         routeManager.DrawRoute(route);
     }
 }

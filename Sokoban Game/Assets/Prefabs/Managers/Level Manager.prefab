@@ -53,7 +53,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2cf7261452b1fa54bb5ad7d4497cace3, type: 2}
   - {fileID: 11400000, guid: 6188728bda09fe449aa184bfa08d4801, type: 2}
   - {fileID: 11400000, guid: aec2c216be4afd74db70f4c1cc7381e8, type: 2}
-  curlevel: {fileID: 0}
+  previousLevel: {fileID: 0}
+  previousLevelPos: {x: 0, y: 0, z: 0}
+  curLevel: {fileID: 0}
+  are02Data: {fileID: 11400000, guid: c2a8fc15ca4865e439af824fc37875e4, type: 2}
 --- !u!114 &3928305870489373143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,4 +69,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f51928962cfbe44b893a4be2a92ebe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: 0

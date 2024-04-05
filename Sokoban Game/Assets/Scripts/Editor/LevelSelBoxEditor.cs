@@ -3,17 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-/*[CustomEditor(typeof(LevelSelectionBox))]
+[CustomEditor(typeof(LevelSelectionBox))]
+[CanEditMultipleObjects]
 public class LevelSelBoxEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        LevelSelectionBox t = target as LevelSelectionBox;
+        //do this first to make sure you have the latest version
+        //serializedObject.Update();
 
-        if(t.text != null && t.level != null)
+        DrawDefaultInspector();
+
+        LevelSelectionBox t = target as LevelSelectionBox;
+        
+
+        if (t.text != null && t.level != null)
+        {
             t.text.text = t.level.name;
-        if(t.debugNameText != null && t.level != null)
-            t.debugNameText.text = t.level.debugName;
+            EditorUtility.SetDirty(t.text);
+        }
+            
+        if (t.debugNameText != null && t.level != null)
+        {
+            t.debugNameText.text = EditorGUILayout.TextField("name: ", t.level.debugName);
+            EditorUtility.SetDirty(t.debugNameText);
+        }
+
+        //do this last!  it will loop over the properties on your object and apply any it needs to, no if necessary!
+        //serializedObject.ApplyModifiedProperties();
     }
+
 }
-*/
