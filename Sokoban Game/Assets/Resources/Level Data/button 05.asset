@@ -15,8 +15,8 @@ MonoBehaviour:
   name: 10
   debugName: Button 05
   sceneIndex: 9
-  state: 1
-  seen: 0
+  state: 2
+  seen: 1
   justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:

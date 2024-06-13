@@ -62,7 +62,7 @@ public class RouteManager : MonoBehaviour
         //GameManager.instance.OnStateChange += ClearTiles;
         //GameManager.instance.OnTurnStart2 += ClearTiles;
         GameManager.instance.OnUndo += CancelCoroutine;
-        GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
+        //GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
     }
 
     private void OnDisable()
@@ -70,7 +70,7 @@ public class RouteManager : MonoBehaviour
         //GameManager.instance.OnStateChange += ClearTiles;
         //GameManager.instance.OnTurnStart2 -= ClearTiles;
         GameManager.instance.OnUndo -= CancelCoroutine;
-        GameManager.instance.OnSpeedChanged -= UpdateAnimSpeed;
+        //GameManager.instance.OnSpeedChanged -= UpdateAnimSpeed;
     }
     public void StartDrawing(Vector3 pos)
     {
@@ -385,10 +385,10 @@ public class RouteManager : MonoBehaviour
 
     public void WindTransition(List<Vector3> route, bool isLooping = false)
     {
-        float disappearDur = GameManager.instance.realTurnDur / 3;
-        float appearDur = GameManager.instance.realTurnDur - disappearDur;
+        float disappearDur = GameManager.instance.defTurnDur / 3;
+        float appearDur = GameManager.instance.defTurnDur - disappearDur;
         Debug.LogWarning("dissappear duration: " + disappearDur);
-        Debug.LogWarning("Real Turn duration: " + GameManager.instance.realTurnDur);
+        Debug.LogWarning("Real Turn duration: " + GameManager.instance.defTurnDur);
         Debug.LogWarning("def turn duration: " + GameManager.instance.defTurnDur);
         Debug.LogWarning("game Speed: " + GameManager.instance.gameSpeed);
         
@@ -397,12 +397,12 @@ public class RouteManager : MonoBehaviour
         routine = Utility.ChangeTilemapColor(tilemap, clearColor, disappearDur, onCompleteCallBack: () => {
             tilemap.transform.position = new Vector3(0f, 0.1f, 0f);
             DeleteTiles();
-            DrawWindRoute(route, isLooping);
+            //DrawWindRoute(route, isLooping);
         });
         StartCoroutine(routine);
 
-        routine = Utility.ChangeTilemapColor(tilemap, windColor, appearDur, delay: disappearDur);
-        StartCoroutine(routine);
+        //routine = Utility.ChangeTilemapColor(tilemap, windColor, appearDur, delay: disappearDur);
+        //StartCoroutine(routine);
 
     }
 
@@ -504,7 +504,7 @@ public class RouteManager : MonoBehaviour
 
         Color clearColor = new Color(1f, 1f, 1f, 0f);
         
-        routine = Utility.ChangeTilemapColor(tilemap, clearColor, GameManager.instance.realTurnDur / 2, onCompleteCallBack: () =>
+        routine = Utility.ChangeTilemapColor(tilemap, clearColor, GameManager.instance.defTurnDur / 2, onCompleteCallBack: () =>
         {
             tilemap.transform.position = Vector3.zero;
             tilemap.ClearAllTiles();

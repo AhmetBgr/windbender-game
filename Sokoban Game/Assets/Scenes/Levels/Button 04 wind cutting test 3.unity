@@ -212,7 +212,7 @@ PrefabInstance:
     - target: {fileID: 7440307854305903695, guid: 7f4f72485d306d64480c8d43cd83e7db,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -1356,21 +1356,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4946448198038423325, guid: b35881fbc28d0234f89edf3bb4daf7ae,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4946448198038423325, guid: b35881fbc28d0234f89edf3bb4daf7ae,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4946448198038423325, guid: b35881fbc28d0234f89edf3bb4daf7ae,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4946448198038423325, guid: b35881fbc28d0234f89edf3bb4daf7ae,
-        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -1927,11 +1912,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 3499366883564684104, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -43.30005
-      objectReference: {fileID: 0}
     - target: {fileID: 4108662786375789212, guid: 4ad9f724f77ee3945937fdf09c14cf40,
         type: 3}
       propertyPath: m_Name
@@ -2046,11 +2026,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6945438988815373097, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -31.411133
       objectReference: {fileID: 0}
     - target: {fileID: 7756595403816360810, guid: 4ad9f724f77ee3945937fdf09c14cf40,
         type: 3}

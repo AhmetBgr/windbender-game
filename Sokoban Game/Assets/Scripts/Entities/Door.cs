@@ -60,7 +60,7 @@ public class Door : MonoBehaviour
             else if(route.Contains(transform.position) && !isOpen ){
 
                 intentedCutIndex = route.FindIndex(i => i == transform.position);
-                GameManager.WindRouteDeformInfo windRouteDeformInfo = gameManager.windRouteDeformInfo;
+                WindRouteDeformInfo windRouteDeformInfo = gameManager.windRouteDeformInfo;
                 if (intentedCutIndex >= 0 && (windRouteDeformInfo.cutIndex == -1 || intentedCutIndex < windRouteDeformInfo.cutIndex)){
                     gameManager.windRouteDeformInfo.cutIndex = intentedCutIndex;
                     gameManager.windRouteDeformInfo.door = this;

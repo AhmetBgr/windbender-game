@@ -16,7 +16,7 @@ MonoBehaviour:
   debugName: Level_3_B
   sceneIndex: 6
   state: 1
-  seen: 0
+  seen: 1
   justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:

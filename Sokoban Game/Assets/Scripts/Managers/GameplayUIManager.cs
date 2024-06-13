@@ -24,6 +24,9 @@ public class GameplayUIManager : MonoBehaviour
         GameManager.instance.OnTurnCountChange += UpdateTurnCounterText;
         GameManager.instance.OnDrawingCompleted += ToggleBlowButton;
         GameManager.instance.OnStateChange += TogglePausedText;
+        GameManager.instance.OnPlannedSpeedChanged += UpdateGameSpeedText;
+        //GameManager.instance.OnStateChange += TryToggleGameSpeedButton;
+
         //GameManager.instance.OnStateChange += ToggleRouteDrawingPanel;
     }
     private void OnDisable()
@@ -31,6 +34,9 @@ public class GameplayUIManager : MonoBehaviour
         GameManager.instance.OnTurnCountChange -= UpdateTurnCounterText;
         GameManager.instance.OnDrawingCompleted -= ToggleBlowButton;
         GameManager.instance.OnStateChange -= TogglePausedText;
+        GameManager.instance.OnPlannedSpeedChanged -= UpdateGameSpeedText;
+
+        //GameManager.instance.OnStateChange -= TryToggleGameSpeedButton;
         //GameManager.instance.OnStateChange += ToggleRouteDrawingPanel;
     }
 
@@ -45,8 +51,9 @@ public class GameplayUIManager : MonoBehaviour
         undoButton.onClick.AddListener(GameManager.instance.Undo);
         
         gameSpeedButton.onClick.AddListener(() => GameManager.instance.SetNextGameSpeed());
-        gameSpeedButton.onClick.AddListener(UpdateGameSpeedText);
-        UpdateGameSpeedText();
+        //gameSpeedButton.onClick.AddListener(UpdateGameSpeedText);
+        GameManager.instance.UpdatePlannedGameSpeed();
+        UpdateGameSpeedText(GameManager.instance.plannedGameSpeed);
         //waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
         EventTrigger trigger = waitButton.GetComponent<EventTrigger>();
 
@@ -67,6 +74,12 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         pausedPanel.SetActive(true);
+    }
+
+    private void TryToggleGameSpeedButton(GameState from, GameState to) {
+        bool active = to == GameState.Running;
+
+        gameSpeedButton.gameObject.SetActive(active);
     }
 
     private void OnWaitButtonDownDelegate(PointerEventData data)
@@ -93,9 +106,9 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
-    private void UpdateGameSpeedText()
+    private void UpdateGameSpeedText(float value)
     {
-        gameSpeedText.text = GameManager.instance.gameSpeed.ToString() + "x";
+        gameSpeedText.text = value.ToString() + "x";
     }
 
     public void OnUndoButtonDown()

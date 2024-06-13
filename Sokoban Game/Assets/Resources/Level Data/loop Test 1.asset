@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
   m_Name: loop Test 1
   m_EditorClassIdentifier: 
-  name: loop Test 1
+  name: 6B
   debugName: loop Test 1
   sceneIndex: 6
   state: 1

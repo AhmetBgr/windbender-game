@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   areaObj: {fileID: 919132149155446097, guid: 40de54c07fe10ec4a86ced3ae501f2c1, type: 3}
   unlocker: {fileID: 11400000, guid: d24ff8c10f974154da613b29e93b6107, type: 2}
-  isUnlocked: 0
+  isUnlocked: 1

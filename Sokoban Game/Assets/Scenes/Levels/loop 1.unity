@@ -1386,6 +1386,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9012022720712478574, guid: 6cd43ab7f83c17844a4b6de54960e528,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9012022720712478574, guid: 6cd43ab7f83c17844a4b6de54960e528,
+        type: 3}
       propertyPath: sharedProfile
       value: 
       objectReference: {fileID: 11400000, guid: 43d93bea3c312154abcc33d1d15e4702,
@@ -4958,11 +4963,6 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4280630108
       objectReference: {fileID: 0}
-    - target: {fileID: 3499366883564684104, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -43.30005
-      objectReference: {fileID: 0}
     - target: {fileID: 4108662786375789212, guid: 4ad9f724f77ee3945937fdf09c14cf40,
         type: 3}
       propertyPath: m_Name
@@ -5073,11 +5073,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6945438988815373097, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -31.411133
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ad9f724f77ee3945937fdf09c14cf40, type: 3}
@@ -5089,6 +5084,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5134238524940700379, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5728126160888509372, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
         type: 3}
       propertyPath: m_Name
@@ -5124,30 +5124,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7364637215218047534, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0.0054626465
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364637215218047534, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.5276107
+      objectReference: {fileID: 0}
     - target: {fileID: 8893220656819203381, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
         type: 3}
       propertyPath: m_SortingLayer
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8893220656819203381, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.a
-      value: 0.6666667
-      objectReference: {fileID: 0}
-    - target: {fileID: 8893220656819203381, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8893220656819203381, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 0.94509804
-      objectReference: {fileID: 0}
-    - target: {fileID: 8893220656819203381, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.a
-      value: 0.6666667
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

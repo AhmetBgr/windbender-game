@@ -16,13 +16,13 @@ public class ArrowController : MonoBehaviour
         gameManager = GameManager.instance;
         //gameManager.OnPlay += AnimateArrow;
         gameManager.OnUndo += KillAnimation;
-        gameManager.OnSpeedChanged += UpdateAnimSpeed;
+        //gameManager.OnSpeedChanged += UpdateAnimSpeed;
     }
 
     private void OnDisable() {
         //gameManager.OnPlay -= AnimateArrow;
         gameManager.OnUndo -= KillAnimation;
-        gameManager.OnSpeedChanged -= UpdateAnimSpeed;
+        //gameManager.OnSpeedChanged -= UpdateAnimSpeed;
     }
 
     public void SetPositions(List<Vector3> windMoveroute){
@@ -82,7 +82,7 @@ public class ArrowController : MonoBehaviour
         //Get old Positions
         lr.GetPositions(positions);
 
-        origin.DOPath(positions, lr.positionCount * gameManager.realTurnDur).SetEase(Ease.Linear); 
+        origin.DOPath(positions, lr.positionCount * gameManager.defTurnDur).SetEase(Ease.Linear); 
         //.SetDelay(gameManager.defTurnDur);
 
         /*if(coroutine != null){

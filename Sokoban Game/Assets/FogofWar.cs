@@ -35,15 +35,26 @@ public class FogofWar : MonoBehaviour
                 area02.SetActive(false);
             }
             else {
-                var main2 = areaP02.main;
-                var forceOverLifetime2 = areaP02.forceOverLifetime;
-
-                main2.loop = false;
-                forceOverLifetime2.enabled = true;
-
-                area02Data.SetUnlocked();
+                UnlockArea(areaP02);
             }
         }
+    }
+
+    private void UnlockArea(ParticleSystem areaP, float delay = 0f) {
+        StartCoroutine(_UnlockArea(areaP, delay));
+    }
+
+    private IEnumerator _UnlockArea(ParticleSystem areaP, float delay = 0f) {
+        yield return new WaitForSeconds(delay);
+
+        var main2 = areaP.main;
+        var forceOverLifetime2 = areaP.forceOverLifetime;
+        var renderer = area02.GetComponent<ParticleSystemRenderer>();
+
+        main2.loop = false;
+        forceOverLifetime2.enabled = true;
+        renderer.sortingOrder = 0;
+        area02Data.SetUnlocked();
     }
 
 }

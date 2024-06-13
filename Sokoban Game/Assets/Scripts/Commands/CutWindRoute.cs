@@ -8,12 +8,12 @@ public class CutWindRoute : WindDeform{
     public int cutIndex;
     public int cutPos;
 
-    public CutWindRoute(RouteManager routeManager,  List<Vector3> route, int cutIndex, ParticleSystem cutEffect = null) //, int cutLenght ,Door door,
+    public CutWindRoute(RouteManager routeManager,  List<Vector3> route, int cutIndex) //, int cutLenght ,Door door,
     {
         this.routeManager = routeManager;
         this.route = route;
         this.cutIndex = cutIndex;
-        this.cutEffect = cutEffect;
+        //this.cutEffect = cutEffect;
         routeBeforeDeforming.AddRange(route);
     }
 
@@ -55,8 +55,9 @@ public class CutWindRoute : WindDeform{
         gameManager.windRouteDeformInfo.cutIndex = -1;
 
         // Redraws the wind route
-        routeManager.DeleteTiles();
-        routeManager.DrawWindRoute(route);
+        gameManager.wind.DrawWind();
+        //routeManager.DeleteTiles();
+        //routeManager.DrawWindRoute(route);
 
     }
 }

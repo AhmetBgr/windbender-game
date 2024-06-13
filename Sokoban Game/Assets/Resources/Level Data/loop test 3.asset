@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: loop test 3
   m_EditorClassIdentifier: 
   name: 11
-  debugName: barrel 01
+  debugName: loop test 3
   sceneIndex: 6
-  state: 1
-  seen: 0
-  justUnlocked: 0
+  state: 2
+  seen: 1
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: a39a36c485abceb4fbc0de3f23426dd2, type: 2}

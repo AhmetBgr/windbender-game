@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
   m_Name: barrel 03
   m_EditorClassIdentifier: 
-  name: 13
-  debugName: barrel 03
-  sceneIndex: 6
+  name: 17
+  debugName: barrel 02ATest 1
+  sceneIndex: 23
   state: 1
-  seen: 0
+  seen: 1
   justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:

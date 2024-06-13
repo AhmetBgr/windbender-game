@@ -11,12 +11,17 @@ public class SettingsData {
 public class SettingsManager : MonoBehaviour {
     [HideInInspector] public SettingsData settingsData;
 
+    public SettingsDataHolder settingsHolder;
+
     private GameManager gameManager;
 
     private string fileName = "settings.txt";
 
     public delegate void OnSettingsDataLoadedDelegate(SettingsData settingsData);
     public static event OnSettingsDataLoadedDelegate OnSettingsDataLoaded;
+
+    public delegate void OnGameSpeedDataLoadedDelegate(float gamespeed);
+    public static event OnGameSpeedDataLoadedDelegate OnGameSpeedDataLoaded;
 
     public void Awake()
     {
@@ -58,12 +63,15 @@ public class SettingsManager : MonoBehaviour {
 
         Debug.LogWarning("Settings loaded");
 
+        settingsHolder.settings = settingsData;
+
         if (OnSettingsDataLoaded!= null)
         {
             // Apply loaded data
             OnSettingsDataLoaded(settingsData);
         }
 
+        OnGameSpeedDataLoaded?.Invoke(settingsData.gameSpeed);
     }
 
     private void WriteToFile(string fileName, string json)
@@ -101,8 +109,8 @@ public class SettingsManager : MonoBehaviour {
     private void SaveGameSpeed(float gameSpeed)
     {
         settingsData.gameSpeed = gameSpeed;
+        settingsHolder.settings = settingsData;
         SaveSettingsData();
-        
     }
 
     private string GetFilePath(string fileName)

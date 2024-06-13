@@ -4991,6 +4991,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9141704347974451262, guid: 1b69a39892a047840b3b8180a79bcace,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9141704347974451263, guid: 1b69a39892a047840b3b8180a79bcace,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5203,6 +5208,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5143347199672643787, guid: d0bb5467b20c06b4a8fb8be94f9d94c7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d0bb5467b20c06b4a8fb8be94f9d94c7, type: 3}
@@ -5283,6 +5293,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108662786375789212, guid: 4ad9f724f77ee3945937fdf09c14cf40,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4108662786375789213, guid: 4ad9f724f77ee3945937fdf09c14cf40,
         type: 3}
@@ -5419,11 +5434,6 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 6945438988815373097, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7201261342693208471, guid: 4ad9f724f77ee3945937fdf09c14cf40,
         type: 3}
       propertyPath: m_IsActive
@@ -5467,6 +5477,12 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ad9f724f77ee3945937fdf09c14cf40, type: 3}
+--- !u!1 &4108662786254116459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1038772027985288007, guid: 4ad9f724f77ee3945937fdf09c14cf40,
+    type: 3}
+  m_PrefabInstance: {fileID: 4108662786254116458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5728126160080587596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5490,6 +5506,11 @@ PrefabInstance:
       propertyPath: turnCountText
       value: 
       objectReference: {fileID: 111880755}
+    - target: {fileID: 5728126160888509373, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
+        type: 3}
+      propertyPath: gameSpeedButton
+      value: 
+      objectReference: {fileID: 4108662786254116459}
     - target: {fileID: 5728126160888509374, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
         type: 3}
       propertyPath: m_RootOrder

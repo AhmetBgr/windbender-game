@@ -11,14 +11,14 @@ public class RestoreWindRoute : WindDeform
     //public int cutLenght;
     public bool isLooping;
 
-    public RestoreWindRoute(RouteManager routeManager, List<Vector3> route, int cutIndex, int cutLenght, ParticleSystem cutEffect = null)
+    public RestoreWindRoute(RouteManager routeManager, List<Vector3> route, int cutIndex, int cutLenght)
     {
         this.routeManager = routeManager;
         this.route = route;
         this.cutIndex = cutIndex;
         this.cutLenght = cutLenght;
         routeBeforeDeforming.AddRange(route);
-        this.cutEffect = cutEffect;
+        //this.cutEffect = cutEffect;
     }
 
     // Restores wind route linearly after cut position.
@@ -52,8 +52,10 @@ public class RestoreWindRoute : WindDeform
         }
 
         // Redraws the wind route
-        routeManager.DeleteTiles();
-        routeManager.DrawWindRoute(route);
+        GameManager.instance.wind.DrawWind();
+
+        //routeManager.DeleteTiles();
+        //routeManager.DrawWindRoute(route);
 
         cutLenght = 0;
     }
@@ -68,7 +70,9 @@ public class RestoreWindRoute : WindDeform
         gameManager.windRouteDeformInfo.cutIndex = cutIndex;
 
         // Redraws the wind route
-        routeManager.DeleteTiles();
-        routeManager.DrawWindRoute(route);
+        gameManager.wind.DrawWind();
+
+        //routeManager.DeleteTiles();
+        //routeManager.DrawWindRoute(route);
     }
 }

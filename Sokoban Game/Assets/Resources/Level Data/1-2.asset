@@ -16,7 +16,7 @@ MonoBehaviour:
   debugName: 1-2
   sceneIndex: 2
   state: 1
-  seen: 0
+  seen: 1
   justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:

@@ -13446,11 +13446,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: UIManager, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: 3499366883564684104, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -43.30005
-      objectReference: {fileID: 0}
     - target: {fileID: 4108662786375789212, guid: 4ad9f724f77ee3945937fdf09c14cf40,
         type: 3}
       propertyPath: m_Name
@@ -13571,11 +13566,6 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 491403177}
-    - target: {fileID: 6945438988815373097, guid: 4ad9f724f77ee3945937fdf09c14cf40,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -31.411133
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ad9f724f77ee3945937fdf09c14cf40, type: 3}

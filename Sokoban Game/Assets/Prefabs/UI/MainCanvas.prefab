@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsData:
     gameSpeed: 0
+  settingsHolder: {fileID: 11400000, guid: 02270f198067e5d4e8cd6ac843d5aea2, type: 2}
 --- !u!114 &9102775044287659655
 MonoBehaviour:
   m_ObjectHideFlags: 0

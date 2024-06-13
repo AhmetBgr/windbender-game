@@ -70,7 +70,7 @@ public class ObjectMoveController : MonoBehaviour
         gameManager = GameManager.instance;
         GameManager.instance.OnTurnStart1 += ReserveMovement;
         GameManager.instance.OnTurnStart2 += FindNeighbors;
-        GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
+        //GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
         gameManager.OnHitsChecked += ValidatePush;
 
     }
@@ -79,7 +79,7 @@ public class ObjectMoveController : MonoBehaviour
     {
         GameManager.instance.OnTurnStart1 -= ReserveMovement;
         GameManager.instance.OnTurnStart2 -= FindNeighbors;
-        GameManager.instance.OnSpeedChanged -= UpdateAnimSpeed;
+        //GameManager.instance.OnSpeedChanged -= UpdateAnimSpeed;
         gameManager.OnHitsChecked -= ValidatePush;
     }
 
@@ -90,7 +90,7 @@ public class ObjectMoveController : MonoBehaviour
         int index = -1; // index in wind route
         bool intentToMove = true;
         bool pushed = false;
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y, 0);
+        Vector3 pos = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
         Vector3 previousDir = dir;
         if (route.Contains(pos)) // Check if the object is in the wind route
         {
@@ -226,7 +226,7 @@ public class ObjectMoveController : MonoBehaviour
     {
         
         Vector3 startPos = transform.position;
-        tween = transform.DOMove(startPos + dir, GameManager.instance.realTurnDur).SetEase(Ease.InOutQuad); // Ease.Linear
+        tween = transform.DOMove(startPos + dir, GameManager.instance.defTurnDur).SetEase(Ease.InOutQuad); // Ease.Linear
         hasSpeed = true;
         tween.timeScale = 1;
     }
@@ -234,7 +234,7 @@ public class ObjectMoveController : MonoBehaviour
     public virtual void FailedMove()
     {
         
-        tween = transform.DOPunchPosition(dir / 10, GameManager.instance.realTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
+        tween = transform.DOPunchPosition(dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
         hasSpeed = false;
         tween.timeScale = 1;
     }
@@ -523,13 +523,5 @@ public class ObjectMoveController : MonoBehaviour
     public virtual void SetState(State state)
     {
         this.curState = state;
-    }
-
-    public virtual void UpdateAnimSpeed(float gameSpeed)
-    {
-        float previousGameSpeed = GameManager.instance.GetPreviousGameSpeed();
-
-        if (tween == null) return;
-        tween.timeScale = gameSpeed / previousGameSpeed;
     }
 }

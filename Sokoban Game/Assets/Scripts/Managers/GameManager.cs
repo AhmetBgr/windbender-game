@@ -19,31 +19,7 @@ public class GameManager : MonoBehaviour{
     }
 
     public List<WindRoute> windRoutes = new List<WindRoute>();*/
-    public struct WindRouteDeformInfo {
-        public Door door;
-        public int cutIndex;
-        public int cutLenght;
-        public bool restore;
-        public Vector3 restoreDir;
 
-        public WindRouteDeformInfo(Door door, int cutIndex, int cutLenght){ //, Vector3 restoreDir
-            this.cutIndex = cutIndex;
-            this.door = door;
-            this.cutLenght = cutLenght;
-            this.restore = false;
-            this.restoreDir = Vector3.right;
-        }
-    }
-
-    [HideInInspector] public RouteManager routeManager;
-    [HideInInspector] public Cursor cursor;
-
-    public ArrowController arrowController;
-    public GameObject[] validPositionSprites;
-    public GameObject[] validRemovePositionSprites;
-    public Color validPosAlternateColor;
-    public WindSourceController curWindSource;
-    public ParticleSystem cutEffect;
     public List<Vector3> route = new List<Vector3>();
     public List<Vector3> windMoveRoute = new List<Vector3>();
     //public List<Door> _routeCuttingRequests = new List<Door>();
@@ -62,39 +38,17 @@ public class GameManager : MonoBehaviour{
     public List<ObjectDestination> destinations = new List<ObjectDestination>();// Stores all destinations in the level to check for level completion
     public List<WindSourceController> windSources = new List<WindSourceController>();
 
-    public delegate void OnTurnStartDelegate(List<Vector3> route);
-    public event OnTurnStartDelegate OnTurnStart1;
-    public event OnTurnStartDelegate OnTurnStart2;
+    [HideInInspector] public RouteManager routeManager;
+    [HideInInspector] public Cursor cursor;
 
-    public delegate void OnTurnEndDelegate();
-    public event OnTurnEndDelegate OnTurnEnd;
-
-    public delegate void OnPlayDelegate();
-    public event OnPlayDelegate OnPlay;
-
-    public delegate void OnLevelCompleteDelegate();
-    public event OnLevelCompleteDelegate OnLevelComplete;
-
-    public delegate void OnTurnCountChangeDelegate(int turnCount);
-    public event OnTurnCountChangeDelegate OnTurnCountChange;
-
-    public delegate void OnStateChangeDelegate(GameState from, GameState to);
-    public event OnStateChangeDelegate OnStateChange;
-
-    public delegate void OnUndoDelegate();
-    public event OnUndoDelegate OnUndo;
-
-    public delegate void OnDrawingCompletedDelegate(bool value);
-    public event OnDrawingCompletedDelegate OnDrawingCompleted; // On drawing completed but not wind blowing started
-
-    public delegate void OnWindRouteGeneratedDelegate(List<Vector3> route);
-    public event OnWindRouteGeneratedDelegate OnWindRouteGenerated;
-
-    public delegate void OnSpeedChangedDelegate(float gameSpeed);
-    public event OnSpeedChangedDelegate OnSpeedChanged;
-
-    public delegate void OnHitsCheckedDelegate(List<MoveTo> emptyDestintionMoves);
-    public event OnHitsCheckedDelegate OnHitsChecked;
+    public ArrowController arrowController;
+    public GameObject[] validPositionSprites;
+    public GameObject[] validRemovePositionSprites;
+    public Color validPosAlternateColor;
+    public WindSourceController curWindSource;
+    //public ParticleSystem cutEffect;
+    public SettingsDataHolder settingsHolder;
+    public Wind wind;
 
     private SetRoute previousRoute;
     private GameState _state;
@@ -115,8 +69,16 @@ public class GameManager : MonoBehaviour{
     private Vector3 cursorPos;
     public Vector3 windMoveDir;
     public float gameSpeed = 1;
+
+    private float _plannedGameSpeed;
+    public float plannedGameSpeed {
+        get { return _plannedGameSpeed; }
+        set {
+            _plannedGameSpeed = value;
+            OnPlannedSpeedChanged?.Invoke(value);
+        }
+    }
     private int curGameSpeedIndex = 1;
-    public float realTurnDur;
     public float defTurnDur = 0.5f;
     private float t = 0;
 
@@ -149,6 +111,43 @@ public class GameManager : MonoBehaviour{
     }
     public int defTurnCount = 0;
 
+    public delegate void OnTurnStartDelegate(List<Vector3> route);
+    public event OnTurnStartDelegate OnTurnStart1;
+    public event OnTurnStartDelegate OnTurnStart2;
+
+    public delegate void OnTurnEndDelegate();
+    public event OnTurnEndDelegate OnTurnEnd;
+
+    public delegate void OnPlayDelegate();
+    public event OnPlayDelegate OnPlay;
+
+    public delegate void OnLevelCompleteDelegate();
+    public event OnLevelCompleteDelegate OnLevelComplete;
+
+    public delegate void OnTurnCountChangeDelegate(int turnCount);
+    public event OnTurnCountChangeDelegate OnTurnCountChange;
+
+    public delegate void OnStateChangeDelegate(GameState from, GameState to);
+    public event OnStateChangeDelegate OnStateChange;
+
+    public delegate void OnUndoDelegate();
+    public event OnUndoDelegate OnUndo;
+
+    public delegate void OnDrawingCompletedDelegate(bool value);
+    public event OnDrawingCompletedDelegate OnDrawingCompleted; // On drawing completed but not wind blowing started
+
+    public delegate void OnWindRouteGeneratedDelegate(List<Vector3> route);
+    public event OnWindRouteGeneratedDelegate OnWindRouteGenerated;
+
+    public delegate void OnSpeedChangedDelegate(float gameSpeed);
+    public event OnSpeedChangedDelegate OnSpeedChanged;
+
+    public delegate void OnPlannedSpeedChangedDelegate(float gameSpeed);
+    public event OnPlannedSpeedChangedDelegate OnPlannedSpeedChanged;
+
+    public delegate void OnHitsCheckedDelegate(List<MoveTo> emptyDestintionMoves);
+    public event OnHitsCheckedDelegate OnHitsChecked;
+
     public static GameManager instance = null;
 
     void Awake(){
@@ -163,12 +162,12 @@ public class GameManager : MonoBehaviour{
 
     private void OnEnable(){
         SceneLoader.OnSceneLoad += ResetVariables;
-        SettingsManager.OnSettingsDataLoaded += SetGameSpeed;
+        SettingsManager.OnGameSpeedDataLoaded += UpdateGameSpeed;
     }
 
     private void OnDisable(){
         SceneLoader.OnSceneLoad -= ResetVariables;
-        SettingsManager.OnSettingsDataLoaded -= SetGameSpeed;
+        SettingsManager.OnGameSpeedDataLoaded -= UpdateGameSpeed;
     }
 
     private void Start(){
@@ -176,7 +175,7 @@ public class GameManager : MonoBehaviour{
         cursor = Cursor.instance;
         turnCount = 0;
         state = GameState.Paused;
-        realTurnDur = defTurnDur / gameSpeed;
+        //realTurnDur = defTurnDur / gameSpeed;
     }
     
     private void LateUpdate() {
@@ -186,16 +185,19 @@ public class GameManager : MonoBehaviour{
     }
 
     void Update(){
-        if (state == GameState.Running)
-        {   
+        if (state == GameState.Running){
+            if (plannedGameSpeed != gameSpeed)
+                SetGameSpeed(plannedGameSpeed);
+
             // Start new turn
-            t += Time.deltaTime* gameSpeed;
-            
+            //t += Time.deltaTime* gameSpeed;
+            t += Time.deltaTime;
+
             if (t >= defTurnDur){
                 turnCount--;
                 t = 0;
                 turnID++;
-                realTurnDur = defTurnDur / gameSpeed;
+                //realTurnDur = defTurnDur / gameSpeed;
                 
                 emptyDestinationMoves.Clear();
                 momentumTransferMoves.Clear();
@@ -220,7 +222,8 @@ public class GameManager : MonoBehaviour{
 
                 if (turnCount == 0){
                     routeManager.ClearTiles();
-                    cutEffect.gameObject.SetActive(false);
+                    //cutEffect.gameObject.SetActive(false);
+                    wind.EndWind(defTurnDur);
                 }
 
 
@@ -285,7 +288,7 @@ public class GameManager : MonoBehaviour{
                     defTurnCount = turnCount;
                 }
             
-                Invoke("OnTurnEndEvent", realTurnDur - (realTurnDur / 15));
+                Invoke("OnTurnEndEvent", defTurnDur - (defTurnDur / 15));
             
                 if(isWindRouteMoving){
                     // Moves looped wind 
@@ -294,8 +297,9 @@ public class GameManager : MonoBehaviour{
                         route[i] += windMoveDir;
                     }
                     // TODO: kill this tween on undo
-                    arrowController.origin.transform.DOMove(arrowController.origin.transform.position + windMoveDir, realTurnDur).SetEase(Ease.Linear);
-                    routeManager.transform.DOMove(routeManager.transform.position + windMoveDir, realTurnDur).SetEase(Ease.Linear);
+                    arrowController.origin.transform.DOMove(arrowController.origin.transform.position + windMoveDir, defTurnDur).SetEase(Ease.Linear);
+                    //routeManager.transform.DOMove(routeManager.transform.position + windMoveDir, defTurnDur).SetEase(Ease.Linear);
+                    wind.transform.DOMove(wind.transform.position + windMoveDir, defTurnDur).SetEase(Ease.Linear);
                 }
 
                 return;
@@ -493,6 +497,9 @@ public class GameManager : MonoBehaviour{
             turnCount = route.Count;
         }
         else if( state == GameState.Paused){
+            if (gameSpeed != 1)
+                SetGameSpeed(1);
+
             // Starts route drawing if player clicks on a wind source
             if (Input.GetMouseButtonDown(0)){
                 // Raycast setup
@@ -545,7 +552,7 @@ public class GameManager : MonoBehaviour{
 
     public void CutWindRoute(int index){
         Vector3 cutPos = route[index];
-        CutWindRoute cutWindRoute = new CutWindRoute(routeManager, route, index, cutEffect);
+        CutWindRoute cutWindRoute = new CutWindRoute(routeManager, route, index);
         cutWindRoute.Execute();
 
         // Redraws the wind route
@@ -555,13 +562,15 @@ public class GameManager : MonoBehaviour{
         routeManager.DeleteTiles();
 
         if (route.Count == 0) return;
-        
-        routeManager.DrawWindRoute(route2, ignoreLastPos: true);
+
+        wind.DrawWind();
+
+        //routeManager.DrawWindRoute(route2, ignoreLastPos: true);
     }
 
     public void RestoreWindRoute(Vector3 restoreDir){
-        cutEffect.gameObject.SetActive(false);
-        RestoreWindRoute restoreWindRoute = new RestoreWindRoute(routeManager, route, windRouteDeformInfo.cutIndex, windRouteDeformInfo.cutLenght, cutEffect);
+        //cutEffect.gameObject.SetActive(false);
+        RestoreWindRoute restoreWindRoute = new RestoreWindRoute(routeManager, route, windRouteDeformInfo.cutIndex, windRouteDeformInfo.cutLenght);
         restoreWindRoute.Execute();
     }
 
@@ -570,7 +579,7 @@ public class GameManager : MonoBehaviour{
         if (previousRoute != null){
             previousRoute.nextWS = curWindSource;
         }
-        realTurnDur = defTurnDur / gameSpeed;
+        //realTurnDur = defTurnDur / gameSpeed;
         curWindSource.isUsed = true;
         SetRoute setRoute = new SetRoute(instance, curWindSource, routeManager, route, isLooping);
         setRoute.executionTime = Time.time;
@@ -578,6 +587,7 @@ public class GameManager : MonoBehaviour{
         undoTimes.Add(turnID + 1);
         SetRoute(route);
         routeManager.WindTransition(route, isLooping);
+        wind.StartWind(defTurnDur , defTurnDur * (2/3));
         oldCommands.Add(setRoute);
         state = GameState.Running;
 
@@ -736,30 +746,33 @@ public class GameManager : MonoBehaviour{
         }
     }
 
-    public void SetGameSpeed(SettingsData settingsData) {
-        
-        float value = settingsData.gameSpeed;
+    public void UpdateGameSpeed(float value) {
         if (value <= 0 || value > 10) return;
 
-        //turnDur = defTurnDur / value;
+        plannedGameSpeed = value;
+
+        if (state != GameState.Running) return;
+
+        SetGameSpeed(value);
+    }
+
+    public void SetGameSpeed(float value) {
         gameSpeed = value;
 
-        UpdateCurGameSpeedIndex(value);
+        Time.timeScale = value;
 
-        if(OnSpeedChanged != null)
+        if (OnSpeedChanged != null)
             OnSpeedChanged(gameSpeed);
     }
 
     public void SetNextGameSpeed(bool bypassStateCheck = false){
+
         int nextIndex = curGameSpeedIndex;
 
         nextIndex = curGameSpeedIndex == gameSpeeds.Count - 1 ? 0 : curGameSpeedIndex + 1;
         curGameSpeedIndex = nextIndex;
 
-        gameSpeed = gameSpeeds[curGameSpeedIndex];
-        
-        if (OnSpeedChanged != null)
-            OnSpeedChanged(gameSpeed);
+        UpdateGameSpeed(gameSpeeds[curGameSpeedIndex]);
     }
 
     public float GetPreviousGameSpeed(){
@@ -767,13 +780,15 @@ public class GameManager : MonoBehaviour{
         return gameSpeeds[index];
     }
 
-    private void UpdateCurGameSpeedIndex(float gameSpeed){
+    public void UpdatePlannedGameSpeed(){
         for (int i = gameSpeeds.Count -1; i >= 0; i--){
             if (gameSpeed >= gameSpeeds[i]){
                 curGameSpeedIndex = i;
                 break;
             }
         }
+
+        plannedGameSpeed = gameSpeeds[curGameSpeedIndex];
     }
 
     public void CancelTurns(){
@@ -828,7 +843,7 @@ public class GameManager : MonoBehaviour{
 
         CancelTurns();
         CancelInvoke();
-        cutEffect.gameObject.SetActive(false);
+        //cutEffect.gameObject.SetActive(false);
 
         float undoTime = undoTimes[undoTimes.Count - 1];
         undoTimes.RemoveAt(undoTimes.Count - 1);

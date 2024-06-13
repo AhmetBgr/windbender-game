@@ -36,8 +36,8 @@ public static class Utility
 		return array; 
     }
 
-    public static float EuclidFormula(int a, int b){
-        return Mathf.Sqrt(Mathf.Pow(a,2) + Mathf.Pow(b,2));
+    public static float RoundToNearestHalf(float val) {
+        return Mathf.Round(val * 2) / 2;
     }
 
     public static IEnumerator SetActiveObjWithDelay(GameObject obj, bool active, float delay)
