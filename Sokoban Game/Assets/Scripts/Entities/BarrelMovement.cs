@@ -179,9 +179,15 @@ public class BarrelMovement : ObjectMoveController
                 hasSpeed = false;
         }*/
 
+        //gameManager.curTurn.actions.Add(movementReserve);
+
+
         tween.timeScale = 1;
         movementReserve = null;
         stop = stopAftermoving;
+
+
+
         if (pushed) return;
         PlayMoveAnim();
 

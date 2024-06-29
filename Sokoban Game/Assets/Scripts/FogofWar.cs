@@ -8,6 +8,8 @@ public class FogofWar : MonoBehaviour
     public GameObject area02;
     public GameObject area03;
 
+    public Mesh testMesh;
+
     private AreaData area02Data;
 
     private LevelManager levelManager;
@@ -24,6 +26,10 @@ public class FogofWar : MonoBehaviour
         ParticleSystem areaP02 = area02.GetComponent<ParticleSystem>();
 
         areaP01.gameObject.SetActive(false);
+        //var shape = area03.GetComponent<ParticleSystem>().shape;
+        //shape.mesh = testMesh;
+
+        //area03.GetComponent<ParticleSystem>().shape = shape;
         //var main = area01.main;
         //var forceOverLifetime = area01.forceOverLifetime;
 

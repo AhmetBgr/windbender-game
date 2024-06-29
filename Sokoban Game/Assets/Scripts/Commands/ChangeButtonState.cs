@@ -15,6 +15,10 @@ public class ChangeButtonState : Command
         turnID = GameManager.instance.turnID;
     }
 
+    public override void Execute() {
+        button.isDown = !button.isDown;
+    }
+
     public override void Undo()
     {
         button.isDown = this.isDown;

@@ -87,13 +87,14 @@ public class ObjectMoveController : MonoBehaviour
     {
         pushedByInfos.Clear();
         movementReserve = null;
+
         int index = -1; // index in wind route
         bool intentToMove = true;
         bool pushed = false;
         Vector3 pos = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
         Vector3 previousDir = dir;
-        if (route.Contains(pos)) // Check if the object is in the wind route
-        {
+        // Check if the object is in the wind route
+        if (route.Contains(pos)) {
             // Determines the movement direction
             index = route.FindIndex(i => i == pos); // finds index in wind
 
@@ -159,6 +160,7 @@ public class ObjectMoveController : MonoBehaviour
         //}
     }
 
+    // Validates movement reserve
     public virtual void FindNeighbors(List<Vector3> route)
     {
         if (movementReserve == null)    return;
@@ -222,21 +224,18 @@ public class ObjectMoveController : MonoBehaviour
         }
     }
 
-    public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false)
-    {
+    public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false){
         
         Vector3 startPos = transform.position;
         tween = transform.DOMove(startPos + dir, GameManager.instance.defTurnDur).SetEase(Ease.InOutQuad); // Ease.Linear
         hasSpeed = true;
-        tween.timeScale = 1;
+
+        gameManager.AddActionToCurTurn(movementReserve);
     }
 
-    public virtual void FailedMove()
-    {
-        
+    public virtual void FailedMove(){
         tween = transform.DOPunchPosition(dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
         hasSpeed = false;
-        tween.timeScale = 1;
     }
 
     public virtual void Hit(List<MoveTo> emptyDestintionTileMoves){
@@ -249,8 +248,6 @@ public class ObjectMoveController : MonoBehaviour
         {
             movementReserve.ChainMomentumTransfer(emptyDestintionTileMoves);
         }
-
-        
 
         //ChainPush(movementReserve, emptyDestintionTileMoves);
 

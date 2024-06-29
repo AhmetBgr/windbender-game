@@ -11,7 +11,7 @@ public class Wind : MonoBehaviour{
     public WindRouteDeformInfo deformInfo = new WindRouteDeformInfo(null, -1, 0);
 
     public LineRenderer lr;
-    private Material mat;
+    public Material mat;
     public Gradient colorOpen;
     public Gradient colorLoop;
     public Gradient colorCut;
@@ -21,17 +21,38 @@ public class Wind : MonoBehaviour{
 
     public float defAlpha;
     public bool isLooping = false;
-
+    private float defSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.instance;
 
         //route = gameManager.route;
         windMoveRoute = gameManager.windMoveRoute;
         mat = lr.material;
         defAlpha = mat.GetFloat("_alpha");
+        defSpeed = mat.GetFloat("_speed");
+
+    }
+
+    private void OnEnable() {
+        gameManager = GameManager.instance;
+        gameManager.OnStateChange += UpdateWindMatSpeed;
+    }
+
+    private void OnDisable() {
+        gameManager.OnStateChange += UpdateWindMatSpeed;
+
+    }
+
+    private void UpdateWindMatSpeed(GameState from, GameState to) {
+        if(to == GameState.Paused | to == GameState.DrawingRoute) {
+            mat.SetFloat("_speed", 0);
+        }
+        else {
+            mat.SetFloat("_speed", defSpeed);
+
+        }
     }
 
     public void DrawWind() {
@@ -39,7 +60,7 @@ public class Wind : MonoBehaviour{
         Debug.Log("wind route count: " + route.Count);
         transform.position = gameManager.curWindSource.transform.position;
         route = new List<Vector3>();
-        deformInfo = gameManager.windRouteDeformInfo;
+        deformInfo = gameManager.curWindDeformInfo;
         foreach (var pos in gameManager.route) {
             route.Add(transform.InverseTransformPoint(pos) + 0.2f * Vector3.up);
         }
@@ -47,12 +68,12 @@ public class Wind : MonoBehaviour{
         isLooping = gameManager.isLooping;
         if (isLooping)
             route.RemoveAt(route.Count - 1);
-        else if(deformInfo.cutLenght > 0 && !deformInfo.restore) {
+        /*else if(deformInfo.cutLenght > 0 && !deformInfo.restore) {
             Vector3 lastPos = route[route.Count - 1];
             //Vector3 dir = (lastPos - route[route.Count - 2]).normalized;
             Vector3 pos = route[route.Count - 1] + deformInfo.restoreDir * 1f;
             route.Add(pos);
-        }
+        }*/
 
         lr.positionCount = route.Count;
         lr.SetPositions(route.ToArray());
@@ -91,17 +112,52 @@ public class Wind : MonoBehaviour{
 }
 
 public struct WindRouteDeformInfo {
-    public Door door;
+    public WindCutter windCutter;
     public int cutIndex;
     public int cutLenght;
     public bool restore;
     public Vector3 restoreDir;
+    public Vector3 immediateRestoreDir;
+    public Vector3 cutPos;
 
-    public WindRouteDeformInfo(Door door, int cutIndex, int cutLenght) { //, Vector3 restoreDir
+    public WindRouteDeformInfo(WindCutter windCutter, int cutIndex, int cutLenght) { //, Vector3 restoreDir
         this.cutIndex = cutIndex;
-        this.door = door;
+        this.windCutter = windCutter;
         this.cutLenght = cutLenght;
         this.restore = false;
         this.restoreDir = Vector3.right;
+        this.immediateRestoreDir = Vector3.zero;
+        this.cutPos = Vector3.zero;
+    }
+}
+[System.Serializable]
+public class WindCutRequest {
+    public WindCutter windCutter;
+    public int cutIndex;
+    public Vector3 cutPos;
+    public bool isExeCuted;
+
+    public WindCutRequest(WindCutter windCutter, Vector3 cutPos, int cutIndex) {
+        this.cutIndex = cutIndex;
+        this.windCutter = windCutter;
+        this.cutPos = cutPos;
+        this.isExeCuted = false;
+    }
+}
+[System.Serializable]
+
+public class WindRestoreRequest {
+    public WindCutter windCutter;
+    //public int cutLenght;
+    public int index;
+    public Vector3 restoreDir;
+    public bool isExeCuted;
+
+    public WindRestoreRequest(WindCutter windCutter, Vector3 restoreDir, int index) {
+        //this.cutLenght = cutLenght;
+        this.index = index;
+        this.windCutter = windCutter;
+        this.restoreDir = restoreDir;
+        this.isExeCuted = false;
     }
 }

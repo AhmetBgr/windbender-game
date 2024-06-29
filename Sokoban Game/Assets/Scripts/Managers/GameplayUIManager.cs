@@ -16,6 +16,13 @@ public class GameplayUIManager : MonoBehaviour
     public Button waitButton;
     public Button gameSpeedButton;
     public Button returnToLevelSelButton;
+    public Button playButton;
+    public Button pauseButton;
+    public Button singleUndoButton;
+    public Button multiUndoButton;
+
+
+
     public Transform routeDrawingPanel;
 
     Tween blowButtonTween;
@@ -24,6 +31,8 @@ public class GameplayUIManager : MonoBehaviour
         GameManager.instance.OnTurnCountChange += UpdateTurnCounterText;
         GameManager.instance.OnDrawingCompleted += ToggleBlowButton;
         GameManager.instance.OnStateChange += TogglePausedText;
+        GameManager.instance.OnStateChange += UpdatePlayButton;
+
         GameManager.instance.OnPlannedSpeedChanged += UpdateGameSpeedText;
         //GameManager.instance.OnStateChange += TryToggleGameSpeedButton;
 
@@ -35,6 +44,7 @@ public class GameplayUIManager : MonoBehaviour
         GameManager.instance.OnDrawingCompleted -= ToggleBlowButton;
         GameManager.instance.OnStateChange -= TogglePausedText;
         GameManager.instance.OnPlannedSpeedChanged -= UpdateGameSpeedText;
+        GameManager.instance.OnStateChange -= UpdatePlayButton;
 
         //GameManager.instance.OnStateChange -= TryToggleGameSpeedButton;
         //GameManager.instance.OnStateChange += ToggleRouteDrawingPanel;
@@ -49,7 +59,11 @@ public class GameplayUIManager : MonoBehaviour
         });
         
         undoButton.onClick.AddListener(GameManager.instance.Undo);
-        
+        playButton.onClick.AddListener(GameManager.instance.Play);
+        pauseButton.onClick.AddListener(GameManager.instance.PauseWhenTurnEnd);
+        singleUndoButton.onClick.AddListener(GameManager.instance.UndoSingleStep);
+        multiUndoButton.onClick.AddListener(GameManager.instance.UndoMultiStep);
+
         gameSpeedButton.onClick.AddListener(() => GameManager.instance.SetNextGameSpeed());
         //gameSpeedButton.onClick.AddListener(UpdateGameSpeedText);
         GameManager.instance.UpdatePlannedGameSpeed();
@@ -131,28 +145,30 @@ public class GameplayUIManager : MonoBehaviour
         if (to == GameState.Running) 
         {
             pausedPanel.SetActive(false);
-            //if (GameManager.instance.isWaiting) return;
-            //waitButton.gameObject.SetActive(false);
         }
         else
         {
-            //if (pausedPanel.activeInHierarchy) return;
-            //StartCoroutine(Utility.SetActiveObjWithDelay(pausedPanel, true, GameManager.instance.turnDur));
             pausedPanel.SetActive(true);
-            if (waitButton.gameObject.activeInHierarchy) return;
-            //StartCoroutine(Utility.SetActiveObjWithDelay(waitButton.gameObject, true, GameManager.instance.turnDur));
-            waitButton.gameObject.SetActive(true);
-            //pausedPanel.SetActive(true);
+            //if (waitButton.gameObject.activeInHierarchy) return;
             //waitButton.gameObject.SetActive(true);
         }
+    }
+
+    private void UpdatePlayButton(GameState from, GameState to) {
+        bool isplaying = (to == GameState.Running);
+
+        playButton.gameObject.SetActive(!isplaying);
+        pauseButton.gameObject.SetActive(isplaying);
+
+        playButton.interactable = !(to == GameState.DrawingRoute);
     }
 
     public void ToggleBlowButton(bool value)
     {
         blowButton.gameObject.SetActive(value);
 
-        if(value || GameManager.instance.state != GameState.Running)
-            waitButton.gameObject.SetActive(!value);
+        //if(value || GameManager.instance.state != GameState.Running)
+            //waitButton.gameObject.SetActive(!value);
        
 
         if (blowButtonTween != null)

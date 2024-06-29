@@ -212,7 +212,7 @@ PrefabInstance:
     - target: {fileID: 7440307854305903695, guid: 7f4f72485d306d64480c8d43cd83e7db,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -978,6 +978,11 @@ PrefabInstance:
       propertyPath: isOpen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4946448198038423326, guid: 4985ec189e2297449b6bf93aa8f55979,
+        type: 3}
+      propertyPath: windCutter
+      value: 
+      objectReference: {fileID: 1445841150}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4985ec189e2297449b6bf93aa8f55979, type: 3}
@@ -1255,6 +1260,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b69a39892a047840b3b8180a79bcace, type: 3}
+--- !u!114 &1445841150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8841958398670818660, guid: 4985ec189e2297449b6bf93aa8f55979,
+    type: 3}
+  m_PrefabInstance: {fileID: 996193265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430ab111a4406e04e9c0a9ab244de657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1490336654
 PrefabInstance:
   m_ObjectHideFlags: 0

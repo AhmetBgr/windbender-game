@@ -39,16 +39,19 @@ public class ButtonEntity : MonoBehaviour
         
     }
 
-    private void ChangeButtonState(ObjectMoveController obj)
-    {
-        if (!isDown && obj != null && OnButtonToggle != null)
-        {
+    private void ChangeButtonState(ObjectMoveController obj){
+        if (!isDown && obj != null && OnButtonToggle != null){
+            ChangeButtonState buttonState = new ChangeButtonState(this, isDown, Time.time);
+            GameManager.instance.curTurn.actions.Add(buttonState);
+
             OnButtonToggle(tag);
             isDown = true;
             return;
         }
-        else if ( isDown && obj == null && OnButtonToggle != null)
-        {
+        else if ( isDown && obj == null && OnButtonToggle != null){
+            ChangeButtonState buttonState = new ChangeButtonState(this, isDown, Time.time);
+            GameManager.instance.curTurn.actions.Add(buttonState);
+
             OnButtonToggle(tag);
             isDown = false;
         }

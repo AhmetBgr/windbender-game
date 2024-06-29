@@ -15,9 +15,9 @@ MonoBehaviour:
   name: 4
   debugName: Level_3_B
   sceneIndex: 6
-  state: 1
+  state: 2
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 6188728bda09fe449aa184bfa08d4801, type: 2}

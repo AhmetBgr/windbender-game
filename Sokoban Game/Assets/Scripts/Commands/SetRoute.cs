@@ -49,7 +49,7 @@ public class SetRoute : Command
         //GameManager.instance.OnDrawingStartedFunc();
         GameManager.instance.isDrawingCompleted = true;
         GameManager.instance.isLooping = isLooping;
-        GameManager.instance.windRouteDeformInfo.cutLenght = 0;
+        GameManager.instance.curWindDeformInfo.cutLenght = 0;
         gameManager.isWaiting = false;
         if(isLooping){
             gameManager.windMoveRoute = new List<Vector3>();
@@ -57,7 +57,7 @@ public class SetRoute : Command
             gameManager.arrowController.SetPositions(this.windMoveRoute);
             gameManager.isDrawingMoveRoute = true;
         }
-
+        gameManager.wind.EndWind(0f);
         
         // Undo Route manager
         routeManager.DeleteTiles();

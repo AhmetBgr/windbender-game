@@ -128,6 +128,10 @@ public class WindSourceController : MonoBehaviour
         }
     }
 
+    public void SetWindSP(int value) {
+        windSP = value;
+    }
+
     private void UpdateWindSPText()
     {
         windSPText.text = windSP.ToString();

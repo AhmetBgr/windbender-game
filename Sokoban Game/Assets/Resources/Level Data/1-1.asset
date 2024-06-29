@@ -17,7 +17,7 @@ MonoBehaviour:
   sceneIndex: 1
   state: 2
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 1
   connectedLevels:
   - {fileID: 11400000, guid: 7cf9cb933bbd01848afbf46b36d8b335, type: 2}

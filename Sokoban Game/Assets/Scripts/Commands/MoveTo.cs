@@ -47,7 +47,8 @@ public class MoveTo : Command
 
     public override void Execute()
     {
-        base.Execute();
+        Move();
+        GameManager.instance.curTurn.actions.Add(this);
     }
 
     public override void Undo()
@@ -75,6 +76,7 @@ public class MoveTo : Command
         obj.Move(dir, stopAftermoving, pushed);
         //Debug.Log(obj.name + " is moving");
         isMovementChecked = true;
+        GameManager.instance.curTurn.actions.Add(this);
 
         /*if(obj.name == "Barrel")
         {
@@ -85,8 +87,6 @@ public class MoveTo : Command
 
     public void Hit(List<MoveTo> emptyDestintionTileMoves){
         obj.Hit(emptyDestintionTileMoves);
-
-
     }
 
     public virtual void ChainMove()

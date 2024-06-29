@@ -15,6 +15,9 @@ public class DoorState : Command
         turnID = GameManager.instance.turnID;
     }
 
+    public override void Execute() {
+        door.ToggleState(door.tag);
+    }
 
     public override void Undo()
     {

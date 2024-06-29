@@ -10,6 +10,9 @@ public class CrateMoveController : ObjectMoveController
     {
         base.Move(dir, stopAftermoving);
 
+        //gameManager.curTurn.actions.Add(movementReserve);
+
+
         if (pushed) return;
 
         PlayMoveAnim();
