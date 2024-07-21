@@ -7,9 +7,9 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "New Level Data", order = 1)]
 public class Level : ScriptableObject
 {
-    public new string name;
+    //public string sceneName;
     public string debugName;
-    public int sceneIndex;
+    //public int sceneIndex;
     public State state;
     public bool seen = false;
     public bool justUnlocked = true;
@@ -88,9 +88,9 @@ public class Level : ScriptableObject
     private LevelData GenerateLevelData(State state, bool seen, bool isFirstLevel = false)
     {
         LevelData levelData = new LevelData();
-        levelData.levelName = name;
-        levelData.sceneName = debugName;
-        levelData.sceneIndex = sceneIndex;
+        levelData.levelName = debugName;
+        levelData.sceneName = name;
+        //levelData.sceneIndex = sceneIndex;
         levelData.state = isFirstLevel ? (int)State.unlocked : (int)state;
         levelData.seen = seen;
 
@@ -100,9 +100,9 @@ public class Level : ScriptableObject
     private LevelData LoadAndSetLevelData()
     {
         LevelData levelData = (LevelData)Utility.BinaryDeserialization(LevelManager.levelDataFolderName, name);
-        name = levelData.levelName;
-        debugName = levelData.sceneName;
-        sceneIndex = levelData.sceneIndex;
+        //sceneName = levelData.sceneName;
+        debugName = levelData.levelName;
+        //sceneIndex = levelData.sceneIndex;
 
         if(levelData.state == 0)
             state = State.locked;

@@ -12,6 +12,7 @@ public class GameplayUIManager : MonoBehaviour
     public TextMeshProUGUI gameSpeedText;
     public GameObject pausedPanel;
     public Button undoButton;
+    public Button restartButton;
     public Button blowButton;
     public Button waitButton;
     public Button gameSpeedButton;
@@ -59,6 +60,7 @@ public class GameplayUIManager : MonoBehaviour
         });
         
         undoButton.onClick.AddListener(GameManager.instance.Undo);
+        restartButton.onClick.AddListener(GameManager.instance.Restart);
         playButton.onClick.AddListener(GameManager.instance.Play);
         pauseButton.onClick.AddListener(GameManager.instance.PauseWhenTurnEnd);
         singleUndoButton.onClick.AddListener(GameManager.instance.UndoSingleStep);
@@ -66,7 +68,7 @@ public class GameplayUIManager : MonoBehaviour
 
         gameSpeedButton.onClick.AddListener(() => GameManager.instance.SetNextGameSpeed());
         //gameSpeedButton.onClick.AddListener(UpdateGameSpeedText);
-        GameManager.instance.UpdatePlannedGameSpeed();
+        //GameManager.instance.UpdatePlannedGameSpeed();
         UpdateGameSpeedText(GameManager.instance.plannedGameSpeed);
         //waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
         EventTrigger trigger = waitButton.GetComponent<EventTrigger>();

@@ -15,6 +15,8 @@ public class Wind : MonoBehaviour{
     public Gradient colorOpen;
     public Gradient colorLoop;
     public Gradient colorCut;
+    public Gradient color2L;
+
 
 
     private GameManager gameManager;
@@ -68,6 +70,16 @@ public class Wind : MonoBehaviour{
         isLooping = gameManager.isLooping;
         if (isLooping)
             route.RemoveAt(route.Count - 1);
+        else {
+            Vector3 lastPos = route[route.Count - 1];
+            //Vector3 dir = (lastPos - route[route.Count - 2]).normalized;
+            Vector3 pos = lastPos + (lastPos - route[route.Count - 2]).normalized * 0.5f;
+            route[route.Count - 1] = pos; 
+            Vector3 firstPos = route[0];
+            pos = firstPos + (firstPos-route[1]).normalized * 0.5f;
+            route[0] = pos;
+
+        }
         /*else if(deformInfo.cutLenght > 0 && !deformInfo.restore) {
             Vector3 lastPos = route[route.Count - 1];
             //Vector3 dir = (lastPos - route[route.Count - 2]).normalized;
@@ -78,7 +90,17 @@ public class Wind : MonoBehaviour{
         lr.positionCount = route.Count;
         lr.SetPositions(route.ToArray());
         lr.loop = isLooping;
-        lr.colorGradient = isLooping ? colorLoop : colorOpen; // (windRouteDeformInfo.cutLenght > 0 && !windRouteDeformInfo.restore) ? colorCut : 
+
+        if(gameManager.route.Count == 2) {
+            lr.colorGradient = color2L;
+        }
+        else if (isLooping) {
+            lr.colorGradient = colorLoop;
+        }
+        else {
+            lr.colorGradient = colorOpen;
+        }
+
     }
 
     public void StartWind(float dur, float delay = 0) {

@@ -85,7 +85,7 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 1
-    compressionQuality: 50
+    compressionQuality: 100
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
@@ -134,12 +134,12 @@ TextureImporter:
       name: horizantal_obstacles_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 1
         y: 210
-        width: 27
-        height: 44
+        width: 94
+        height: 43
       alignment: 9
-      pivot: {x: 0.5, y: 0.32}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: horizantal_obstacles_1
       rect:
         serializedVersion: 2
-        x: 4
+        x: 1
         y: 162
-        width: 26
-        height: 44
+        width: 94
+        height: 43
       alignment: 9
-      pivot: {x: 0.5, y: 0.32}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,12 +176,12 @@ TextureImporter:
       name: horizantal_obstacles_2
       rect:
         serializedVersion: 2
-        x: 66
-        y: 162
-        width: 26
-        height: 44
+        x: 1
+        y: 114
+        width: 94
+        height: 43
       alignment: 9
-      pivot: {x: 0.5, y: 0.32}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -260,12 +260,12 @@ TextureImporter:
       name: horizantal_obstacles_6
       rect:
         serializedVersion: 2
-        x: 100
-        y: 145
-        width: 24
-        height: 43
+        x: 98
+        y: 148
+        width: 28
+        height: 105
       alignment: 9
-      pivot: {x: 0.5, y: 0.36}
+      pivot: {x: 0.5, y: 0.42}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -281,12 +281,12 @@ TextureImporter:
       name: horizantal_obstacles_7
       rect:
         serializedVersion: 2
-        x: 132
-        y: 150
-        width: 24
-        height: 43
+        x: 194
+        y: 148
+        width: 28
+        height: 105
       alignment: 9
-      pivot: {x: 0.5, y: 0.36}
+      pivot: {x: 0.5, y: 0.42}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -302,12 +302,12 @@ TextureImporter:
       name: horizantal_obstacles_8
       rect:
         serializedVersion: 2
-        x: 100
-        y: 210
-        width: 24
-        height: 43
+        x: 226
+        y: 148
+        width: 28
+        height: 105
       alignment: 9
-      pivot: {x: 0.5, y: 0.36}
+      pivot: {x: 0.5, y: 0.42}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -323,12 +323,12 @@ TextureImporter:
       name: horizantal_obstacles_9
       rect:
         serializedVersion: 2
-        x: 28
-        y: 210
-        width: 40
-        height: 44
+        x: 1
+        y: 66
+        width: 94
+        height: 43
       alignment: 9
-      pivot: {x: 0.5, y: 0.32}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -344,12 +344,12 @@ TextureImporter:
       name: horizantal_obstacles_10
       rect:
         serializedVersion: 2
-        x: 98
-        y: 186
-        width: 28
-        height: 45
+        x: 97
+        y: 18
+        width: 94
+        height: 43
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -365,12 +365,12 @@ TextureImporter:
       name: horizantal_obstacles_11
       rect:
         serializedVersion: 2
-        x: 132
-        y: 211
-        width: 24
-        height: 43
+        x: 130
+        y: 148
+        width: 28
+        height: 105
       alignment: 9
-      pivot: {x: 0.5, y: 0.36}
+      pivot: {x: 0.5, y: 0.42}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -378,6 +378,48 @@ TextureImporter:
       bones: []
       spriteID: c2d0acb3a39c836498b296e8df6c7e73
       internalID: -1409878938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: horizantal_obstacles_12
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 148
+        width: 28
+        height: 105
+      alignment: 9
+      pivot: {x: 0.5, y: 0.42}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a523e164656f254b9e106c4ae98ed18
+      internalID: -1606657722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: horizantal_obstacles_13
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 18
+        width: 94
+        height: 43
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fed960b6fddf76e46bec811b1f048bea
+      internalID: 264311619
       vertices: []
       indices: 
       edges: []
@@ -398,6 +440,8 @@ TextureImporter:
       horizantal_obstacles_1: 1779354077
       horizantal_obstacles_3: 1237277824
       horizantal_obstacles_4: 1804693268
+      horizantal_obstacles_13: 264311619
+      horizantal_obstacles_12: -1606657722
       horizantal_obstacles_5: 682841968
       horizantal_obstacles_8: -2101565629
       horizantal_obstacles_2: -1077909280

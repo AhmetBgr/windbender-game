@@ -27,8 +27,6 @@ public class SceneLoader : MonoBehaviour
         sceneName = SceneManager.GetActiveScene().name;
     }
 
-
-
     public void LoadNextScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;

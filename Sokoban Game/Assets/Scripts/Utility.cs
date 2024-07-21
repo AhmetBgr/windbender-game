@@ -39,6 +39,9 @@ public static class Utility
     public static float RoundToNearestHalf(float val) {
         return Mathf.Round(val * 2) / 2;
     }
+    public static Vector3 RoundToNearestHalf(Vector3 val) {
+        return new Vector3(Mathf.Round(val.x * 2) / 2, Mathf.Round(val.y * 2) / 2, 0f);
+    }
 
     public static IEnumerator SetActiveObjWithDelay(GameObject obj, bool active, float delay)
     {

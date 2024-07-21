@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 3723738931346358068, guid: 39cbbad014e7bca40a0098af42b4a2fa,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.4375
+      value: 1.34375
       objectReference: {fileID: 0}
     - target: {fileID: 3723738931346358075, guid: 39cbbad014e7bca40a0098af42b4a2fa,
         type: 3}
@@ -19,10 +19,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1620845397, guid: 33057a9bb2a7fa445829b5f68eb373b4,
         type: 3}
+    - target: {fileID: 6229047682780210948, guid: 39cbbad014e7bca40a0098af42b4a2fa,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1620845397, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
+    - target: {fileID: 7497223478065938372, guid: 39cbbad014e7bca40a0098af42b4a2fa,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7497223478065938372, guid: 39cbbad014e7bca40a0098af42b4a2fa,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8577159065746779626, guid: 39cbbad014e7bca40a0098af42b4a2fa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8577159065746779626, guid: 39cbbad014e7bca40a0098af42b4a2fa,
         type: 3}
@@ -77,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 8577159065746779628, guid: 39cbbad014e7bca40a0098af42b4a2fa,
         type: 3}
       propertyPath: m_Name
-      value: Blue Y Obstacle_3
+      value: Blue Y Obstacle_3 Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

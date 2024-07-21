@@ -43,7 +43,7 @@ public class RouteManager : MonoBehaviour
 
     public Color windColor = Color.white;
 
-    private Tilemap tilemap;
+    public Tilemap tilemap;
     private Cursor cursor;
     private WindSourceController curWindSource;
     private IEnumerator routine;
@@ -385,8 +385,8 @@ public class RouteManager : MonoBehaviour
 
     public void WindTransition(List<Vector3> route, bool isLooping = false)
     {
-        float disappearDur = GameManager.instance.defTurnDur / 3;
-        float appearDur = GameManager.instance.defTurnDur - disappearDur;
+        float disappearDur = GameManager.instance.defTurnDur * 2/3;
+        //float appearDur = GameManager.instance.defTurnDur - disappearDur;
         Debug.LogWarning("dissappear duration: " + disappearDur);
         Debug.LogWarning("Real Turn duration: " + GameManager.instance.defTurnDur);
         Debug.LogWarning("def turn duration: " + GameManager.instance.defTurnDur);

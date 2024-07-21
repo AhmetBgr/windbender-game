@@ -251,7 +251,7 @@ MonoBehaviour:
     startColor: {r: 0, g: 0, b: 0, a: 0}
     endColor: {r: 0, g: 0, b: 0, a: 1}
     ease: 2
-    durationFH: 0.1
+    durationFH: 0.05
     durationSH: 0.1
 --- !u!114 &6890541776586069177
 MonoBehaviour:

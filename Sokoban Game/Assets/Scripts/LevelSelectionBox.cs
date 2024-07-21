@@ -69,7 +69,7 @@ public class LevelSelectionBox : MonoBehaviour
 
         }
 
-        text.text = level.name;
+        //text.text = level.name;
         debugNameText.text = level.debugName;
     }
     

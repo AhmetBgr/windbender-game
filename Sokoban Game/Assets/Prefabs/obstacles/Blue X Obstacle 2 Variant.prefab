@@ -8,15 +8,30 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 247814333942614157, guid: fb97505e5dab79c42ad6ff6973d2420a,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 247814333942614157, guid: fb97505e5dab79c42ad6ff6973d2420a,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 721868670647816449, guid: fb97505e5dab79c42ad6ff6973d2420a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 721868670647816473, guid: fb97505e5dab79c42ad6ff6973d2420a,
         type: 3}
       propertyPath: m_Name
-      value: Blue X Obstacle 2
+      value: Blue X Obstacle 2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 721868670647816479, guid: fb97505e5dab79c42ad6ff6973d2420a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 721868670647816479, guid: fb97505e5dab79c42ad6ff6973d2420a,
         type: 3}
@@ -78,6 +93,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1674851685, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
+    - target: {fileID: 6834298036989356871, guid: fb97505e5dab79c42ad6ff6973d2420a,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834298036989356871, guid: fb97505e5dab79c42ad6ff6973d2420a,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451105218764546258, guid: fb97505e5dab79c42ad6ff6973d2420a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1077909280, guid: 33057a9bb2a7fa445829b5f68eb373b4,
         type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []

@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
   m_Name: 1-3B
   m_EditorClassIdentifier: 
-  name: 1-3B
   debugName: 1-3B
-  sceneIndex: 4
   state: 2
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 570b17d2aedffac4cad01756362666c5, type: 2}

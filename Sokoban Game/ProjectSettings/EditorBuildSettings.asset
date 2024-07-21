@@ -60,6 +60,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Button 04 wind cutting.unity
     guid: c92f9ff97a6a0e8468391ecea7d3068d
   - enabled: 1
+    path: Assets/Scenes/Levels/Button 04 wind cutting 02.unity
+    guid: 5d37e3972d608b5439ae2d7dbab28738
+  - enabled: 1
     path: Assets/Scenes/Levels/Level_3_A.unity
     guid: 19eb2eb19d2f8be40aef3a407e210ffc
   - enabled: 1
@@ -113,4 +116,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/loop test 6.unity
     guid: 161de325492fbb24ebc2a4e2ac5b1f5f
+  - enabled: 1
+    path: Assets/Scenes/Levels/rotator 01.unity
+    guid: 2f6929959aaad99439581becc909601c
+  - enabled: 1
+    path: Assets/Scenes/Levels/rotator 02.unity
+    guid: e76735cfb9b258840addfbafec67d7c1
+  - enabled: 1
+    path: Assets/Scenes/Levels/rotator 03.unity
+    guid: 40fc73771f44e534bab5152ef0de0ff5
+  - enabled: 1
+    path: Assets/Scenes/Levels/rotator 04.unity
+    guid: f9b1bb2f872b3e148802133ab4e4c1a2
+  - enabled: 1
+    path: Assets/Scenes/Levels/rotator 04A.unity
+    guid: 8865847d75447814497f9ebbf86a60da
   m_configObjects: {}

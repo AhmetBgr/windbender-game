@@ -24,21 +24,24 @@ public class EndWind : Command{
         gameManager.route.Clear();
         windMoveRoute.Clear();
         arrowController.Clear();
-        wind.EndWind(gameManager.defTurnDur);
+        wind.EndWind(gameManager.defTurnDur*2);
+        gameManager.windMoveRoute.Clear();
         //routeManager.transform.position = Vector3.zero;
     }
 
     public override void Undo() {
+        Debug.Log("should undo end wind");
+
         gameManager.route.AddRange(route);
         gameManager.windMoveRoute.AddRange(windMoveRoute);
         gameManager.curWindSource = curWindSource;
         if(windMoveRoute.Count > 0) {
             arrowController.SetPositions(windMoveRoute);
-
         }
-        wind.mat.SetFloat("_alpha", wind.defAlpha);
 
         wind.DrawWind();
+        wind.mat.SetFloat("_alpha", wind.defAlpha);
+
     }
 
 

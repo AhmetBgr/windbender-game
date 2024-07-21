@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 640160845413911303, guid: 483c8cade51fec8438f9fcbcbef8cc39,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1773227385528626511, guid: 483c8cade51fec8438f9fcbcbef8cc39,
         type: 3}
       propertyPath: m_Sprite
@@ -25,15 +30,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1779354077, guid: 33057a9bb2a7fa445829b5f68eb373b4,
         type: 3}
+    - target: {fileID: 2554201060131324050, guid: 483c8cade51fec8438f9fcbcbef8cc39,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2554201060131324050, guid: 483c8cade51fec8438f9fcbcbef8cc39,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1077909280, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
+    - target: {fileID: 6145842210073127117, guid: 483c8cade51fec8438f9fcbcbef8cc39,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145842210073127117, guid: 483c8cade51fec8438f9fcbcbef8cc39,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6646913395936637273, guid: 483c8cade51fec8438f9fcbcbef8cc39,
         type: 3}
       propertyPath: m_Name
-      value: Blue X Obstacle 8
+      value: Blue X Obstacle 8 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6646913395936637279, guid: 483c8cade51fec8438f9fcbcbef8cc39,
         type: 3}
       propertyPath: m_RootOrder
-      value: 35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6646913395936637279, guid: 483c8cade51fec8438f9fcbcbef8cc39,
         type: 3}

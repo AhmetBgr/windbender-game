@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 535976240602025426, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 535976240602025426, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1660035514147613594, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
         type: 3}
       propertyPath: m_FlipX
@@ -19,10 +29,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1077909280, guid: 33057a9bb2a7fa445829b5f68eb373b4,
         type: 3}
+    - target: {fileID: 3233651861989705287, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1981041698, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
     - target: {fileID: 6029460001128855434, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6029460001128855434, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
         type: 3}
@@ -77,7 +93,17 @@ PrefabInstance:
     - target: {fileID: 6029460001128855436, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
         type: 3}
       propertyPath: m_Name
-      value: Blue X Obstacle 9
+      value: Blue X Obstacle 9 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545999122994966040, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545999122994966040, guid: 3dfd3c43b5cf6f24595b4c39ffe905a9,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

@@ -23,8 +23,8 @@ public class CancelRouteDrawing : Command
         routeManager.DeleteTiles();
         gameManager.route.Clear();
         routeManager.validPos.Clear();
-
-        gameManager.curWindSource.windSP = GameManager.instance.curWindSource.defWindSP;
+        windSource.UpdateWindSP(gameManager.route.Count);
+        //gameManager.curWindSource.windSP = GameManager.instance.curWindSource.defWindSP;
         ///gameManager.curWindSource.route.Clear();
         gameManager.UpdateValidPositions(Vector3.zero, none: true);
         gameManager.curWindSource = null;
@@ -48,6 +48,7 @@ public class CancelRouteDrawing : Command
         routeManager.route = new List<Vector3>();
         routeManager.route.AddRange(route);
         GameManager.instance.UpdateValidPositions(route[route.Count - 1]);
+        windSource.UpdateWindSP(gameManager.route.Count);
         routeManager.DrawRoute(route);
     }
 }

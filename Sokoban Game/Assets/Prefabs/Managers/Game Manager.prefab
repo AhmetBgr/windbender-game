@@ -149,6 +149,7 @@ MonoBehaviour:
   route: []
   windMoveRoute: []
   lr: {fileID: 7364637215218047534}
+  mat: {fileID: 0}
   colorOpen:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0.039215688}
@@ -236,6 +237,35 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 3
+  color2L:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 0.23529412}
+    key1: {r: 1, g: 1, b: 1, a: 0.47058824}
+    key2: {r: 0, g: 0, b: 0, a: 0.47058824}
+    key3: {r: 0, g: 0, b: 0, a: 0.23529412}
+    key4: {r: 0, g: 0, b: 0, a: 0.23529412}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 655
+    atime2: 64880
+    atime3: 65535
+    atime4: 65535
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 4
   defAlpha: 0
   isLooping: 0
 --- !u!1 &5134238524940700379
@@ -443,10 +473,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   route: []
   windMoveRoute: []
+  windCutRequests: []
+  curWindCutRequest:
+    windCutter: {fileID: 0}
+    cutIndex: 0
+    cutPos: {x: 0, y: 0, z: 0}
+    isExeCuted: 0
+  windRestoreRequests: []
+  curWindRestoreRequest:
+    windCutter: {fileID: 0}
+    index: 0
+    restoreDir: {x: 0, y: 0, z: 0}
+    isExeCuted: 0
   destinations: []
   windSources: []
   routeManager: {fileID: 0}
   cursor: {fileID: 0}
+  dustTiles: []
+  dustTileMap: {fileID: 0}
   arrowController: {fileID: 2495740056732028886}
   validPositionSprites:
   - {fileID: 9059092117360367602}

@@ -64,10 +64,11 @@ public class SetRoute : Command
         routeManager.route = new List<Vector3>();
         routeManager.route.AddRange(route);
         routeManager.DrawRoute(route);
+        routeManager.tilemap.color = new Color(1f, 1f, 1f, 0.75f);
         //GameManager.instance.UpdateValidPositions(route[route.Count -1]);
         //routeManager.UpdateValidPositions(route[route.Count -1]);
 
-        if(nextWS != null)
+        if (nextWS != null)
         {
             nextWS.windSP = nextWS.defWindSP;
             //nextWS.isUsed = false;

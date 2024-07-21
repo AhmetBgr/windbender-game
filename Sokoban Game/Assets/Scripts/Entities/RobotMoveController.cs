@@ -74,8 +74,7 @@ public class RobotMoveController : ObjectMoveController
 
     public override void FindNeighbors(List<Vector3> route)
     {
-        if (movementReserve == null)
-        {
+        if (movementReserve == null) {
             return;
         }
 
@@ -85,31 +84,24 @@ public class RobotMoveController : ObjectMoveController
         int destinationTile = -1;
 
         List<Vector3> neighborVectors = new List<Vector3> { Vector3.up, Vector3.down, Vector3.right, Vector3.left };
-        foreach (Vector3 dir in neighborVectors)
-        {
+        foreach (Vector3 dir in neighborVectors) {
             RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
             MoveTo neighbor = null;
-            if (hit)
-            {
+            if (hit) {
                 GameObject obj = hit.transform.gameObject;
 
-                if (movementReserve.intentToMove && this.dir == dir)
-                {
+                if (movementReserve.intentToMove && this.dir == dir) {
                     //Debug.Log("destination tile layer: " + obj.layer);
-                    if (obj.layer == 7)
-                    {
+                    if (obj.layer == 7) {
                         destinationTile = 1;
                         neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
                     }
-                    else
-                    {
+                    else {
                         destinationTile = 2;
                     }
                 }
-                else
-                {
-                    if (obj.layer == 7)
-                    {
+                else {
+                    if (obj.layer == 7) {
                         neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
                     }
                 }
@@ -122,15 +114,13 @@ public class RobotMoveController : ObjectMoveController
 
         if (!movementReserve.intentToMove) return;
 
-        if (movementReserve.neighbors.TryGetValue(movementReserve.dir, out destinationObj))
-        {
+        if (movementReserve.neighbors.TryGetValue(movementReserve.dir, out destinationObj)) {
             if (destinationObj == null) // wall at destination
             {
                 gameManager.obstacleAtDestinationMoves.Add(movementReserve);
                 //Debug.LogWarning("WALL");
             }
-            else
-            {
+            else {
                 //gameManager.momentumTransferMoves.Add(movementReserve);
 
                 /*if (!destinationObj.intentToMove || ( destinationObj.dir != -movementReserve.dir | destinationObj.dir != dir ) )
@@ -143,8 +133,7 @@ public class RobotMoveController : ObjectMoveController
                     gameManager.obstacleAtDestinationMoves.Add(movementReserve);
                 }*/
 
-                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir))
-                {
+                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
                     gameManager.momentumTransferMoves.Add(movementReserve);
 
                     /*destinationObj.dir = dir;
@@ -159,8 +148,7 @@ public class RobotMoveController : ObjectMoveController
 
             }
         }
-        else
-        {
+        else {
             gameManager.emptyDestinationMoves.Add(movementReserve);
             //Debug.LogWarning("EMPTY MOVE");
         }

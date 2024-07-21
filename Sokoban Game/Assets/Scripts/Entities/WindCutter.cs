@@ -33,26 +33,38 @@ public class WindCutter : MonoBehaviour
         List<Vector3> route = gameManager.route;
         Vector3 pos = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
 
-        Debug.Log("should try request, is in route: " + route.Contains(pos) + ", iscutting: " + isCutting);
+        //Debug.Log("should try request, is in route: " + route.Contains(pos) + ", iscutting: " + isCutting);
 
-        if (route.Contains(dest)) {
+        bool isInWind = route.Contains(dest);
+
+        Vector3 windTileDir = Vector3.zero;
+        int windTileIndex = 0;
+        bool isWindTilePerpendicular = false;
+        if (isInWind && !isCutting) {
+            Debug.Log("should check if wind tile perpendicular");
+            windTileIndex = route.IndexOf(dest);
+            isWindTilePerpendicular = Vector3.Dot(route[windTileIndex - 1] - route[windTileIndex], route[windTileIndex] - route[windTileIndex + 1] ) == 0;
+        }
+        Debug.Log("wind tile perpendicular?: " + isWindTilePerpendicular);
+        if (isInWind) { // && !isWindTilePerpendicular
             // generate cut request
-            
+
             int index = route.FindIndex(i => i == dest);
 
             Vector3 restoreDir = index == 0 ? route[index + 1] - route[index] : route[index] - route[index - 1];
 
             bool isPerpendicular = Vector3.Dot(immediateRestoreDirs + restoreDir, restoreDir) == 0;
 
-            Debug.Log("immediate restore dir: " + (immediateRestoreDirs + restoreDir));
+            //Debug.Log("immediate restore dir: " + (immediateRestoreDirs + restoreDir));
 
             if (isPerpendicular) {
                 restoreDir = immediateRestoreDirs + restoreDir;
             }
 
-            Debug.Log("cut index: " + index);
+            //Debug.Log("cut index: " + index);
 
             gameManager.windCutRequests.Add(GenerateNewCutRequest(gameManager, route, dest, index));
+
             if (isPerpendicular)
                 gameManager.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir, index));
 
@@ -63,11 +75,11 @@ public class WindCutter : MonoBehaviour
             //int index = gameManager.curWindCutRequest.cutIndex; //route.FindIndex(i => i == pos);
             int index = route.FindIndex(i => i == pos);
 
-            Debug.Log("should add restore req, index: " + index);
-            Debug.Log("should add restore req, windcutter: " + gameObject.name);
+            //Debug.Log("should add restore req, index: " + index);
+            //Debug.Log("should add restore req, windcutter: " + gameObject.name);
 
             Vector3 restoreDir = index == 0 ? route[index + 1] - route[index] : route[index] - route[index - 1];
-            Debug.Log("should add restore req, restore dir 0: " + restoreDir);
+            //Debug.Log("should add restore req, restore dir 0: " + restoreDir);
 
             gameManager.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir.normalized, index));
             gameManager.curWindCutRequest = null;
@@ -126,8 +138,8 @@ public class WindCutter : MonoBehaviour
             }
             else if (isMoved && canRestore && gameManager.curWindCutRequest != null) {
                 int index = gameManager.curWindCutRequest.cutIndex; //route.FindIndex(i => i == pos);
-                Debug.Log("should restore wind route, index: " + index);
-                Debug.Log("should restore wind route, windcutter: " + gameObject.name);
+                //Debug.Log("should restore wind route, index: " + index);
+                //Debug.Log("should restore wind route, windcutter: " + gameObject.name);
 
                 Vector3 restoreDir = index == 0 ? route[index + 1] - route[index] : route[index] - route[index - 1];
                 //Debug.Log("should restore wind route, restore dir 0: " + restoreDir);
@@ -149,7 +161,7 @@ public class WindCutter : MonoBehaviour
 
     public Vector3 CalculateRestoreDir(List<Vector3> route, int indexInWind) {
         //int indexInWind = route.FindIndex(i => i == pos);
-        Debug.Log("cal res dir index: " + indexInWind);
+        //Debug.Log("cal res dir index: " + indexInWind);
 
         Vector3 restoreDir = indexInWind == 0 ? route[indexInWind + 1] - route[indexInWind] : route[indexInWind] - route[indexInWind - 1];
 

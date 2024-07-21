@@ -32,12 +32,17 @@ PrefabInstance:
     - target: {fileID: 3381453923137205308, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
         type: 3}
       propertyPath: immediateRestoreDirs.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3381453923137205308, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
         type: 3}
       propertyPath: immediateRestoreDirs.y
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5155399390948871074, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7417882731122245962, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
         type: 3}
@@ -47,7 +52,7 @@ PrefabInstance:
     - target: {fileID: 7417882731122245964, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7417882731122245964, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
         type: 3}
@@ -99,9 +104,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7417882731122245970, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8267008138789477206, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
         type: 3}
       propertyPath: moveAxis.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787315325235811170, guid: 6a6c8d1b9bcab0e438c3b1a3571bdb6e,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
       value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

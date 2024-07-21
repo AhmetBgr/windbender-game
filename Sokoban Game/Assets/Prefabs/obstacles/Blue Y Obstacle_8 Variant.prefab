@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 70398482663124548, guid: 0953da76bd9228246a1a80d3b1bf910f,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 70398482663124548, guid: 0953da76bd9228246a1a80d3b1bf910f,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 883690716927904229, guid: 0953da76bd9228246a1a80d3b1bf910f,
         type: 3}
       propertyPath: m_FlipX
@@ -27,17 +37,17 @@ PrefabInstance:
     - target: {fileID: 883690716927904234, guid: 0953da76bd9228246a1a80d3b1bf910f,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.46875
+      value: 1.34375
       objectReference: {fileID: 0}
     - target: {fileID: 5253115176460671794, guid: 0953da76bd9228246a1a80d3b1bf910f,
         type: 3}
       propertyPath: m_Name
-      value: Blue Y Obstacle_8
+      value: Blue Y Obstacle_8 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5253115176460671796, guid: 0953da76bd9228246a1a80d3b1bf910f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 37
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5253115176460671796, guid: 0953da76bd9228246a1a80d3b1bf910f,
         type: 3}
@@ -89,6 +99,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7610209323270590938, guid: 0953da76bd9228246a1a80d3b1bf910f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2101565629, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0953da76bd9228246a1a80d3b1bf910f, type: 3}

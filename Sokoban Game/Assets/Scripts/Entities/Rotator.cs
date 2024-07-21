@@ -16,7 +16,7 @@ public class Rotator : MonoBehaviour{
     public int prevTurn = -1;
 
 
-    public delegate void OnRotatesDelegate(float dir);
+    public delegate void OnRotatesDelegate(float dir, TargetTag tag);
     public static event OnRotatesDelegate OnRotates;
 
 
@@ -161,7 +161,7 @@ public class Rotator : MonoBehaviour{
 
     private void InvokeOnRotate(float dir) {
         if ((rotationCount + 1) % 2 == 0)
-            OnRotates?.Invoke(dir);
+            OnRotates?.Invoke(dir, tag);
     }
 
     public void UpdateAnimSpeed(GameState from, GameState to) {

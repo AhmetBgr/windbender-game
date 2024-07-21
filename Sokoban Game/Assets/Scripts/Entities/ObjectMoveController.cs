@@ -161,9 +161,8 @@ public class ObjectMoveController : MonoBehaviour
     }
 
     // Validates movement reserve
-    public virtual void FindNeighbors(List<Vector3> route)
-    {
-        if (movementReserve == null)    return;
+    public virtual void FindNeighbors(List<Vector3> route) {
+        if (movementReserve == null) return;
 
         GameManager gameManager = GameManager.instance;
 
@@ -171,24 +170,24 @@ public class ObjectMoveController : MonoBehaviour
         int destinationTile = -1;
 
         List<Vector3> neighborVectors = new List<Vector3> { Vector3.up, Vector3.down, Vector3.right, Vector3.left };
-        foreach (Vector3 dir in neighborVectors){
+        foreach (Vector3 dir in neighborVectors) {
             RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
             MoveTo neighbor = null;
-            if (hit){
+            if (hit) {
                 GameObject obj = hit.transform.gameObject;
-                
-                if (movementReserve.intentToMove && this.dir == dir){
+
+                if (movementReserve.intentToMove && this.dir == dir) {
                     //Debug.Log("destination tile layer: " + obj.layer);
-                    if (obj.layer == 7){
+                    if (obj.layer == 7) {
                         destinationTile = 1;
                         neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
                     }
-                    else{
+                    else {
                         destinationTile = 2;
                     }
                 }
-                else{
-                    if (obj.layer == 7){
+                else {
+                    if (obj.layer == 7) {
                         neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
                     }
                 }
@@ -203,22 +202,22 @@ public class ObjectMoveController : MonoBehaviour
 
         // Determines destination tile type and adds movement reserve to the mov. res. list
 
-        if (movementReserve.neighbors.TryGetValue(movementReserve.dir, out destinationObj)){
-            
-            if (destinationObj == null) { 
+        if (movementReserve.neighbors.TryGetValue(movementReserve.dir, out destinationObj)) {
+
+            if (destinationObj == null) {
                 // wall at destination
                 gameManager.obstacleAtDestinationMoves.Add(movementReserve);
                 //Debug.LogWarning("here");
                 //pushedByInfos.Remove(movementReserve.dir);
             }
-            else{ 
+            else {
                 // A moveable object at destination tile
-                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)){
+                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
                     gameManager.momentumTransferMoves.Add(movementReserve);
                 }
             }
         }
-        else{ 
+        else {
             // Destination tile is empty
             gameManager.emptyDestinationMoves.Add(movementReserve);
         }
@@ -234,6 +233,7 @@ public class ObjectMoveController : MonoBehaviour
     }
 
     public virtual void FailedMove(){
+        Debug.Log("failed move");
         tween = transform.DOPunchPosition(dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
         hasSpeed = false;
     }
@@ -246,7 +246,15 @@ public class ObjectMoveController : MonoBehaviour
         }
         else
         {
-            movementReserve.ChainMomentumTransfer(emptyDestintionTileMoves);
+            if(movementReserve != null) {
+                //Debug.Log("should try chain momentum transfer: " + movementReserve.obj.transform.parent.name);
+
+                movementReserve.ChainMomentumTransfer(emptyDestintionTileMoves);
+
+            }
+            else {
+                Debug.Log("cant try chain momentum transfer, move res null: ");
+            }
         }
 
         //ChainPush(movementReserve, emptyDestintionTileMoves);
@@ -255,9 +263,8 @@ public class ObjectMoveController : MonoBehaviour
             OnHit(movementReserve);
         }*/
     }
-       
-    public virtual void TryToPush(PushInfo pushedByInfo)
-    {
+
+    public virtual void TryToPush(PushInfo pushedByInfo) {
         MoveTo moveRes = movementReserve;
         MoveTo destinationObjA;
         //Vector3 dir = moveRes.dir;
@@ -265,17 +272,14 @@ public class ObjectMoveController : MonoBehaviour
         //PushInfo pushInfoThis = pushedByInfos[pushedByInfo.pushDir];
 
         // Checks if there is something in the way for current movement. if so add that object to the destinationObjA
-        if (movementReserve.neighbors.TryGetValue(pushedByInfo.pushDir, out destinationObjA))
-        {
+        if (movementReserve.neighbors.TryGetValue(pushedByInfo.pushDir, out destinationObjA)) {
 
-            if (destinationObjA == null)
-            {
+            if (destinationObjA == null) {
                 // wall at destination
                 pushedByInfo.destinationTile = 2;
                 //Debug.LogWarning("wall at push dest.");
             }
-            else
-            {
+            else {
                 // A moveable object at destination tile
                 //Debug.LogWarning("A moveable object at push dest. " + gameObject.name);
                 pushedByInfo.destinationTile = 1;
@@ -295,8 +299,7 @@ public class ObjectMoveController : MonoBehaviour
                 destinationObjA.obj.TryToPush(pushInfoOther);
             }
         }
-        else 
-        {
+        else {
             // destination tile is empty
             pushedByInfo.destinationTile = 0;
         }
@@ -437,19 +440,19 @@ public class ObjectMoveController : MonoBehaviour
 
     }
 
-    public virtual void ChainPush(MoveTo moveRes, List<MoveTo> emptyDestintionTileMoves){
+    public virtual void ChainPush(MoveTo moveRes, List<MoveTo> emptyDestintionTileMoves) {
         MoveTo destinationObjA;
         Vector3 dir = moveRes.dir;
         moveRes.pushed = true;
-        if(moveRes.dir == -moveRes.pushedBy){
+        if (moveRes.dir == -moveRes.pushedBy) {
             // chain failed move
             moveRes.ChainFailedMove();
             return;
         }
         Debug.LogWarning(gameObject.name + " dir: " + dir);
         if (movementReserve.neighbors.TryGetValue(dir, out destinationObjA)) { // Checks if there is something in the way for current movement. if so add that object to the destinationObjA
-            if (destinationObjA.intentToMove){
-                if(dir == -destinationObjA.dir) // Checks if destination object wants to move towards current object's tile loc
+            if (destinationObjA.intentToMove) {
+                if (dir == -destinationObjA.dir) // Checks if destination object wants to move towards current object's tile loc
                 {
                     //  Extends chain failed move to the neighbor object
                     /*destinationObjA.destinationTile = 2;
@@ -463,11 +466,11 @@ public class ObjectMoveController : MonoBehaviour
                     Debug.LogWarning("should chain failed move: " + destinationObjA.obj.name);
                     return;
                 }
-                else if(dir == destinationObjA.dir){
+                else if (dir == destinationObjA.dir) {
                     return;
                 }
             }
-            
+
 
             destinationObjA.dir = dir;
             destinationObjA.to = destinationObjA.from + dir;
@@ -476,7 +479,7 @@ public class ObjectMoveController : MonoBehaviour
             destinationObjA.pushed = true;
             moveRes.isMomentumTransferred = true;
             destinationObjA.Hit(emptyDestintionTileMoves);
-            
+
         }
         else // destination tile is empty
         {
@@ -487,6 +490,9 @@ public class ObjectMoveController : MonoBehaviour
         }
     }
 
+    public virtual void SetPos(Vector3 pos) {
+        transform.position = pos;
+    }
 
     public virtual void PlayMoveAnim()
     {

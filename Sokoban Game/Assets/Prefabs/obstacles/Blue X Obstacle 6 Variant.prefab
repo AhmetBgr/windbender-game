@@ -22,18 +22,29 @@ PrefabInstance:
     - target: {fileID: 113446029340484621, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.8125
+      value: 0.90625
       objectReference: {fileID: 0}
     - target: {fileID: 113446029612008343, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
       propertyPath: m_Size.x
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 1290985651543270878, guid: 988b7a82eee577a4ea1c137b0d458a93,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3646153714194417867, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
       propertyPath: m_Size.y
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 4213845522556104267, guid: 988b7a82eee577a4ea1c137b0d458a93,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 880464006, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
     - target: {fileID: 4987273683619340160, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
       propertyPath: m_Name
@@ -42,7 +53,7 @@ PrefabInstance:
     - target: {fileID: 4987273683619340166, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
       propertyPath: m_RootOrder
-      value: 33
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4987273683619340166, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
@@ -92,6 +103,11 @@ PrefabInstance:
     - target: {fileID: 4987273683619340166, guid: 988b7a82eee577a4ea1c137b0d458a93,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4987273683619340184, guid: 988b7a82eee577a4ea1c137b0d458a93,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5495135451131725332, guid: 988b7a82eee577a4ea1c137b0d458a93,

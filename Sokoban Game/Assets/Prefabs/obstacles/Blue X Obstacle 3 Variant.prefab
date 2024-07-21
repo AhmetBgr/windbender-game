@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1154586478565931979, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1154586478565931979, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
         type: 3}
@@ -66,7 +66,17 @@ PrefabInstance:
     - target: {fileID: 1154586478565931981, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
         type: 3}
       propertyPath: m_Name
-      value: Blue X Obstacle 3
+      value: Blue X Obstacle 3 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1154586478565931989, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833268656053690969, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6098078564218323009, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
         type: 3}
@@ -78,6 +88,12 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1674851685, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
+    - target: {fileID: 8018983047514769926, guid: 1cb0b81be1ffb994f81d5ab4a3df6ed4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 264311619, guid: 33057a9bb2a7fa445829b5f68eb373b4,
         type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []

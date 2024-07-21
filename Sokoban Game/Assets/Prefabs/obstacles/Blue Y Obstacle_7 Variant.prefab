@@ -8,10 +8,31 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1953051075410717621, guid: 561fdd889ee56ce4baa73457a4a98962,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2101565629, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
+    - target: {fileID: 2694235938322641781, guid: 561fdd889ee56ce4baa73457a4a98962,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694235938322641781, guid: 561fdd889ee56ce4baa73457a4a98962,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4206525871961596229, guid: 561fdd889ee56ce4baa73457a4a98962,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4206525871961596251, guid: 561fdd889ee56ce4baa73457a4a98962,
         type: 3}
       propertyPath: m_RootOrder
-      value: 35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4206525871961596251, guid: 561fdd889ee56ce4baa73457a4a98962,
         type: 3}
@@ -66,12 +87,22 @@ PrefabInstance:
     - target: {fileID: 4206525871961596253, guid: 561fdd889ee56ce4baa73457a4a98962,
         type: 3}
       propertyPath: m_Name
-      value: Blue Y Obstacle_7
+      value: Blue Y Obstacle_7 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249573732167226411, guid: 561fdd889ee56ce4baa73457a4a98962,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249573732167226411, guid: 561fdd889ee56ce4baa73457a4a98962,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 9134923556980290437, guid: 561fdd889ee56ce4baa73457a4a98962,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.46875
+      value: 1.34375
       objectReference: {fileID: 0}
     - target: {fileID: 9134923556980290442, guid: 561fdd889ee56ce4baa73457a4a98962,
         type: 3}

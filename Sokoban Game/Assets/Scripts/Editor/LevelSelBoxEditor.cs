@@ -17,11 +17,11 @@ public class LevelSelBoxEditor : Editor
         LevelSelectionBox t = target as LevelSelectionBox;
         
 
-        if (t.text != null && t.level != null)
+        /*if (t.text != null && t.level != null)
         {
             t.text.text = t.level.name;
             EditorUtility.SetDirty(t.text);
-        }
+        }*/
             
         if (t.debugNameText != null && t.level != null)
         {

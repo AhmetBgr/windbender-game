@@ -31,12 +31,12 @@ public class SettingsManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        GameManager.instance.OnSpeedChanged += SaveGameSpeed;
+        GameManager.instance.OnPlannedSpeedChanged += SaveGameSpeed;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.OnSpeedChanged -= SaveGameSpeed;
+        GameManager.instance.OnPlannedSpeedChanged -= SaveGameSpeed;
     }
 
     public void SaveSettingsData()

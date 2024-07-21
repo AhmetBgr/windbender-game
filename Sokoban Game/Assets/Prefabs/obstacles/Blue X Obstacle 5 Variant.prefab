@@ -8,15 +8,25 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1475487749993851421, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: dir.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475487749993851421, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: dir.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2407489944596420770, guid: 4a1ce902707d8c744b5e69c0de747f5e,
         type: 3}
       propertyPath: m_Name
-      value: Blue X Obstacle 5
+      value: Blue X Obstacle 5 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2407489944596420772, guid: 4a1ce902707d8c744b5e69c0de747f5e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2407489944596420772, guid: 4a1ce902707d8c744b5e69c0de747f5e,
         type: 3}
@@ -68,6 +78,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2407489944596420794, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890714135260725558, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: immediateRestoreDirs.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890714135260725558, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784061003100711273, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784061003100711273, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1779354077, guid: 33057a9bb2a7fa445829b5f68eb373b4,
+        type: 3}
     - target: {fileID: 7335324980756186292, guid: 4a1ce902707d8c744b5e69c0de747f5e,
         type: 3}
       propertyPath: m_FlipX
@@ -79,6 +115,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1779354077, guid: 33057a9bb2a7fa445829b5f68eb373b4,
         type: 3}
+    - target: {fileID: 8481902319752618748, guid: 4a1ce902707d8c744b5e69c0de747f5e,
+        type: 3}
+      propertyPath: immediateRestoreDirs.y
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a1ce902707d8c744b5e69c0de747f5e, type: 3}

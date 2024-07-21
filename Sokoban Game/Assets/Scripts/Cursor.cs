@@ -8,6 +8,8 @@ public class Cursor : MonoBehaviour
     public bool snapToGrid = false;
     //public bool onlyUpdateOnHover = false;
     public Vector3 pos;
+    public Vector3 realPos;
+
     public bool isHiden = false;
     public static Cursor instance = null;
 
@@ -33,6 +35,7 @@ public class Cursor : MonoBehaviour
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             pos = new Vector3(HalfRound(mouseWorldPos.x), HalfRound(mouseWorldPos.y), 0f);
+            realPos = mouseWorldPos;
             transform.position = pos;
         }
         else
