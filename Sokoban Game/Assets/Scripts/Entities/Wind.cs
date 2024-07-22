@@ -14,8 +14,8 @@ public class Wind : MonoBehaviour{
         { (Vector3.left, Vector3.down), 1 },
         { (Vector3.down, Vector3.right), 1 },
         { (Vector3.down, Vector3.left), -1 },
-        { (Vector3.up, Vector3.right), 1 },
-        { (Vector3.up, Vector3.left), -1 }
+        { (Vector3.up, Vector3.right), -1 },
+        { (Vector3.up, Vector3.left), 1 }
     };
 
     public List<Vector3> route = new List<Vector3>();
@@ -73,7 +73,6 @@ public class Wind : MonoBehaviour{
         }
         else {
             mat.SetFloat("_speed", defSpeed);
-
         }
     }
 
@@ -94,7 +93,6 @@ public class Wind : MonoBehaviour{
 
 
         if (isLooping) {
-
             route.RemoveAt(route.Count - 1);
 
             Vector3 dir1 = (route[1] - route[0]).normalized;
@@ -102,7 +100,7 @@ public class Wind : MonoBehaviour{
 
             int rotDir = GetRotationDirection(route);
 
-            tornadoMat.SetFloat("_speed", 7 * rotDir);
+            tornadoMat.SetFloat("_speed", 10 * rotDir);
 
             Vector3 sum = Vector3.zero;
             foreach (var item in route) {
@@ -124,7 +122,6 @@ public class Wind : MonoBehaviour{
             Vector3 firstPos = route[0];
             pos = firstPos + (firstPos-route[1]).normalized * 0.5f;
             route[0] = pos;
-
         }
         /*else if(deformInfo.cutLenght > 0 && !deformInfo.restore) {
             Vector3 lastPos = route[route.Count - 1];

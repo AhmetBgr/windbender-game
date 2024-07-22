@@ -197,7 +197,7 @@ TextureImporter:
       name: fog_tilemap1_6
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 192
         width: 32
         height: 32
@@ -215,31 +215,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fog_tilemap1_7
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 192
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a021dce2d384f448b0bd5bf1add0884
-      internalID: 1273056529
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: fog_tilemap1_8
       rect:
         serializedVersion: 2
-        x: 64
+        x: 128
         y: 192
         width: 32
         height: 32
@@ -260,7 +239,7 @@ TextureImporter:
       name: fog_tilemap1_12
       rect:
         serializedVersion: 2
-        x: 0
+        x: 128
         y: 160
         width: 32
         height: 32
@@ -281,8 +260,8 @@ TextureImporter:
       name: fog_tilemap1_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 160
+        x: 0
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -303,7 +282,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 160
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -319,6 +298,174 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_3
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce42acaad9b0d2042bf2fa01c1294ac3
+      internalID: 1850363967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f01fcb0686fc69488c50649d1d0a044
+      internalID: -907337433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7562e4a0485c5a41a4d110de50f3c85
+      internalID: 1408456698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3376de36066add4591ac5f0dba5869e
+      internalID: -1321742068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_10
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b297eb775649b54ab4926717d3db0db
+      internalID: 1750088124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17a093d02888a9f4ab3138c32801e212
+      internalID: 928961572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00a8af1349156374b9ddcfabdaa662d1
+      internalID: 175396070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fog_tilemap1_16
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7205d770322f54546aea82cba27711a1
+      internalID: -917715517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -330,40 +477,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fog_tilemap1_22: -1946099417
-      fog_tilemap1_12: -318285435
       fog_tilemap1_11: 928961572
-      fog_tilemap1_28: 2114097410
-      fog_tilemap1_18: 1162735742
-      fog_tilemap1_17: 1206721260
       fog_tilemap1_8: -1219592871
       fog_tilemap1_16: -917715517
       fog_tilemap1_13: -1216954926
       fog_tilemap1_3: 1850363967
-      fog_tilemap1_26: -1843402608
       fog_tilemap1_5: 1408456698
-      fog_tilemap1_27: -1189925170
       fog_tilemap1_0: 1211994751
-      fog_tilemap1_33: 980697431
       fog_tilemap1_6: -1823660160
-      fog_tilemap1_32: -873031558
       fog_tilemap1_14: -225062632
-      fog_tilemap1_31: -445938971
       fog_tilemap1_10: 1750088124
       fog_tilemap1_9: -1321742068
-      fog_tilemap1_19: 458740990
       fog_tilemap1_4: -907337433
       fog_tilemap1_2: -432974287
       fog_tilemap1_7: 1273056529
-      fog_tilemap1_29: -2138772358
-      fog_tilemap1_23: -2070598208
-      fog_tilemap1_21: 1864524889
       fog_tilemap1_15: 175396070
       fog_tilemap1_1: -1146256107
-      fog_tilemap1_30: 949026995
-      fog_tilemap1_20: 900579566
-      fog_tilemap1_24: -468943856
-      fog_tilemap1_25: 469838088
+      fog_tilemap1_12: -318285435
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 
