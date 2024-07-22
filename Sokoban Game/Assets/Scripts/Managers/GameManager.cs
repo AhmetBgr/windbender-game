@@ -634,7 +634,7 @@ public class GameManager : MonoBehaviour{
         undoTimes.Add(turnID + 1);
         SetRoute(route);
         routeManager.WindTransition(route, isLooping);
-        wind.StartWind(defTurnDur + 1.5f , defTurnDur); // * (2/3)
+        wind.StartWind(defTurnDur + 1.5f , isLooping, defTurnDur); // * (2/3)
         oldCommands.Add(setRoute);
         state = GameState.Running;
 

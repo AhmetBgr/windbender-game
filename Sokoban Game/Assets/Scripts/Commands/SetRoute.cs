@@ -57,7 +57,7 @@ public class SetRoute : Command
             gameManager.arrowController.SetPositions(this.windMoveRoute);
             gameManager.isDrawingMoveRoute = true;
         }
-        gameManager.wind.EndWind(0f);
+        gameManager.wind.EndWind(0f, isLooping);
         
         // Undo Route manager
         routeManager.DeleteTiles();

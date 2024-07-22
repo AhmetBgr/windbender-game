@@ -6,12 +6,27 @@ using UnityEngine.Events;
 [RequireComponent(typeof(LineRenderer))]
 public class Wind : MonoBehaviour{
 
+    private static readonly Dictionary<(Vector3, Vector3), int> RotDirMap = new Dictionary<(Vector3, Vector3), int>
+    {
+        { (Vector3.right, Vector3.up), 1 },
+        { (Vector3.right, Vector3.down), -1 },
+        { (Vector3.left, Vector3.up), -1 },
+        { (Vector3.left, Vector3.down), 1 },
+        { (Vector3.down, Vector3.right), 1 },
+        { (Vector3.down, Vector3.left), -1 },
+        { (Vector3.up, Vector3.right), 1 },
+        { (Vector3.up, Vector3.left), -1 }
+    };
+
     public List<Vector3> route = new List<Vector3>();
     public List<Vector3> windMoveRoute = new List<Vector3>();
     public WindRouteDeformInfo deformInfo = new WindRouteDeformInfo(null, -1, 0);
 
     public LineRenderer lr;
+    public SpriteRenderer tornado;
     public Material mat;
+    public Material tornadoMat;
+
     public Gradient colorOpen;
     public Gradient colorLoop;
     public Gradient colorCut;
@@ -22,6 +37,8 @@ public class Wind : MonoBehaviour{
     private GameManager gameManager;
 
     public float defAlpha;
+    public float defAlpha2;
+
     public bool isLooping = false;
     private float defSpeed;
 
@@ -32,7 +49,10 @@ public class Wind : MonoBehaviour{
         //route = gameManager.route;
         windMoveRoute = gameManager.windMoveRoute;
         mat = lr.material;
+        tornadoMat = tornado.material;
         defAlpha = mat.GetFloat("_alpha");
+        defAlpha2 = tornadoMat.GetFloat("_alpha");
+
         defSpeed = mat.GetFloat("_speed");
 
     }
@@ -60,17 +80,43 @@ public class Wind : MonoBehaviour{
     public void DrawWind() {
         Debug.Log("should draw wind");
         Debug.Log("wind route count: " + route.Count);
+
+
         transform.position = gameManager.curWindSource.transform.position;
         route = new List<Vector3>();
+        
         deformInfo = gameManager.curWindDeformInfo;
         foreach (var pos in gameManager.route) {
             route.Add(transform.InverseTransformPoint(pos) + 0.2f * Vector3.up);
         }
 
         isLooping = gameManager.isLooping;
-        if (isLooping)
+
+
+        if (isLooping) {
+
             route.RemoveAt(route.Count - 1);
+
+            Vector3 dir1 = (route[1] - route[0]).normalized;
+            Vector3 dir2 = (route[2] - route[1]).normalized;
+
+            int rotDir = GetRotationDirection(route);
+
+            tornadoMat.SetFloat("_speed", 7 * rotDir);
+
+            Vector3 sum = Vector3.zero;
+            foreach (var item in route) {
+                sum += item;
+            }
+            Vector3 center = sum / route.Count;
+            tornado.transform.localPosition = (center - route[0])+ 0.1f * Vector3.up;
+            tornado.gameObject.SetActive(true);
+            lr.enabled = false;
+        }
         else {
+            lr.enabled = true;
+            tornado.gameObject.SetActive(false);
+
             Vector3 lastPos = route[route.Count - 1];
             //Vector3 dir = (lastPos - route[route.Count - 2]).normalized;
             Vector3 pos = lastPos + (lastPos - route[route.Count - 2]).normalized * 0.5f;
@@ -103,21 +149,40 @@ public class Wind : MonoBehaviour{
 
     }
 
-    public void StartWind(float dur, float delay = 0) {
+    public void StartWind(float dur, bool isLooping, float delay = 0) {
         DrawWind();
 
-        mat.SetFloat("_alpha", 0f);
-        StartCoroutine(_LerpAlpha(defAlpha, dur, delay));
+        if (!isLooping) {
+            mat.SetFloat("_alpha", 0f);
+            StartCoroutine(_LerpAlpha(mat, defAlpha, dur, delay));
+        }
+        else {
+            //tornado.color = Color.clear;
+            //StartCoroutine(_LerpSpriteColor(tornado, Color.white, dur, delay));
+            tornadoMat.SetFloat("_alpha", 0f);
+
+            StartCoroutine(_LerpAlpha(tornadoMat, defAlpha2, dur, delay));
+
+        }
+
     }
 
-    public void EndWind(float dur, float delay = 0) {
+    public void EndWind(float dur, bool isLooping, float delay = 0) {
+        if (!isLooping) {
+            StartCoroutine(_LerpAlpha(mat, 0f, dur, delay, () => {
+                lr.positionCount = 0;
+            }));
+            tornado.gameObject.SetActive(false);
+        }
+        else {
+            Debug.Log("shoud end tornado");
+            lr.enabled = false;
 
-        StartCoroutine(_LerpAlpha(0f, dur, delay, () => {
-            lr.positionCount = 0;
-        }));
+            StartCoroutine(_LerpAlpha(tornadoMat, 0f, dur, delay));
+        }
     }
 
-    public IEnumerator _LerpAlpha(float alpha, float dur, float delay, UnityAction onComplete = null) {
+    public IEnumerator _LerpAlpha(Material mat, float alpha, float dur, float delay, UnityAction onComplete = null) {
         yield return new WaitForSeconds(delay);
         float initAlpha = mat.GetFloat("_alpha");
         float time = 0;
@@ -130,7 +195,38 @@ public class Wind : MonoBehaviour{
         mat.SetFloat("_alpha", alpha);
     }
 
+    public IEnumerator _LerpSpriteColor(SpriteRenderer sprite, Color color, float dur, float delay, UnityAction onComplete = null) {
+        yield return new WaitForSeconds(delay);
 
+        Color initColor = sprite.color;
+        float time = 0;
+        while (time < dur) {
+            Color currentColor = Color.Lerp(initColor, color, time / dur);
+
+            sprite.color = currentColor;
+
+            time += Time.deltaTime;
+
+
+            yield return null;
+        }
+
+        sprite.color = color;
+
+    }
+
+    public int GetRotationDirection(List<Vector3> route) {
+        if (route == null || route.Count < 3) {
+            Debug.LogError("route cannot be null or less than 3");
+            return 0;
+        } 
+
+        Vector3 dir1 = (route[1] - route[0]).normalized;
+        Vector3 dir2 = (route[2] - route[1]).normalized;
+
+        RotDirMap.TryGetValue((dir1, dir2), out int rotDir);
+        return rotDir;
+    }
 }
 
 public struct WindRouteDeformInfo {
@@ -183,3 +279,5 @@ public class WindRestoreRequest {
         this.isExeCuted = false;
     }
 }
+
+
