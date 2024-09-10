@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Wind : MonoBehaviour{
@@ -26,6 +27,7 @@ public class Wind : MonoBehaviour{
     public SpriteRenderer tornado;
     public Material mat;
     public Material tornadoMat;
+    public EdgeCollider2D col;
 
     public Gradient colorOpen;
     public Gradient colorLoop;
@@ -39,6 +41,8 @@ public class Wind : MonoBehaviour{
     public float defAlpha;
     public float defAlpha2;
 
+    public bool isCheckingColision = false;
+    public bool isCollidedWithWall = false;
     public bool isLooping = false;
     private float defSpeed;
 
@@ -69,11 +73,19 @@ public class Wind : MonoBehaviour{
 
     private void UpdateWindMatSpeed(GameState from, GameState to) {
         if(to == GameState.Paused | to == GameState.DrawingRoute) {
+            Debug.Log("wind speed 0");
             mat.SetFloat("_speed", 0);
+            tornadoMat.SetFloat("_speed", 0);
         }
         else {
+            Debug.Log("wind speed def");
             mat.SetFloat("_speed", defSpeed);
+            tornadoMat.SetFloat("_speed", 10 * GetRotationDirection(route));
         }
+    }
+
+    public void Move(Vector3 dir, float dur) {
+        transform.DOMove(transform.position + dir, dur).SetEase(Ease.Linear);
     }
 
     public void DrawWind() {
@@ -86,7 +98,7 @@ public class Wind : MonoBehaviour{
         
         deformInfo = gameManager.curWindDeformInfo;
         foreach (var pos in gameManager.route) {
-            route.Add(transform.InverseTransformPoint(pos) + 0.2f * Vector3.up);
+            route.Add(transform.InverseTransformPoint(pos) + 0.1f * Vector3.up);
         }
 
         isLooping = gameManager.isLooping;
@@ -98,16 +110,18 @@ public class Wind : MonoBehaviour{
             Vector3 dir1 = (route[1] - route[0]).normalized;
             Vector3 dir2 = (route[2] - route[1]).normalized;
 
-            int rotDir = GetRotationDirection(route);
+            bool isGameRunning = gameManager.state == GameState.Running;
 
-            tornadoMat.SetFloat("_speed", 10 * rotDir);
+            int rotDir = GetRotationDirection(route);
+            tornadoMat.SetFloat("_alpha", defAlpha2);
+            tornadoMat.SetFloat("_speed", (isGameRunning ? 10 : 0) * rotDir);
 
             Vector3 sum = Vector3.zero;
             foreach (var item in route) {
                 sum += item;
             }
             Vector3 center = sum / route.Count;
-            tornado.transform.localPosition = (center - route[0])+ 0.1f * Vector3.up;
+            tornado.transform.localPosition = (center - route[0]); //+ 0.1f * Vector3.up
             tornado.gameObject.SetActive(true);
             lr.enabled = false;
         }

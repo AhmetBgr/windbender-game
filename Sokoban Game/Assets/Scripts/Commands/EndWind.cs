@@ -11,6 +11,7 @@ public class EndWind : Command{
     List<Vector3> windMoveRoute = new List<Vector3>();
     Vector3 windPos;
     bool isLooping;
+    int defTurnCount;
 
     public EndWind(GameManager gameManager, Wind wind, ArrowController arrowController) {
         this.arrowController = arrowController;
@@ -20,11 +21,12 @@ public class EndWind : Command{
         this.windMoveRoute.AddRange(gameManager.windMoveRoute);
         curWindSource = gameManager.curWindSource;
         isLooping = gameManager.isLooping;
+        windPos = wind.transform.position;
+        defTurnCount = gameManager.defTurnCount;
     }
 
     public override void Execute() {
         gameManager.route.Clear();
-        windMoveRoute.Clear();
         arrowController.Clear();
         wind.EndWind(gameManager.defTurnDur*2, isLooping);
         gameManager.windMoveRoute.Clear();
@@ -37,11 +39,14 @@ public class EndWind : Command{
         gameManager.route.AddRange(route);
         gameManager.windMoveRoute.AddRange(windMoveRoute);
         gameManager.curWindSource = curWindSource;
+        gameManager.isLooping = isLooping;
+        gameManager.defTurnCount = defTurnCount;
         if(windMoveRoute.Count > 0) {
             arrowController.SetPositions(windMoveRoute);
         }
 
         wind.DrawWind();
+        wind.transform.position = windPos;
         wind.mat.SetFloat("_alpha", wind.defAlpha);
 
     }

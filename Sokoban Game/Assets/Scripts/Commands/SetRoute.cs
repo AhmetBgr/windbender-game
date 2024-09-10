@@ -39,7 +39,7 @@ public class SetRoute : Command
         // Undo Wind source
         windSource.isUsed = false;
         windSource.MakeInteractable();
-        
+
 
         // update game manager
         GameManager.instance.curWindSource = windSource;
@@ -51,12 +51,21 @@ public class SetRoute : Command
         GameManager.instance.isLooping = isLooping;
         GameManager.instance.curWindDeformInfo.cutLenght = 0;
         gameManager.isWaiting = false;
+        //gameManager.state = GameState.DrawingRoute;
         if(isLooping){
             gameManager.windMoveRoute = new List<Vector3>();
             gameManager.windMoveRoute.AddRange(windMoveRoute);
             gameManager.arrowController.SetPositions(this.windMoveRoute);
             gameManager.isDrawingMoveRoute = true;
         }
+        else {
+            gameManager.isDrawingMoveRoute = false;
+            gameManager.windMoveRoute.Clear();
+            gameManager.arrowController.Clear();
+        }
+        
+        Debug.Log("undno set route");
+
         gameManager.wind.EndWind(0f, isLooping);
         
         // Undo Route manager

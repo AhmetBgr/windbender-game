@@ -272,9 +272,34 @@ public class BarrelMovement : ObjectMoveController
 
     public override void Hit(List<MoveTo> emptyDestintionTileMoves)
     {
-        base.Hit(emptyDestintionTileMoves);
+        if(movementReserve.indexInWind >= 0) {
+            if (pushInfoThis == null) {
+                PushInfo pushInfo = new PushInfo();
+                pushInfo.pushedBy = null;
+                pushInfo.pushOrigin = gameObject.GetInstanceID();
+                pushInfo.indexInChainPush = -1;
+                pushInfo.pushDir = dir;
+
+                pushInfoThis = pushInfo;
+                pushedByInfos.Add(pushInfo.pushDir, pushInfo);
+            }
+        }
 
 
+        if (pushedByInfos.Count > 0) {
+            TryToPush(pushedByInfos[movementReserve.dir]);
+        }
+        else {
+            if (movementReserve != null) {
+                //Debug.Log("should try chain momentum transfer: " + movementReserve.obj.transform.parent.name);
+
+                movementReserve.ChainMomentumTransfer(emptyDestintionTileMoves);
+
+            }
+            else {
+                Debug.Log("cant try chain momentum transfer, move res null: ");
+            }
+        }
     }
 
     public virtual void ChainMomentumTranfer(){

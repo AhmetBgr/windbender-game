@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/1-3D.unity
     guid: 1a4e3ffaf3327094bbaf3b6b42cdee32
   - enabled: 1
+    path: Assets/Scenes/Levels/1-3E.unity
+    guid: 79f9fdf6138dec540ba9efd8dc429ebf
+  - enabled: 1
     path: Assets/Scenes/Levels/1-4.unity
     guid: 12c1443c72b1fa344b71088b1da0b78c
   - enabled: 1
@@ -42,7 +45,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/barrel 03.unity
     guid: f99b349f9f22211428281dfd00c532e7
   - enabled: 1
-    path: Assets/Scenes/Levels/barrel 03A.unity
+    path: Assets/Scenes/Levels/loop 4.unity
     guid: 3fb1cf2f34954a34e92c6f56776a6e39
   - enabled: 1
     path: Assets/Scenes/Levels/2 barrel.unity
@@ -71,9 +74,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/loop 1.unity
     guid: 6b0fa0da1acd5d24098837a97e1f8c60
-  - enabled: 1
-    path: Assets/Scenes/square wind sources.unity
-    guid: aeeaa16ac3d3ea24582d2c3a00a3c6dd
   - enabled: 1
     path: Assets/Scenes/Levels/barrel 02ATest.unity
     guid: 5e0a0cc97ff4e1f4eb4ac2efa94647b8

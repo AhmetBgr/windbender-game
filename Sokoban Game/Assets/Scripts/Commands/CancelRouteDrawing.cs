@@ -35,6 +35,7 @@ public class CancelRouteDrawing : Command
 
     public override void Undo()
     {
+        Debug.Log("cancel route drawing undo.");
         // Undo wind source power
         windSource.windSP = windSource.defWindSP - route.Count;
 

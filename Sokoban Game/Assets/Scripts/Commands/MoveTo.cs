@@ -62,6 +62,8 @@ public class MoveTo : Command
         //Debug.LogWarning("state name : " + state.ToString());
         obj.hasSpeed = hasSpeed;
         obj.dir = previousDir;
+        obj.pushedByInfos.Clear();
+        obj.pushInfoThis = null;
         if (obj.tween != null)
         {
             obj.tween.Kill();
@@ -193,11 +195,12 @@ public class MoveTo : Command
             }
 
 
-            if ((destinationObjA.obj.curState == ObjectMoveController.State.standing) |
+            if ( (destinationObjA.obj.curState == ObjectMoveController.State.standing) |
                  (destinationObjA.obj.curState == ObjectMoveController.State.layingHorizantal && dir.y != 0) |
                  (destinationObjA.obj.curState == ObjectMoveController.State.layingVertical && dir.x != 0) |
-                 destinationObjA.pushed
-                 ) {
+                 destinationObjA.pushed ) {
+
+
                 destinationObjA.dir = dir;
                 destinationObjA.to = destinationObjA.from + dir;
                 destinationObjA.intentToMove = true;

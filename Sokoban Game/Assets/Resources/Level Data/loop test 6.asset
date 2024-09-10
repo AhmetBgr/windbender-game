@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: loop test 6
   m_EditorClassIdentifier: 
   debugName: loop test 6
-  state: 2
+  state: 1
   seen: 1
-  justUnlocked: 1
+  justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: a49a2b9b22020f1479a2331abf38fe06, type: 2}

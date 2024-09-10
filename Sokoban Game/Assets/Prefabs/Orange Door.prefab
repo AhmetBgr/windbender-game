@@ -151,9 +151,10 @@ MonoBehaviour:
   animator: {fileID: 4946448198038423324}
   col: {fileID: 4946448198038423299}
   invinsibleMask: {fileID: 4694835948341702026}
-  windCutter: {fileID: 0}
+  windCutter: {fileID: 8841958398670818660}
   tag: 1
   isOpen: 0
+  shouldClose: 0
 --- !u!114 &8841958398670818660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,8 +169,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   immediateRestoreDirs: {x: 0, y: 0, z: 0}
   isDoor: 1
-  isPosChanged: 0
-  isWindRouteInterrupted: 0
+  prevPos: {x: 0, y: 0, z: 0}
+  isCutting: 0
+  isMoved: 0
+  canCut: 1
+  canRestore: 0
 --- !u!1 &6084954447295120427
 GameObject:
   m_ObjectHideFlags: 0

@@ -224,7 +224,8 @@ public class ObjectMoveController : MonoBehaviour
     }
 
     public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false){
-        
+        pushedByInfos.Clear();
+        pushInfoThis = null;
         Vector3 startPos = transform.position;
         tween = transform.DOMove(startPos + dir, GameManager.instance.defTurnDur).SetEase(Ease.InOutQuad); // Ease.Linear
         hasSpeed = true;
@@ -240,6 +241,17 @@ public class ObjectMoveController : MonoBehaviour
 
     public virtual void Hit(List<MoveTo> emptyDestintionTileMoves){
 
+        if(pushInfoThis == null) {
+            PushInfo pushInfo = new PushInfo();
+            pushInfo.pushedBy = null;
+            pushInfo.pushOrigin = gameObject.GetInstanceID();
+            pushInfo.indexInChainPush = -1;
+            pushInfo.pushDir = dir;
+            movementReserve.pushed = true;
+            pushInfoThis = pushInfo;
+            pushedByInfos.Add(pushInfo.pushDir, pushInfo);
+        }
+
         if (pushedByInfos.Count > 0)
         {
             TryToPush(pushedByInfos[movementReserve.dir]);
@@ -247,7 +259,7 @@ public class ObjectMoveController : MonoBehaviour
         else
         {
             if(movementReserve != null) {
-                //Debug.Log("should try chain momentum transfer: " + movementReserve.obj.transform.parent.name);
+                //Debug.Log("should try chain momentum transfer: " + movementReserve.obj.transform.parent.parent.name);
 
                 movementReserve.ChainMomentumTransfer(emptyDestintionTileMoves);
 
@@ -303,6 +315,8 @@ public class ObjectMoveController : MonoBehaviour
             // destination tile is empty
             pushedByInfo.destinationTile = 0;
         }
+
+        
     }
 
     private void ValidatePush(List<MoveTo> emptyDestintionTileMoves)

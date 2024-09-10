@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: barrel 02
   m_EditorClassIdentifier: 
   debugName: barrel 02
-  state: 2
+  state: 1
   seen: 1
-  justUnlocked: 1
+  justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 977b5df95c008004fb93d73fc9565047, type: 2}

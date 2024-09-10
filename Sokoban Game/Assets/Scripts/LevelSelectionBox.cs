@@ -41,6 +41,11 @@ public class LevelSelectionBox : MonoBehaviour
         // set state
         //state = State.unlocked;
 
+        if (GameDebug.allLevelsUnlocked) {
+            level.Unlock();
+        }
+
+
         if(level.state == Level.State.locked)
         {
             button.gameObject.SetActive(false);

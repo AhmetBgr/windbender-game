@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Button 02
   m_EditorClassIdentifier: 
   debugName: Button 02
-  state: 2
+  state: 1
   seen: 1
-  justUnlocked: 1
+  justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: d4bca6f3359889947856ff0107f5fae3, type: 2}

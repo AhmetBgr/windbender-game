@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AddRoutePosition : Command
 {
@@ -22,6 +23,13 @@ public class AddRoutePosition : Command
     public override void Execute()
     {
         gameManager.route.Add(pos);
+
+        List<Vector2> points = new List<Vector2>();
+        foreach (var item in gameManager.route) {
+            points.Add(item);
+        }
+        gameManager.wind.col.SetPoints(points);
+
         routeManager.AddPosition(pos, isLooping: isLooping);
         ///windSource.AddPosition(pos);
         windSource.UpdateWindSP(gameManager.route.Count);
@@ -31,6 +39,12 @@ public class AddRoutePosition : Command
 
     public override void Undo()
     {
+        List<Vector2> points = new List<Vector2>();
+        foreach (var item in gameManager.route) {
+            points.Add(item);
+        }
+        gameManager.wind.col.SetPoints(points);
+
         gameManager.isLooping = false;
         gameManager.isDrawingCompleted = gameManager.route.Count - 1 >= windSource.defWindSP ? true : false;
         if (index == 0) // Undoing initial route position

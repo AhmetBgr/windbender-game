@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour{
     [HideInInspector] public GameState state{
         get { return _state; }
         set{
-            if (OnStateChange != null && value != _state){
+            if (OnStateChange != null && value != _state) { //
                 OnStateChange(_state, value);
             }
             _state = value; 
@@ -205,24 +205,22 @@ public class GameManager : MonoBehaviour{
             if (t >= defTurnDur){
                 curTurn = new Turn(turnCount, turnID);
 
-
                 turnCount--;
                 t = 0;
                 turnID++;
                 //realTurnDur = defTurnDur / gameSpeed;
 
-
-                
                 emptyDestinationMoves.Clear();
                 momentumTransferMoves.Clear();
                 obstacleAtDestinationMoves.Clear();
                 windCutRequests.Clear();
                 windRestoreRequests.Clear();
 
-                isFirstTurn = defTurnCount - turnCount == 1 ? true : false;
+                isFirstTurn = defTurnCount - turnCount == 1;
 
                 bool isWindRouteMoving = false;
-                if(defTurnCount > 1 && turnCount > 0 && windMoveRoute.Count > 0 && !isWaiting){
+                //Debug.Log("turn count: " + turnCount + ", def turn count: " + defTurnCount);
+                if(defTurnCount > 1 && turnCount > 0 && windMoveRoute.Count > 0){
                     windMoveDir = windMoveRoute[defTurnCount-turnCount] - windMoveRoute[defTurnCount-turnCount-1];
                     isWindRouteMoving = true;
                 }
@@ -236,39 +234,22 @@ public class GameManager : MonoBehaviour{
                     OnTurnStart2(route);
                 }
 
-                if (turnCount == 0){
-                    routeManager.ClearTiles();
-                    //cutEffect.gameObject.SetActive(false);
-                    //wind.EndWind(defTurnDur);
-                    if (route.Count > 0) {
-                        Debug.Log("should END TURN  ");
-                        EndWind endWind = new EndWind(this, wind, arrowController);
-                        endWind.Execute();
-                        curTurn.actions.Add(endWind);
-                    }
-                }
-
-
                 for (int i = 0; i < momentumTransferMoves.Count; i++){
                     // Hit
                     //Debug.Log("should transfer momentum");
-
                     momentumTransferMoves[i].Hit(emptyDestinationMoves);
                 }
                 if(OnHitsChecked != null){
-
                     OnHitsChecked(emptyDestinationMoves);
                 }
 
                 for (int i = 0; i < obstacleAtDestinationMoves.Count; i++){
                     //Debug.Log("should failed chain move 1");
-
                     obstacleAtDestinationMoves[i].ChainFailedMove();
                 }
 
                 for (int i = 0; i < emptyDestinationMoves.Count; i++){
                     List<MoveTo> sameDestinationMoves = new List<MoveTo>();
-
                     for(int j = 0; j < emptyDestinationMoves.Count; j++){
                         if(emptyDestinationMoves[i].to == emptyDestinationMoves[j].to){
                             //Debug.Log("SAME DEST: " + emptyDestinationMoves[i].obj.transform.name + ", " + emptyDestinationMoves[j].obj.transform.name);
@@ -296,16 +277,25 @@ public class GameManager : MonoBehaviour{
                 Invoke("OnTurnEndEvent", defTurnDur - (defTurnDur / 15));
             
                 if(isWindRouteMoving){
-                    // Moves looped wind 
-                    for (int i = 0; i < route.Count; i++){
-                        route[i] += windMoveDir;
-                    }
                     // TODO: kill this tween on undo
-                    arrowController.origin.transform.DOMove(arrowController.origin.transform.position + windMoveDir, defTurnDur).SetEase(Ease.Linear);
-                    //routeManager.transform.DOMove(routeManager.transform.position + windMoveDir, defTurnDur).SetEase(Ease.Linear);
-                    wind.transform.DOMove(wind.transform.position + windMoveDir, defTurnDur).SetEase(Ease.Linear);
+                    MoveWindRoute moveWindRoute = new MoveWindRoute(wind, windMoveDir, defTurnDur);
+                    moveWindRoute.Execute();
+                    AddActionToCurTurn(moveWindRoute);
                 }
-                if(curTurn.actions.Count > 0)
+
+                if (turnCount == 0) {
+                    routeManager.ClearTiles();
+                    //cutEffect.gameObject.SetActive(false);
+                    //wind.EndWind(defTurnDur);
+                    if (route.Count > 0) {
+                        Debug.Log("should END TURN  ");
+                        EndWind endWind = new EndWind(this, wind, arrowController);
+                        endWind.Execute();
+                        AddActionToCurTurn(endWind);
+                    }
+                }
+
+                if (curTurn.actions.Count > 0)
                     singleStepCommands.Add(curTurn);
 
                 if (windTurnsCommand != null)
@@ -317,6 +307,7 @@ public class GameManager : MonoBehaviour{
         else if(state == GameState.DrawingRoute){ // drawing route for wind
             if (gameSpeed != 1)
                 SetGameSpeed(1);
+            //Debug.Log("here0");
 
             if (route.Count == 0){
                 state = GameState.Paused;
@@ -326,12 +317,12 @@ public class GameManager : MonoBehaviour{
             if (isDrawingCompleted && Input.GetKeyUp(KeyCode.Space)){
                 StartWindBlow();
             }
-            else if(isDrawingMoveRoute && !isHoveringUI){ 
+            else if(isDrawingMoveRoute && !isHoveringUI){
                 // Drawing movement route for the looped winds
                 //Vector3 cursorPos2 = cursor.pos;
-
+                //Debug.Log("here1");
                 if (Input.GetMouseButtonDown(0))
-                    UpdateValidPositions(windMoveRoute[windMoveRoute.Count-1], setAllValid : true);
+                    UpdateValidPositions(windMoveRoute[windMoveRoute.Count-1]);
                 else if(Input.GetMouseButtonDown(1)){
                     if(windMoveRoute.Count >= 2)
                         UpdateValidPositions(windMoveRoute[windMoveRoute.Count-1], deleting : true);
@@ -364,22 +355,28 @@ public class GameManager : MonoBehaviour{
                     route.RemoveAt(route.Count - 1);
                     //if (route.Count >= 2)
                     UpdateValidPositions(route[route.Count - 1]);
+                    //Debug.Log("here2");
+
                     return;
                 }
 
                 if(Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
                     UpdateValidPositions(cursorPos, none: true);
 
-                if(windMoveRoute.Count == 0 | 
+                //Debug.Log("here3");
+
+                if (windMoveRoute.Count == 0 | 
                     cursorPos == windMoveRoute[windMoveRoute.Count - 1] | 
                     !validPos.Contains(cursorPos))    return;
 
-                if(Input.GetMouseButton(0)){
+                //Debug.Log("here4");
+
+                if (Input.GetMouseButton(0)){
                     // Adds new position
                     arrowController.transform.gameObject.SetActive(true);
                     arrowController.AddPos(cursorPos);
                     windMoveRoute.Add(cursorPos);
-                    UpdateValidPositions(windMoveRoute[windMoveRoute.Count-1], setAllValid : true);
+                    UpdateValidPositions(windMoveRoute[windMoveRoute.Count-1]);
                     return;                
                 }
                 else if (Input.GetMouseButton(1)){
@@ -443,7 +440,7 @@ public class GameManager : MonoBehaviour{
                         }
                     }
 
-                    bool canLoop = route.Count + 1 > 4 && route[0] == newPos ? true : false;
+                    bool canLoop = route.Count == 4 && route[0] == newPos ? true : false;
 
                     /*if (route.Count >=2 && newPos == route[route.Count - 2])
                     {
@@ -490,7 +487,7 @@ public class GameManager : MonoBehaviour{
                                 windMoveRoute.Add(cursorPos);*/
                             }
 
-                            UpdateValidPositions(route[route.Count - 1], isLooping);
+                            UpdateValidPositions(route[route.Count - 1]);
                             return;
                         }
                         else
@@ -515,12 +512,11 @@ public class GameManager : MonoBehaviour{
                             isDrawingCompleted = route.Count - 1 >= curWindSource.defWindSP ? true : false;
                             routeManager.DeletePos(route.Count - 1);
                             DeletePosition deletePosition = new DeletePosition(curWindSource, routeManager, route[route.Count - 1]);
-
+                            deletePosition.Execute();
                             curWindSource.oldCommands.Add(deletePosition);
                             ////curWindSource.RemovePosition(route.Count - 1);
 
-                            route.RemoveAt(route.Count - 1);
-                            curWindSource.UpdateWindSP(route.Count);
+
 
                             //if (route.Count >= 2)
                             UpdateValidPositions(route[route.Count - 1], deleting: true); //route[route.Count - 2]
@@ -557,7 +553,7 @@ public class GameManager : MonoBehaviour{
 
         CheckForWindDeform(route);
 
-        if ((isWaiting && turnCount == 0)) {
+        if ((isWaiting && route.Count == 0)) { // turnCount == 0
             if (!CheckForUnusedWindSources()) {
                 CheckForLevelComplete();
             }
@@ -598,6 +594,7 @@ public class GameManager : MonoBehaviour{
         }
     }
     public void CheckForWindDeform(List<Vector3> route) {
+        if (state != GameState.Running) return;
 
         if (OnWindRouteGenerated != null && route.Count > 0){
             // Gets wind deforms requests
@@ -641,6 +638,8 @@ public class GameManager : MonoBehaviour{
         previousRoute = setRoute;
         isDrawingCompleted = false;
         isDrawingMoveRoute = false;
+        isWaiting = false;        
+        pauseOnTurnEnd = false;
         t = -0.5f;
 
         windTurnsCommand = new MultipleCommand();
@@ -662,15 +661,15 @@ public class GameManager : MonoBehaviour{
         routeManager.ClearValidPositions();
     }
     public void PauseWhenTurnEnd() {
-        if (state == GameState.Paused | state == GameState.DrawingRoute) return;
+        //if (state == GameState.Paused | state == GameState.DrawingRoute) return;
 
-        fastForward = true;
-        SetGameSpeed(10);
+        //fastForward = true;
+        //SetGameSpeed(10);
         pauseOnTurnEnd = true;
         //state = GameState.Paused;
     }
     public void Pause() {
-        if (state == GameState.Paused | state == GameState.DrawingRoute) return;
+        //if (state == GameState.Paused | state == GameState.DrawingRoute) return;
 
         if (isWaiting) {
             StopWaiting();
@@ -680,18 +679,25 @@ public class GameManager : MonoBehaviour{
         }
     }
     public void Play() {
+        Debug.Log("should try starting play");
+
+
         if (state == GameState.Running) return;
 
-        if(pauseOnTurnEnd)
+        Debug.Log("should start playing");
+
+
+        if (pauseOnTurnEnd)
             pauseOnTurnEnd = false;
-        else {
-            if(route.Count == 0) {
-                StartWaiting();
-            }
-            else {
-                state = GameState.Running;
-            }
+
+  
+        if(route.Count == 0) {
+            StartWaiting();
         }
+        else {
+            state = GameState.Running;
+        }
+    
     }
     public void StartWaiting(){
         t = defTurnDur - Time.deltaTime * 2;
@@ -765,7 +771,7 @@ public class GameManager : MonoBehaviour{
             sprite.SetActive(false);
         }
 
-        bool mayLoop = (!deleting && isDrawingCompleted && !isLooping && route.Count>= 4 && 
+        bool mayLoop = (!deleting && isDrawingCompleted && !isLooping && route.Count == 4 && 
             (this.route[0] - centerPos).magnitude == 1 ) ? true : false;
         
         if (!deleting && ( //(!mayLoop && isDrawingCompleted && !isDrawingMoveRoute) ||
@@ -804,7 +810,55 @@ public class GameManager : MonoBehaviour{
                 Vector3 origin = centerPos + neighborVector;
                 validPos.Add(origin);
             }
-        }else{
+        }
+        else if (isLooping) {
+            /*Debug.Log("should try adding calid pos for looped");
+            foreach (Vector3 neighborVector in neighborVectors) {
+                Physics2D.simulationMode = SimulationMode2D.Script;
+
+                Vector3 offsetAmount = Vector3.zero;
+
+                if(windMoveRoute.Count >= 2) {
+                    offsetAmount = windMoveRoute[windMoveRoute.Count - 1] + windMoveRoute[0];
+                }
+
+                Vector3 origin = offsetAmount + neighborVector;
+                wind.col.offset = origin;
+                Physics2D.Simulate(Time.fixedDeltaTime);
+
+                if (!Physics2D.IsTouchingLayers(wind.col, LayerMask.GetMask("Wall"))) {
+                    Debug.Log("should add valid pos for looped, pos:" + origin);
+
+                    validPos.Add(centerPos + neighborVector);
+                }
+            }*/
+
+            foreach (Vector3 neighborVector in neighborVectors) {
+                bool isTouchingWall = false;
+                Vector3 offset = Vector3.zero;
+                if (windMoveRoute.Count >= 2) {
+                    offset = windMoveRoute[windMoveRoute.Count - 1] - windMoveRoute[0];
+                }
+
+                foreach (var item in route) {
+                    //Debug.Log("offset: " + offset);
+                    Vector3 origin = item + neighborVector + offset;
+                    RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
+
+                    if (hit) {
+                        isTouchingWall = true;
+                        break;
+                    }
+                }
+
+                if (!isTouchingWall) {
+                    validPos.Add(centerPos + neighborVector);
+
+                }
+
+            }
+        }
+        else {
             foreach (Vector3 neighborVector in neighborVectors){
                 Vector3 origin = centerPos + neighborVector;
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
@@ -934,7 +988,8 @@ public class GameManager : MonoBehaviour{
         CancelTurns();
         CancelInvoke();
         */
-        PauseWhenTurnEnd();
+
+        //PauseWhenTurnEnd();
 
         int index = multiStepCommands.Count - 1;
         MultipleCommand command = multiStepCommands[index];

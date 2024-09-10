@@ -225,6 +225,19 @@ public class MovingObstacle : ObjectMoveController
         pushInfoThis = pushInfo;
         pushedByInfos.Add(pushInfo.pushDir, pushInfo);
 
-        base.Hit(emptyDestintionTileMoves);
+        if (pushedByInfos.Count > 0) {
+            TryToPush(pushedByInfos[movementReserve.dir]);
+        }
+        else {
+            if (movementReserve != null) {
+                Debug.Log("should try chain momentum transfer: " + movementReserve.obj.transform.parent.parent.name);
+
+                movementReserve.ChainMomentumTransfer(emptyDestintionTileMoves);
+
+            }
+            else {
+                Debug.Log("cant try chain momentum transfer, move res null: ");
+            }
+        }
     }
 }

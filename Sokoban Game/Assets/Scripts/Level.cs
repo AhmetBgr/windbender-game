@@ -32,14 +32,16 @@ public class Level : ScriptableObject
             Debug.LogWarning("Unity Editor: " + this);
         #endif
         */
-        if ( File.Exists(Application.persistentDataPath + LevelManager.levelDataFolderName + name + ".save")) //&& !overrideSaveWithSO
+        if (File.Exists(Application.persistentDataPath + LevelManager.levelDataFolderName + name + ".save")) { //&& !overrideSaveWithSO
             LoadAndSetLevelData();
-        else
-        {
+
+
+        }
+        else {
             // Generates default level data
             state = isFirstLevel ? State.unlocked : State.locked;
             seen = false;
-            SaveLevelData(); 
+            SaveLevelData();
         }
             
     }

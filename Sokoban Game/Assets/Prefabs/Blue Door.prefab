@@ -168,8 +168,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   immediateRestoreDirs: {x: 0, y: 0, z: 0}
   isDoor: 1
-  isPosChanged: 0
-  isWindRouteInterrupted: 0
+  prevPos: {x: 0, y: 0, z: 0}
+  isCutting: 0
+  isMoved: 0
+  canCut: 1
+  canRestore: 0
 --- !u!1 &6084954447295120427
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +274,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.004
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010733219809315662, guid: 89b287e299cbe234faf054cbc28241a8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3852
       objectReference: {fileID: 0}
     - target: {fileID: 8010733219809315662, guid: 89b287e299cbe234faf054cbc28241a8,
         type: 3}

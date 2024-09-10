@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Button 04 wind cutting
   m_EditorClassIdentifier: 
   debugName: Button 04 wind cutting
-  state: 2
+  state: 1
   seen: 1
-  justUnlocked: 1
+  justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 9039b2a42dc5ed041b2559db39931fbb, type: 2}

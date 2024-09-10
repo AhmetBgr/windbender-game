@@ -10,6 +10,7 @@ public class Door : MonoBehaviour
     public WindCutter windCutter;
     public new TargetTag tag;
     public bool isOpen;
+    public bool shouldClose = false;
 
     void Start()
     {
@@ -23,14 +24,28 @@ public class Door : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.instance.OnTurnEnd += UpdateState;
         ButtonEntity.OnButtonToggle += ToggleState;
         GameManager.instance.OnTurnStart1 += SaveState;
     }
 
     private void OnDisable()
     {
+        GameManager.instance.OnTurnEnd -= UpdateState;
+
         ButtonEntity.OnButtonToggle -= ToggleState;
         GameManager.instance.OnTurnStart1 -= SaveState;
+    }
+
+    private void UpdateState() {
+
+
+        GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
+
+        if (shouldClose && obj == null) {
+            Close();
+        }
+
     }
 
     // Toggles door state between open and close
@@ -41,7 +56,7 @@ public class Door : MonoBehaviour
         DoorState doorState = new DoorState(this, isOpen, Time.time);
         GameManager.instance.curTurn.actions.Add(doorState);
 
-        if (isOpen) {
+        if (isOpen && !shouldClose) {
             TryToClose();
 
         }
@@ -57,7 +72,7 @@ public class Door : MonoBehaviour
         col.enabled = false;
         invinsibleMask.SetActive(false);
         windCutter.canCut = false;
-
+        shouldClose = false;
         windCutter.OnMoved(Vector3.right * 100000);
     }
 
@@ -69,6 +84,7 @@ public class Door : MonoBehaviour
         invinsibleMask.SetActive(true);
         windCutter.canCut = true;
         windCutter.OnMoved(transform.position);
+        shouldClose = false;
 
     }
 
@@ -77,7 +93,10 @@ public class Door : MonoBehaviour
     {
         GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable")); 
 
-        if (obj != null) return;
+        if (obj != null) {
+            shouldClose = true;
+            return;
+        }
 
         Close();
         windCutter.isMoved = false;

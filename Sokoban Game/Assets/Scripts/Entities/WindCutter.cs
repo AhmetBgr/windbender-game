@@ -43,7 +43,13 @@ public class WindCutter : MonoBehaviour
         if (isInWind && !isCutting) {
             Debug.Log("should check if wind tile perpendicular");
             windTileIndex = route.IndexOf(dest);
-            isWindTilePerpendicular = Vector3.Dot(route[windTileIndex - 1] - route[windTileIndex], route[windTileIndex] - route[windTileIndex + 1] ) == 0;
+            if(windTileIndex == route.Count - 1) {
+                isWindTilePerpendicular = false;
+            }
+            else {
+                isWindTilePerpendicular = Vector3.Dot(route[windTileIndex - 1] - route[windTileIndex], route[windTileIndex] - route[windTileIndex + 1]) == 0;
+
+            }
         }
         Debug.Log("wind tile perpendicular?: " + isWindTilePerpendicular);
         if (isInWind) { // && !isWindTilePerpendicular

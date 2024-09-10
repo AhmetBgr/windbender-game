@@ -50,11 +50,12 @@ public class WindSourceController : MonoBehaviour
 
     private void OnEnable()
     {
+        gameManager = GameManager.instance;
         defWindSP = windSP;
         UpdateWindSPText();
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        gameManager = GameManager.instance;
+        
 
         gameManager.OnStateChange += TryToToggle;
     }
@@ -134,6 +135,6 @@ public class WindSourceController : MonoBehaviour
 
     private void UpdateWindSPText()
     {
-        windSPText.text = windSP.ToString();
+        windSPText.text = (windSP == 4 && gameManager.state != GameState.DrawingRoute) ? windSP.ToString() + "*" : windSP.ToString();
     }
 }

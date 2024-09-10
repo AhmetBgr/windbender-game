@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 1-2
   m_EditorClassIdentifier: 
   debugName: 1-2
-  state: 2
+  state: 1
   seen: 1
-  justUnlocked: 1
+  justUnlocked: 0
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: e14f6c8e88ed55849a3ef8f51aa64a39, type: 2}

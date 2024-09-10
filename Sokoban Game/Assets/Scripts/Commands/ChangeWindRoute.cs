@@ -73,6 +73,8 @@ public class ChangeWindRoute : Command{
     }
 
     public override void Undo() {
+        Debug.Log("change wind route undo.");
+
         gameManager.route.Clear();
         gameManager.route.AddRange(oldRoute);
         gameManager.wind.DrawWind();
