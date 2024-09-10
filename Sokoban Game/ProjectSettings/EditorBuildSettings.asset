@@ -42,12 +42,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/barrel 02.unity
     guid: 28064247c071ea04ea6cce9fd025930f
   - enabled: 1
-    path: Assets/Scenes/Levels/barrel 03.unity
-    guid: f99b349f9f22211428281dfd00c532e7
-  - enabled: 1
-    path: Assets/Scenes/Levels/loop 4.unity
-    guid: 3fb1cf2f34954a34e92c6f56776a6e39
-  - enabled: 1
     path: Assets/Scenes/Levels/2 barrel.unity
     guid: 6a8182db49c57f44cb287cbab9a6fdf2
   - enabled: 1
@@ -74,6 +68,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/loop 1.unity
     guid: 6b0fa0da1acd5d24098837a97e1f8c60
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop 2.unity
+    guid: 2b9b6e2898246764faf121c7a0ad0710
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop 4.unity
+    guid: 3fb1cf2f34954a34e92c6f56776a6e39
   - enabled: 1
     path: Assets/Scenes/Levels/barrel 02ATest.unity
     guid: 5e0a0cc97ff4e1f4eb4ac2efa94647b8

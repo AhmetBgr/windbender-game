@@ -111,7 +111,7 @@ public class ObjectMoveController : MonoBehaviour
                 }
             }
         }
-        else if(!gameManager.isWaiting && gameManager.isLooping && gameManager.turnCount > 0){
+        else if(!gameManager.isWaiting && gameManager.isWindRouteMoving && gameManager.turnCount > 0){
             // Pushed by looped wind
             Vector3 windMoveDir = gameManager.windMoveDir;
             if(route.Contains(transform.position - windMoveDir)){
@@ -212,7 +212,10 @@ public class ObjectMoveController : MonoBehaviour
             }
             else {
                 // A moveable object at destination tile
-                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
+                /*if(!destinationObj.intentToMove && destinationObj.tag == "MovingObstacle") {
+                    gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                }
+                else */if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
                     gameManager.momentumTransferMoves.Add(movementReserve);
                 }
             }
@@ -224,6 +227,8 @@ public class ObjectMoveController : MonoBehaviour
     }
 
     public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false){
+        Debug.Log("move: " + gameObject.name);
+
         pushedByInfos.Clear();
         pushInfoThis = null;
         Vector3 startPos = transform.position;
@@ -234,7 +239,7 @@ public class ObjectMoveController : MonoBehaviour
     }
 
     public virtual void FailedMove(){
-        Debug.Log("failed move");
+        Debug.Log("failed move: " + gameObject.name);
         tween = transform.DOPunchPosition(dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
         hasSpeed = false;
     }
@@ -319,9 +324,11 @@ public class ObjectMoveController : MonoBehaviour
         
     }
 
-    private void ValidatePush(List<MoveTo> emptyDestintionTileMoves)
+    protected void ValidatePush(List<MoveTo> emptyDestintionTileMoves)
     {
+
         //Debug.LogWarning("push  res count: " + pushedByInfos.Count + " :" + gameObject.name);
+
         if (pushedByInfos.Count == 0 | (pushedByInfos.Count == 1 && movementReserve.destinationTile == 2)) return;
         // Determines destination tile type and adds movement reserve to the mov. res. list
         Vector3 dirSum = Vector3.zero;

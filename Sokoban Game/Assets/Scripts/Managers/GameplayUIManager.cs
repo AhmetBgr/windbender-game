@@ -111,7 +111,7 @@ public class GameplayUIManager : MonoBehaviour
 
     private void UpdateTurnCounterText(int turnCount)
     {
-        if (turnCount <= 0 | GameManager.instance.isWaiting)
+        if (turnCount < 0 | GameManager.instance.isWaiting)
         {
             turnCountText.gameObject.SetActive(false);
         }

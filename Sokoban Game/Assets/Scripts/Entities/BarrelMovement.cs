@@ -163,7 +163,7 @@ public class BarrelMovement : ObjectMoveController
         //float gameSpeed = GameManager.instance.gameSpeed;
         tween = transform.DOMove(startPos + dir, GameManager.instance.defTurnDur).SetEase(ease)
             .OnComplete(() => {
-                if (GameManager.instance.turnCount == 0)
+                if (GameManager.instance.turnCount == 1)
                     SetState(curState);
 
                 if (stopAftermoving)

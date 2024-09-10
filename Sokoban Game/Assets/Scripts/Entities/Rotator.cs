@@ -53,7 +53,7 @@ public class Rotator : MonoBehaviour{
     }
 
     private void CheckRotation() {
-        if (gameManager.turnCount <= 0) {
+        if (gameManager.turnCount <= 1) {
             animator.SetBool("rotateCounterClockwise", false);
             animator.SetBool("rotateClockwise", false);
             isRotating = false;
@@ -64,7 +64,7 @@ public class Rotator : MonoBehaviour{
     }
 
     private void CheckRotation(List<Vector3> route) {
-        if (gameManager.turnCount <= 0) {
+        if (gameManager.turnCount <= 1) {
             animator.SetBool("rotateCounterClockwise", false);
             animator.SetBool("rotateClockwise", false);
             isRotating = false;

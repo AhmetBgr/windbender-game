@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour{
     }
     
     public bool isLooping = false;
+    public bool isWindRouteMoving = false;
     public bool isFirstTurn = true;
     public bool isWaiting = false;
     public bool isHoveringUI = false;
@@ -180,9 +181,6 @@ public class GameManager : MonoBehaviour{
         turnCount = 0;
         state = GameState.Paused;
         //realTurnDur = defTurnDur / gameSpeed;
-
-
-
     }
     
     private void LateUpdate() {
@@ -199,13 +197,11 @@ public class GameManager : MonoBehaviour{
             }
 
             // Start new turn
-            //t += Time.deltaTime* gameSpeed;
             t += Time.deltaTime;
 
             if (t >= defTurnDur){
                 curTurn = new Turn(turnCount, turnID);
 
-                turnCount--;
                 t = 0;
                 turnID++;
                 //realTurnDur = defTurnDur / gameSpeed;
@@ -216,12 +212,16 @@ public class GameManager : MonoBehaviour{
                 windCutRequests.Clear();
                 windRestoreRequests.Clear();
 
-                isFirstTurn = defTurnCount - turnCount == 1;
+                isFirstTurn = defTurnCount - turnCount == 0;
 
-                bool isWindRouteMoving = false;
+                isWindRouteMoving = false;
                 //Debug.Log("turn count: " + turnCount + ", def turn count: " + defTurnCount);
-                if(defTurnCount > 1 && turnCount > 0 && windMoveRoute.Count > 0){
-                    windMoveDir = windMoveRoute[defTurnCount-turnCount] - windMoveRoute[defTurnCount-turnCount-1];
+                if(turnCount > 1 && windMoveRoute.Count > 0){
+
+                    int index = defTurnCount - turnCount;
+                    //index = index == windMoveRoute.Count ? index - 1 : index;
+                    windMoveDir = windMoveRoute[index +1] - windMoveRoute[index];
+                    
                     isWindRouteMoving = true;
                 }
 
@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour{
                     undoTimes.Add(turnID);
                 }*/
 
-                Invoke("OnTurnEndEvent", defTurnDur - (defTurnDur / 15));
+                Invoke("OnTurnEndEvent", defTurnDur - Time.deltaTime);
             
                 if(isWindRouteMoving){
                     // TODO: kill this tween on undo
@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour{
                     AddActionToCurTurn(moveWindRoute);
                 }
 
-                if (turnCount == 0) {
+                if (turnCount == 1) {
                     routeManager.ClearTiles();
                     //cutEffect.gameObject.SetActive(false);
                     //wind.EndWind(defTurnDur);
@@ -340,6 +340,8 @@ public class GameManager : MonoBehaviour{
                     windMoveRoute.RemoveRange(0, windMoveRoute.Count);
                     //gameManager.UpdateValidPositions(pos, none : true);
                     isDrawingMoveRoute = false;
+                    //isDrawingCompleted = true;
+
                     Debug.LogWarning("should return drawing route");
 
                     // Deletes the last position of the route
@@ -377,7 +379,6 @@ public class GameManager : MonoBehaviour{
                     arrowController.AddPos(cursorPos);
                     windMoveRoute.Add(cursorPos);
                     UpdateValidPositions(windMoveRoute[windMoveRoute.Count-1]);
-                    return;                
                 }
                 else if (Input.GetMouseButton(1)){
                     // Remove last position
@@ -395,6 +396,8 @@ public class GameManager : MonoBehaviour{
                         isDrawingMoveRoute = false;
                     }
                 }
+
+                isDrawingCompleted = windMoveRoute.Count == route.Count;
 
                 return;
             }
@@ -476,6 +479,7 @@ public class GameManager : MonoBehaviour{
                             // Starts drawing movement route for the looped wind
                             if (isLooping)
                             {
+                                isDrawingCompleted = false;
                                 StartDrawingMoveRoute startDrawingMoveRoute = new StartDrawingMoveRoute(arrowController, cursorPos);
                                 startDrawingMoveRoute.Execute();
                                 //oldCommands.Add(startDrawingMoveRoute);
@@ -548,7 +552,10 @@ public class GameManager : MonoBehaviour{
     }
 
     private void OnTurnEndEvent(){
-        if(OnTurnEnd != null)
+        Debug.Log("TURN");
+        turnCount--;
+
+        if (OnTurnEnd != null)
             OnTurnEnd();
 
         CheckForWindDeform(route);
@@ -569,7 +576,7 @@ public class GameManager : MonoBehaviour{
             turnCount = 10;
             defTurnCount = turnCount;
         }
-        else if (turnCount == 0 && !CheckForUnusedWindSources()) {
+        else if (turnCount == 00 && !CheckForUnusedWindSources()) {
             Debug.Log("should END TURN  ");
             isWaiting = true;
             turnCount = 1;
@@ -655,7 +662,7 @@ public class GameManager : MonoBehaviour{
     public void SetRoute(List<Vector3> route){
         turnCount = route.Count;
         defTurnCount = turnCount;
-
+        
         //state = GameState.Running;
         isFirstTurn = true;
         routeManager.ClearValidPositions();
@@ -710,7 +717,7 @@ public class GameManager : MonoBehaviour{
         }
         state = GameState.Running;
         isWaiting = true;
-        turnCount = 1;
+        turnCount = 0;
         defTurnCount = turnCount;
     }
 
@@ -775,7 +782,7 @@ public class GameManager : MonoBehaviour{
             (this.route[0] - centerPos).magnitude == 1 ) ? true : false;
         
         if (!deleting && ( //(!mayLoop && isDrawingCompleted && !isDrawingMoveRoute) ||
-             windMoveRoute.Count >= curWindSource.defWindSP + 1 ) ) return;
+             windMoveRoute.Count >= curWindSource.defWindSP +1) ) return;
 
 
         /*if(!isDrawingMoveRoute && route.Count >= 2)

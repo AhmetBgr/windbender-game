@@ -77,6 +77,7 @@ public class MovingObstacle : ObjectMoveController
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
         movementReserve.pushed = pushed;
+        
 
         GameManager.instance.oldCommands.Add(movementReserve);
     }
