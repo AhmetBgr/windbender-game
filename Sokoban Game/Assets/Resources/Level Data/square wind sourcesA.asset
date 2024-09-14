@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: square wind sourcesA
   m_EditorClassIdentifier: 
   debugName: square wind sourcesA
-  state: 1
+  state: 0
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 6188728bda09fe449aa184bfa08d4801, type: 2}

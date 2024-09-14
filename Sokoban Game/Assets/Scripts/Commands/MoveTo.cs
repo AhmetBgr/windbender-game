@@ -50,7 +50,7 @@ public class MoveTo : Command
     public override void Execute()
     {
         Move();
-        GameManager.instance.curTurn.actions.Add(this);
+        GameManager.instance.AddActionToCurTurn(this);
     }
 
     public override void Undo()

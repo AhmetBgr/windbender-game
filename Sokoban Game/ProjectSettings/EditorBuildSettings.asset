@@ -42,10 +42,19 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/barrel 02.unity
     guid: 28064247c071ea04ea6cce9fd025930f
   - enabled: 1
+    path: Assets/Scenes/Levels/barrel 03A.unity
+    guid: fafb5a4318256b8438e5b2b9aaca3191
+  - enabled: 1
     path: Assets/Scenes/Levels/2 barrel.unity
     guid: 6a8182db49c57f44cb287cbab9a6fdf2
   - enabled: 1
     path: Assets/Scenes/Levels/Button 01.unity
+    guid: 628b28fab8360154fadcbb8b27410db6
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button 01A.unity
+    guid: 3ccf657dbc5ab3b4c8d624e0301f21d9
+  - enabled: 1
+    path: Assets/Scenes/Levels/Button wind cutting 02.unity
     guid: b6dfe0629c634d34eb6bcc4d81c51d25
   - enabled: 1
     path: Assets/Scenes/Levels/Button 02.unity
@@ -71,6 +80,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/loop 2.unity
     guid: 2b9b6e2898246764faf121c7a0ad0710
+  - enabled: 1
+    path: Assets/Scenes/Levels/loop 3.unity
+    guid: 92a9feaf01a39a642a1ecb98cf6f360a
   - enabled: 1
     path: Assets/Scenes/Levels/loop 4.unity
     guid: 3fb1cf2f34954a34e92c6f56776a6e39

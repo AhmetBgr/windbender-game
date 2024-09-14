@@ -1955,6 +1955,12 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9012022720712478574, guid: 6cd43ab7f83c17844a4b6de54960e528,
+        type: 3}
+      propertyPath: sharedProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: 356ae0ff91ec19f47bf355df05558890,
+        type: 2}
     - target: {fileID: 9012022720712478575, guid: 6cd43ab7f83c17844a4b6de54960e528,
         type: 3}
       propertyPath: m_RootOrder

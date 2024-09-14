@@ -552,6 +552,8 @@ public class GameManager : MonoBehaviour{
     }
 
     private void OnTurnEndEvent(){
+        if (state != GameState.Running) return;
+
         Debug.Log("TURN");
         turnCount--;
 
@@ -560,17 +562,17 @@ public class GameManager : MonoBehaviour{
 
         CheckForWindDeform(route);
 
-        if ((isWaiting && route.Count == 0)) { // turnCount == 0
+        if ((route.Count == 0)) { // isWaiting && 
             if (!CheckForUnusedWindSources()) {
                 CheckForLevelComplete();
             }
-            else {
+            /*else {
                 isWaiting = true;
                 turnCount = 1;
                 defTurnCount = turnCount;
-            }
+            }*/
         }
-        else if (turnCount == 0 && (emptyDestinationMoves.Count > 0) && !CheckForUnusedWindSources()) { // || momentumTransferMoves.Count > 0
+        /*else if (turnCount == 0 && (emptyDestinationMoves.Count > 0) && !CheckForUnusedWindSources()) { // || momentumTransferMoves.Count > 0
             Debug.Log("should END TURN  ");
             isWaiting = true;
             turnCount = 10;
@@ -582,9 +584,9 @@ public class GameManager : MonoBehaviour{
             turnCount = 1;
             defTurnCount = turnCount;
         }
+        */
 
-
-        if (turnCount <= 0){ // All turns end 
+        if (turnCount <= 0 && !isWaiting){ // All turns end 
             state = GameState.Paused;
 
             t = 0;

@@ -10,12 +10,15 @@ public class BarrelMovement : ObjectMoveController
 
     protected override void OnEnable(){
         base.OnEnable();
-        GameManager.instance.OnUndo += UpdateAnimState;
+        GameManager.instance.OnStateChange += UpdateAnimSpeed;
+        //GameManager.instance.OnUndo += UpdateAnimState;
     }
 
     protected override void OnDisable(){
         base.OnDisable();
-        GameManager.instance.OnUndo -= UpdateAnimState;
+        GameManager.instance.OnStateChange -= UpdateAnimSpeed;
+
+        //GameManager.instance.OnUndo -= UpdateAnimState;
     }
 
 
@@ -128,7 +131,7 @@ public class BarrelMovement : ObjectMoveController
             pushed = pushed
         };
         //if (GameManager.instance.isFirstTurn)
-        GameManager.instance.oldCommands.Add(movementReserve);
+        //GameManager.instance.oldCommands.Add(movementReserve);
     }
 
     public override void FindNeighbors(List<Vector3> route){
@@ -163,11 +166,11 @@ public class BarrelMovement : ObjectMoveController
         //float gameSpeed = GameManager.instance.gameSpeed;
         tween = transform.DOMove(startPos + dir, GameManager.instance.defTurnDur).SetEase(ease)
             .OnComplete(() => {
-                if (GameManager.instance.turnCount == 1)
+                /*if (GameManager.instance.turnCount == 1)
                     SetState(curState);
 
                 if (stopAftermoving)
-                    SetState(curState);
+                    SetState(curState);*/
             });
 
         //hasSpeed = true;
@@ -258,14 +261,26 @@ public class BarrelMovement : ObjectMoveController
         }
         else
         {
-            if (dir == Vector3.up)
+            if (dir == Vector3.up) {
                 animator.Play("Barrel_roll_up");
-            else if (dir == Vector3.right)
+                curState = State.layingHorizantal;
+            }
+            else if (dir == Vector3.right) {
                 animator.Play("Barrel_roll_right");
-            else if (dir == Vector3.down)
+                curState = State.layingVertical;
+
+            }
+            else if (dir == Vector3.down) {
                 animator.Play("Barrel_roll_down");
-            else if (dir == Vector3.left)
+                curState = State.layingHorizantal;
+
+
+            }
+            else if (dir == Vector3.left) {
                 animator.Play("Barrel_roll_left");
+                curState = State.layingVertical;
+
+            }
             //ease = Ease.Linear;
         }
     }
@@ -312,11 +327,24 @@ public class BarrelMovement : ObjectMoveController
 
     public override void SetState(State state)
     {
-        //Debug.LogWarning("state changed to: " + state.ToString());
+        Debug.LogWarning("state changed to: " + state.ToString());
         curState = state;
-        UpdateAnimState();
 
+        //UpdateAnimState();
+        Invoke("UpdateAnimState", 0.02f);
     }
+
+    private void UpdateAnimSpeed(GameState from, GameState to) {
+        animator.speed = to == GameState.Running ? 1 : 0;
+
+        //StartCoroutine(_UpdateAnimSpeed(from, to));
+    }
+
+    /*private IEnumerator _UpdateAnimSpeed(GameState from, GameState to) {
+        yield return new WaitForSeconds(0.02f);
+
+        animator.speed = to == GameState.Running ? 1 : 0;
+    }*/
 
     private void UpdateAnimState()
     {

@@ -68,7 +68,7 @@ public class LevelSelectionBox : MonoBehaviour
                     .SetDelay(delay);
 
                 level.justUnlocked = false;
-                delay += 0.2f;
+                delay += 0.05f;
             }
 
 

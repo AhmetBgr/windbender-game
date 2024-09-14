@@ -10,17 +10,21 @@ public class DeathFogController : ObjectMoveController
     public Tilemap fogTM3;
     public Tilemap fogTM4;
 
+    public int growCountDown = 5;
 
     public List<Vector3> dustTiles = new List<Vector3>();
     private Vector3 posDif = Vector3.zero;
 
     protected override void OnEnable() {
         GameManager.instance.OnTurnStart1 += TryToCleanFogTile;
+        //GameManager.instance.OnTurnEnd += Grow;
         base.OnEnable();
     }
 
     protected override void OnDisable() {
         GameManager.instance.OnTurnStart1 -= TryToCleanFogTile;
+        //GameManager.instance.OnTurnEnd -= Grow;
+
         base.OnDisable();
     }
 
@@ -79,6 +83,39 @@ public class DeathFogController : ObjectMoveController
             }
         }
 
+    }
+
+    private void Grow() {
+        if (dustTiles.Count == 0) return;
+
+        growCountDown--;
+
+        if (growCountDown > 0) return;
+
+        Vector3[] dirs = { Vector3.up, Vector3.down, Vector3.left, Vector3.right };
+        List<Vector3Int> newDustTiles = new List<Vector3Int>();
+        Vector3 firstDustTilePos = dustTiles[0];
+
+        TileBase tileBase = fogTM1.GetTile(new Vector3Int((int)(firstDustTilePos.x - 0.5f), (int)(firstDustTilePos.y - 0.5f), 0));
+        foreach (var item in dustTiles) {
+            foreach (var dir in dirs) {
+                Vector3 pos = item + dir;
+                if (Utility.CheckForObjectAt(pos, LayerMask.GetMask("Wall")) == null && !dustTiles.Contains(pos)) {
+                    Vector3Int posInt = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f), 0);
+                    fogTM1.SetTile(posInt, tileBase);
+                    newDustTiles.Add(posInt);
+                }
+            }
+        }
+
+        AddDustTiles addDustTiles = new AddDustTiles(this, fogTM1, newDustTiles, tileBase);
+        addDustTiles.Execute();
+        GameManager.instance.AddActionToCurTurn(addDustTiles);
+        //dustTiles.AddRange(newDustTiles);
+        /*tilemap.SetTile(pos, tileBase);
+        Vector3 loc = pos + tilemap.tileAnchor;
+        if (!dfController.dustTiles.Contains(loc))
+            dfController.dustTiles.Add(loc);*/
     }
 
     public override void ReserveMovement(List<Vector3> route) {

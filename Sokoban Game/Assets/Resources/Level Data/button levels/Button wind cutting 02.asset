@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
+  m_Name: Button wind cutting 02
+  m_EditorClassIdentifier: 
+  debugName: Button wind cutting 02
+  state: 2
+  seen: 1
+  justUnlocked: 0
+  isFirstLevel: 0
+  connectedLevels:
+  - {fileID: 11400000, guid: 81644b6112f540e4499890b1d051f252, type: 2}
+  - {fileID: 11400000, guid: bcff3fb1017469a48afc17336c54abd5, type: 2}
+  - {fileID: 11400000, guid: 0cbec2000a1cd6d4c8b45a8a277a66db, type: 2}
+  - {fileID: 11400000, guid: b04c3931c0ebeb04686b99eb334c38e3, type: 2}
+  - {fileID: 11400000, guid: 738d1adca4b72114ca79cb824ea73538, type: 2}
+  info: 
