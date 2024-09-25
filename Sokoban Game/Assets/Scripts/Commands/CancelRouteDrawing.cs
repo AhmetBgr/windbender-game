@@ -28,6 +28,7 @@ public class CancelRouteDrawing : Command
         ///gameManager.curWindSource.route.Clear();
         gameManager.UpdateValidPositions(Vector3.zero, none: true);
         gameManager.curWindSource = null;
+        gameManager.isDrawingCompleted = false;
         gameManager.state = GameState.Paused;
         executionTime = Time.time;
         turnID = GameManager.instance.turnID;

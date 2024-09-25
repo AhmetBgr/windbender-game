@@ -166,6 +166,7 @@ public class Rotator : MonoBehaviour{
 
     public void UpdateAnimSpeed(GameState from, GameState to) {
         if(to == GameState.Paused | to == GameState.DrawingRoute) {
+
             animator.speed = 0;
         }
         else {
@@ -173,16 +174,24 @@ public class Rotator : MonoBehaviour{
         }
     }
     private void PlayRotateClockwiseAnim() {
-        animator.SetBool("rotateCounterClockwise", false);
-        animator.SetBool("rotateClockwise", true);
+        animator.Play("Rotator_Anim");
+
+        //animator.SetBool("rotateCounterClockwise", false);
+        //animator.SetBool("rotateClockwise", true);
     }
     private void PlayRotateCounterClockwiseAnim() {
-        animator.SetBool("rotateClockwise", false);
-        animator.SetBool("rotateCounterClockwise", true);
+        animator.Play("Rotator_CounterClockwise_Anim");
+
+
+        //animator.SetBool("rotateClockwise", false);
+        //animator.SetBool("rotateCounterClockwise", true);
     }
 
-    private void PlayIdleAnim() {
-        animator.SetBool("rotateCounterClockwise", false);
-        animator.SetBool("rotateClockwise", false);
+    public void PlayIdleAnim() {
+        animator.Play("Idle");
+
+
+        //animator.SetBool("rotateCounterClockwise", false);
+        //animator.SetBool("rotateClockwise", false);
     }
 }

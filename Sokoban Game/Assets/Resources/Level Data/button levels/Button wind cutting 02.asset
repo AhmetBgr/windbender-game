@@ -13,14 +13,10 @@ MonoBehaviour:
   m_Name: Button wind cutting 02
   m_EditorClassIdentifier: 
   debugName: Button wind cutting 02
-  state: 2
+  state: 0
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
-  - {fileID: 11400000, guid: 81644b6112f540e4499890b1d051f252, type: 2}
-  - {fileID: 11400000, guid: bcff3fb1017469a48afc17336c54abd5, type: 2}
-  - {fileID: 11400000, guid: 0cbec2000a1cd6d4c8b45a8a277a66db, type: 2}
-  - {fileID: 11400000, guid: b04c3931c0ebeb04686b99eb334c38e3, type: 2}
-  - {fileID: 11400000, guid: 738d1adca4b72114ca79cb824ea73538, type: 2}
+  - {fileID: 11400000, guid: 6c27edffd11f9c840b2485b54143f4e3, type: 2}
   info: 

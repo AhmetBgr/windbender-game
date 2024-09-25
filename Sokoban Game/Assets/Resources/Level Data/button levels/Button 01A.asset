@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Button 01A
   m_EditorClassIdentifier: 
   debugName: Button 01A
-  state: 1
+  state: 0
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels: []
   info: 

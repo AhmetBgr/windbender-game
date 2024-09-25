@@ -24,6 +24,18 @@ public class ClearTiles : Command
             if (dfController.dustTiles.Contains(loc))
                 dfController.dustTiles.Remove(loc);
         }
+
+        if (dfController.dustTiles.Count == 0) { // dfController.dustTiles.Count == 0 && !dfController.volumeController.isVolumeDefault
+            dfController.StartCoroutine(dfController.volumeController
+                .LerpExposure(0.5f, GameManager.instance.defTurnDur));
+            dfController.volumeController.isVolumeDefault = true;
+        }
+
+        /*if (true) { // dfController.dustTiles.Count == 0 && !dfController.volumeController.isVolumeDefault
+            dfController.StartCoroutine(dfController.volumeController
+                .LerpExposure(dfController.volumeController.colorAdjustments.postExposure.value + (1.3f/dfController.inDustAmount), GameManager.instance.defTurnDur));
+            dfController.volumeController.isVolumeDefault = true;
+        }*/
     }
 
     public override void Undo() {
@@ -34,6 +46,15 @@ public class ClearTiles : Command
             if (!dfController.dustTiles.Contains(loc))
                 dfController.dustTiles.Add(loc);
         }
+
+        dfController.StartCoroutine(dfController.volumeController
+            .LerpExposure(-0.8f, GameManager.instance.defTurnDur));
+        dfController.volumeController.isVolumeDefault = true;
+
+        /*if (dfController.dustTiles.Count > 0 && dfController.volumeController.isVolumeDefault) {
+            dfController.StartCoroutine(dfController.volumeController.LerpExposure(-0.8f, 0f));
+            dfController.volumeController.isVolumeDefault = false;
+        }*/
 
     }
 }

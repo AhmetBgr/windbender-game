@@ -45,6 +45,7 @@ public class EndWind : Command{
             arrowController.SetPositions(windMoveRoute);
         }
 
+        wind.StopAllCoroutines();
         wind.DrawWind();
         wind.transform.position = windPos;
         wind.mat.SetFloat("_alpha", wind.defAlpha);

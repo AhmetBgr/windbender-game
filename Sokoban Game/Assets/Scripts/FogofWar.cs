@@ -36,12 +36,19 @@ public class FogofWar : MonoBehaviour
         //forceOverLifetime.x = -2f;
         //main.loop = false;
         area02Data = levelManager.are02Data;
+
+        if (GameDebug.allLevelsUnlocked) {
+            //UnlockArea(areaP02);
+            area02Data.unlocker.SetComplete();
+            //area02Data.isUnlocked = false;
+        }
+
         if (area02Data.unlocker.state == Level.State.completed) {
             if (area02Data.isUnlocked) {
                 area02.SetActive(false);
             }
             else {
-                UnlockArea(areaP02);
+                UnlockArea(areaP02, 0.3f);
             }
         }
     }

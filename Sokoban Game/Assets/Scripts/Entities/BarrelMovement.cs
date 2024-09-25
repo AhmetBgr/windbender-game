@@ -88,7 +88,7 @@ public class BarrelMovement : ObjectMoveController
                 }
             }
         }
-        else if(!gameManager.isWaiting && gameManager.isLooping && gameManager.turnCount > 0){
+        else if(!gameManager.isWaiting && gameManager.isWindRouteMoving && gameManager.turnCount > 0){
             Vector3 windMoveDir = gameManager.windMoveDir;
             if(route.Contains(transform.position - windMoveDir)){
                 intentToMove = true;
@@ -191,7 +191,8 @@ public class BarrelMovement : ObjectMoveController
 
 
 
-        if (pushed) return;
+        if (pushed) return; //&& curState != State.standing
+
         PlayMoveAnim();
 
     }

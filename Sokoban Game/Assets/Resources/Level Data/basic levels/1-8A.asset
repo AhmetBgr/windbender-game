@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1-8A
   m_EditorClassIdentifier: 
   debugName: 1-8A
-  state: 1
+  state: 0
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

@@ -86,7 +86,20 @@ public class GameplayUIManager : MonoBehaviour
 
         if (LevelManager.instance != null)
         {
-            returnToLevelSelButton.onClick.AddListener(() => LevelManager.instance._LoadOverWorld(MainUIManager.instance.transitionProperty2));
+            returnToLevelSelButton.onClick.AddListener(() => {
+                if(GameManager.instance.state == GameState.DrawingRoute)
+                    GameManager.instance.CancelDrawing();
+
+                if (GameManager.instance.state == GameState.Running)
+                    GameManager.instance.UndoMultiStep();
+
+                GameManager.instance.isDrawingCompleted = false;
+                /*if (GameManager.instance.state == GameState.Running) {
+                    GameManager.instance.UndoMultiStep();
+                }*/
+                //GameManager.instance.CancelTurns();
+                LevelManager.instance._LoadOverWorld(MainUIManager.instance.transitionProperty2);
+            });
         }
 
         pausedPanel.SetActive(true);

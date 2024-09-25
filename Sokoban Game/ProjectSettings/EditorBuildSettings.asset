@@ -30,11 +30,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/1-4.unity
     guid: 12c1443c72b1fa344b71088b1da0b78c
   - enabled: 1
-    path: Assets/Scenes/Levels/1-4Advanced.unity
-    guid: c79a6ecb5b4f26341b109a349d227776
+    path: Assets/Scenes/Levels/1-4A.unity
+    guid: 540b14366a8974c43b12d616b08dfd88
   - enabled: 1
-    path: Assets/Scenes/Levels/1-8A.unity
-    guid: 041554e91dc173e49a0e0292725bd03a
+    path: Assets/Scenes/Levels/1-5B.unity
+    guid: fc41fb5ede2d38c4cb9113ec31828198
   - enabled: 1
     path: Assets/Scenes/Levels/barrel 01.unity
     guid: 34effffcbe061ef459e1cd5c81f0c7e4
@@ -129,6 +129,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/loop test 6.unity
     guid: 161de325492fbb24ebc2a4e2ac5b1f5f
   - enabled: 1
+    path: Assets/Scenes/Levels/rotator 01A.unity
+    guid: 1436a562416e4af4ea7181ee6c50046e
+  - enabled: 1
     path: Assets/Scenes/Levels/rotator 01.unity
     guid: 2f6929959aaad99439581becc909601c
   - enabled: 1
@@ -143,4 +146,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/rotator 04A.unity
     guid: 8865847d75447814497f9ebbf86a60da
+  - enabled: 1
+    path: Assets/Scenes/Levels/rotator 05A.unity
+    guid: 74fe296d11a48ec4faa267c303ae125f
+  - enabled: 1
+    path: Assets/Scenes/Levels/fog 01.unity
+    guid: 7b004be62e5bdd54db46a928fe594637
+  - enabled: 1
+    path: Assets/Scenes/Levels/fog 02.unity
+    guid: 30b7d7505e1cda6479234196257ff6ce
+  - enabled: 1
+    path: Assets/Scenes/Levels/fog 03.unity
+    guid: cd2b0ec02e0c67f40be3879c62eadd58
+  - enabled: 1
+    path: Assets/Scenes/Levels/fog 04.unity
+    guid: a540231600b72724c8f24754e13eec88
+  - enabled: 1
+    path: Assets/Scenes/Levels/fog 05.unity
+    guid: 1d9d4160714fe8a44909a21b25d7fe54
   m_configObjects: {}

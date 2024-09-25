@@ -25,10 +25,17 @@ public class AddDustTiles : Command
         }
 
         dfController.growCountDown = 5;
-        
+
+        //dfController.StartCoroutine(dfController.volumeController
+        //    .LerpExposure(dfController.volumeController.colorAdjustments.postExposure.value - (1.3f / dfController.inDustAmount) * tiles.Count, GameManager.instance.defTurnDur));
+        //dfController.volumeController.isVolumeDefault = true;
     }
 
     public override void Undo() {
+        //dfController.StartCoroutine(dfController.volumeController
+        //    .LerpExposure(dfController.volumeController.colorAdjustments.postExposure.value + (1.3f / dfController.inDustAmount)*tiles.Count, GameManager.instance.defTurnDur));
+        //dfController.volumeController.isVolumeDefault = true;
+
 
         foreach (var pos in tiles) {
             tilemap.SetTile(pos, null);
@@ -37,6 +44,9 @@ public class AddDustTiles : Command
                 dfController.dustTiles.Remove(loc);
         }
         dfController.growCountDown = 0;
+
+
+
 
     }
 }

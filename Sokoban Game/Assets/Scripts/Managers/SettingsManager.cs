@@ -5,6 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class SettingsData {
+    public int leafCount;
     public float gameSpeed; // 0 to 10, 1 = default, 2 = 2x
 }
 
@@ -23,10 +24,15 @@ public class SettingsManager : MonoBehaviour {
     public delegate void OnGameSpeedDataLoadedDelegate(float gamespeed);
     public static event OnGameSpeedDataLoadedDelegate OnGameSpeedDataLoaded;
 
+    public delegate void OnLeafCountChangedDelegate(int leafCount);
+    public static event OnLeafCountChangedDelegate OnLeafCountChanged;
+
     public void Awake()
     {
         gameManager = GameManager.instance;
         LoadSettingsData();
+        OnLeafCountChanged?.Invoke(settingsData.leafCount);
+
     }
 
     private void OnEnable()
@@ -113,6 +119,14 @@ public class SettingsManager : MonoBehaviour {
         SaveSettingsData();
     }
 
+    public void SetLeaf(int value) {
+        settingsData.leafCount = value;
+        settingsHolder.settings = settingsData;
+        SaveSettingsData();
+
+        OnLeafCountChanged?.Invoke(value);
+    }
+
     private string GetFilePath(string fileName)
     {
         return Application.persistentDataPath + "/" + fileName;
@@ -124,6 +138,7 @@ public class SettingsManager : MonoBehaviour {
         
         settingsData = new SettingsData();
         settingsData.gameSpeed = 1f;
+        settingsData.leafCount = 0;
 
         return settingsData;
     }

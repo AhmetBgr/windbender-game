@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b635ae7d5f42be4cacd1a9b8c0ae32a, type: 3}
-  m_Name: 1-4
+  m_Name: 1-4A
   m_EditorClassIdentifier: 
-  debugName: 1-4
-  state: 1
+  debugName: 1-4A
+  state: 0
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels: []
   info: 

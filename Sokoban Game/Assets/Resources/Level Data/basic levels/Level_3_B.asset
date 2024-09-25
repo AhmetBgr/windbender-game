@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level_3_B
   m_EditorClassIdentifier: 
   debugName: Level_3_B
-  state: 1
+  state: 0
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

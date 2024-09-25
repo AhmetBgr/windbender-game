@@ -135,6 +135,10 @@ public class WindSourceController : MonoBehaviour
 
     private void UpdateWindSPText()
     {
-        windSPText.text = (windSP == 4 && gameManager.state != GameState.DrawingRoute) ? windSP.ToString() + "*" : windSP.ToString();
+        windSPText.text = windSP.ToString();
+
+        if(defWindSP == 4 && windSP == 4)
+            windSPText.text += "*";
+
     }
 }

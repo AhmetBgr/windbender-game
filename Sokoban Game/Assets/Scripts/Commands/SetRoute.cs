@@ -66,6 +66,7 @@ public class SetRoute : Command
         
         Debug.Log("undno set route");
 
+        gameManager.wind.StopAllCoroutines();
         gameManager.wind.EndWind(0f, isLooping);
         
         // Undo Route manager

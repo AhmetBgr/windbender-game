@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour{
     public List<ObjectDestination> destinations = new List<ObjectDestination>();// Stores all destinations in the level to check for level completion
     public List<WindSourceController> windSources = new List<WindSourceController>();
 
+    public DeathFogController deathFog;
     [HideInInspector] public RouteManager routeManager;
     [HideInInspector] public Cursor cursor;
 
@@ -333,6 +334,8 @@ public class GameManager : MonoBehaviour{
                     }
                 }
                 else if (Input.GetMouseButtonUp(2)){
+                    CancelDrawing();
+                    /*
                     // Deletes all route tiles and cancels drawing route
                     //Undo();
                     arrowController.lr.positionCount = 1;
@@ -346,19 +349,25 @@ public class GameManager : MonoBehaviour{
 
                     // Deletes the last position of the route
                     isLooping = false;
-                    isDrawingCompleted = route.Count - 1 >= curWindSource.defWindSP ? true : false;
-                    routeManager.DeletePos(route.Count - 1);
-                    DeletePosition deletePosition = new DeletePosition(curWindSource, routeManager, route[route.Count - 1]);
+                    //isDrawingCompleted = route.Count - 1 >= curWindSource.defWindSP ? true : false;
+                    //routeManager.DeletePos(route.Count - 1);
+                    //DeletePosition deletePosition = new DeletePosition(curWindSource, routeManager, route[route.Count - 1]);
 
-                    curWindSource.oldCommands.Add(deletePosition);
-                    ////curWindSource.RemovePosition(route.Count - 1);
-                    curWindSource.UpdateWindSP(route.Count);
+                    //curWindSource.oldCommands.Add(deletePosition);
+                    //curWindSource.UpdateWindSP(route.Count);
 
-                    route.RemoveAt(route.Count - 1);
-                    //if (route.Count >= 2)
+                    //route.RemoveAt(route.Count - 1);
                     UpdateValidPositions(route[route.Count - 1]);
-                    //Debug.Log("here2");
 
+
+                    CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
+                    cancelDrawing.Execute();
+                    //Debug.LogWarning("should cancel drawing");
+                    //isDrawingCompleted = false;
+                    turnCount = route.Count;
+
+                    //Debug.Log("here2");
+                    */
                     return;
                 }
 
@@ -411,11 +420,12 @@ public class GameManager : MonoBehaviour{
                     UpdateValidPositions(route[route.Count-1], deleting : true);
                 else if (Input.GetMouseButtonUp(2)){
                     // Deletes all route tiles and cancels drawing route
-                    CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
+                    CancelDrawing();
+                    /*CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
                     cancelDrawing.Execute();
                     Debug.LogWarning("should cancel drawing");
                     isDrawingCompleted = false;
-                    turnCount = route.Count;
+                    turnCount = route.Count;*/
                     return;
                 }
 
@@ -962,13 +972,24 @@ public class GameManager : MonoBehaviour{
 
     public void CheckForLevelComplete(){
         //Debug.LogWarning("Checking for level comp");
+        if(deathFog != null && deathFog.dustTiles.Count == 0) {
+            //InvokeOnLevelComple();
+            Invoke("InvokeOnLevelComple", 0.2f);
+            return;
+        }
+
+
         if (destinations.Count == 0) return;
         foreach(ObjectDestination destination in destinations){
             if(destination.objMC == null)    return; 
         }
         //Debug.LogWarning("LEVEL COMPLETED");
 
-        if (OnLevelComplete != null){
+        InvokeOnLevelComple();
+    }
+
+    public void InvokeOnLevelComple() {
+        if (OnLevelComplete != null) {
             oldCommands.Clear();
             curWindSource = null;
             OnLevelComplete();
@@ -1012,6 +1033,7 @@ public class GameManager : MonoBehaviour{
 
         multiStepCommands.Remove(command);
 
+        //CancelDrawing();
     }
 
     public void UndoSingleStep() {
@@ -1050,15 +1072,34 @@ public class GameManager : MonoBehaviour{
             return;
         }
 
-        string curLevel = LevelManager.instance.curLevel.name;
+        int multiStepCommandsCount = multiStepCommands.Count;
+
+        for (int i = 0; i < multiStepCommandsCount; i++) {
+            UndoMultiStep();
+
+        }
+        CancelDrawing();
+
+        /*foreach (var item in multiStepCommands) {
+            UndoMultiStep();
+        }*/
+
+        /*string curLevel = LevelManager.instance.curLevel.name;
         Level level = LevelManager.instance.curLevel;
         MainUIManager mainUIManager = MainUIManager.instance;
         MainUIManager.TransitionProperty tp = (level.seen | level.state == Level.State.completed)
             ? mainUIManager.transitionProperty2 : mainUIManager.transitionProperty1;
 
+        CancelDrawing();
+        /*isDrawingCompleted = false;
+        isDrawingMoveRoute = false;
+        */
+        /*
         StartCoroutine(SceneLoader.LoadAsyncSceneWithName(level.debugName, tp.durationFH,
             preLoadCallBack: () => mainUIManager.SceneTranstionFH(tp),
             onCompleteCallBack: () => MainUIManager.instance.SceneTranstionSH(tp)));
+
+        */
     }
     public void Undo(){
         if (oldCommands.Count == 0 || undoTimes.Count == 0) return;
@@ -1105,6 +1146,24 @@ public class GameManager : MonoBehaviour{
         curWindSource.oldCommands.Remove(command);
     }
 
+    public void CancelDrawing() {
+        if (isDrawingMoveRoute) {
+            arrowController.lr.positionCount = 1;
+            arrowController.transform.gameObject.SetActive(false);
+            windMoveRoute.RemoveRange(0, windMoveRoute.Count);
+            //gameManager.UpdateValidPositions(pos, none : true);
+            isDrawingMoveRoute = false;
+            //isDrawingCompleted = true;
+
+            Debug.LogWarning("should return drawing route");
+
+            // Deletes the last position of the route
+            isLooping = false;
+        }
+
+        CancelRouteDrawing cancelDrawing = new CancelRouteDrawing(curWindSource, routeManager, route);
+        cancelDrawing.Execute();
+    }
 }
 public enum GameState {
     Paused,

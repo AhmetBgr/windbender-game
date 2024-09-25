@@ -19,5 +19,7 @@ public class RotatorCommand : Command{
     public override void Undo() {
         rotator.rotationCount = rotationCount;
         rotator.prevTurn = prevTurn;
+
+        rotator.PlayIdleAnim();
     }
 }

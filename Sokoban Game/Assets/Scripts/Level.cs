@@ -53,6 +53,10 @@ public class Level : ScriptableObject
 
     public void SetComplete()
     {
+        if(state != State.completed) {
+            MainUIManager.instance.settings.SetLeaf(MainUIManager.instance.settings.settingsHolder.settings.leafCount + 1);
+        }
+
         state = Level.State.completed;
 
         foreach(Level level in connectedLevels)

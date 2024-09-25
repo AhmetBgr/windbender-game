@@ -16,6 +16,8 @@ public class ObjectMoveController : MonoBehaviour
 
     public class PushInfo{
         public MoveTo pushedBy;
+        public MoveTo initiator;
+
         public Vector3 pushDir;
         public int indexInChainPush;
         public int destinationTile;
@@ -119,14 +121,15 @@ public class ObjectMoveController : MonoBehaviour
                 index = -1;
                 pushed = true;
                 intentToMove = true;
-                PushInfo pushInfo = new PushInfo();
+                /*PushInfo pushInfo = new PushInfo();
                 pushInfo.pushedBy = null;
                 pushInfo.pushOrigin = 0;
                 pushInfo.indexInChainPush = 0;
                 pushInfo.pushDir = dir;
                 pushInfo.isValidated = 2;
+
                 pushedByInfos.Add(dir, pushInfo);
-                pushInfoThis = pushInfo;
+                pushInfoThis = pushInfo;*/
             }
             else{
                 hasSpeed = false;
@@ -178,7 +181,7 @@ public class ObjectMoveController : MonoBehaviour
 
                 if (movementReserve.intentToMove && this.dir == dir) {
                     //Debug.Log("destination tile layer: " + obj.layer);
-                    if (obj.layer == 7) {
+                    if (obj.layer == 7 ) { //&& !obj.CompareTag("MovingObstacle")
                         destinationTile = 1;
                         neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
                     }
@@ -252,6 +255,7 @@ public class ObjectMoveController : MonoBehaviour
             pushInfo.pushOrigin = gameObject.GetInstanceID();
             pushInfo.indexInChainPush = -1;
             pushInfo.pushDir = dir;
+            pushInfo.destinationTile = movementReserve.destinationTile;
             movementReserve.pushed = true;
             pushInfoThis = pushInfo;
             pushedByInfos.Add(pushInfo.pushDir, pushInfo);
@@ -259,6 +263,7 @@ public class ObjectMoveController : MonoBehaviour
 
         if (pushedByInfos.Count > 0)
         {
+            Debug.Log("trying to push object");
             TryToPush(pushedByInfos[movementReserve.dir]);
         }
         else
@@ -297,6 +302,13 @@ public class ObjectMoveController : MonoBehaviour
                 //Debug.LogWarning("wall at push dest.");
             }
             else {
+                if (destinationObjA.obj.CompareTag("MovingObstacle")) {
+                    Debug.LogWarning("here2");
+                    Debug.LogWarning("here2: " + gameObject.name);
+                    pushedByInfo.destinationTile = 2;
+                    return;
+                }
+
                 // A moveable object at destination tile
                 //Debug.LogWarning("A moveable object at push dest. " + gameObject.name);
                 pushedByInfo.destinationTile = 1;
@@ -313,18 +325,27 @@ public class ObjectMoveController : MonoBehaviour
                 //pushInfo.destinationTile =
                 //Debug.LogWarning(gameObject.name + " :" + pushInfoOther);
                 destinationObjA.obj.pushedByInfos.Add(pushedByInfo.pushDir, pushInfoOther);
+
+                if (pushedByInfo.initiator == null) {
+                    pushedByInfo.initiator = moveRes;
+                }
+                pushInfoOther.initiator = pushedByInfo.initiator;
+
+
+
                 destinationObjA.obj.TryToPush(pushInfoOther);
             }
         }
         else {
             // destination tile is empty
             pushedByInfo.destinationTile = 0;
+
         }
 
-        
+
     }
 
-    protected void ValidatePush(List<MoveTo> emptyDestintionTileMoves)
+    public virtual void ValidatePush(List<MoveTo> emptyDestintionTileMoves)
     {
 
         //Debug.LogWarning("push  res count: " + pushedByInfos.Count + " :" + gameObject.name);
@@ -438,6 +459,12 @@ public class ObjectMoveController : MonoBehaviour
                     }
                 }
             }
+            /*MoveTo destinationObj;
+            if(movementReserve.neighbors.TryGetValue(movementReserve.dir, out destinationObj)) {
+                if (destinationObj.obj != null && destinationObj.obj.CompareTag("MovingObstacle")) {
+                    movementReserve.destinationTile = 2;
+                }
+            }*/
             
 
             movementReserve.destinationTile = pushInfo.destinationTile;
@@ -449,8 +476,7 @@ public class ObjectMoveController : MonoBehaviour
             if (pushInfo.destinationTile == 0)
             {
                 emptyDestintionTileMoves.Add(movementReserve);
-                //Debug.LogWarning("here2");
-                //Debug.LogWarning("here2: " + gameObject.name);
+
 
                 //movementReserve.isMomentumTransferred = false;
             }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 1-1
   m_EditorClassIdentifier: 
   debugName: 1-1
-  state: 2
+  state: 1
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 1
   connectedLevels:
   - {fileID: 11400000, guid: 7cf9cb933bbd01848afbf46b36d8b335, type: 2}
@@ -28,4 +28,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0957a5a9a9bf08d4cb2110492c2f0777, type: 2}
   - {fileID: 11400000, guid: 96488413f8a7f514ca20a58ec723c673, type: 2}
   - {fileID: 11400000, guid: 67db4dc7358fcf544aa7422f0ff1a619, type: 2}
+  - {fileID: 11400000, guid: a79599c726d15b545a15dfc6c3123dd9, type: 2}
   info: 

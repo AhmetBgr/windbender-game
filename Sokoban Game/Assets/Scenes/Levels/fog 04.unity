@@ -1273,6 +1273,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 675c2cdec6d535f4a8444de766b1dca0, type: 3}
+--- !u!114 &422077294 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8796897531197769896, guid: 6cd43ab7f83c17844a4b6de54960e528,
+    type: 3}
+  m_PrefabInstance: {fileID: 689443049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c340f5a0c37b6e45b8a44c52f617223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &431065844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1861,6 +1873,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6207038862237701392, guid: 66d97b314e62a7245884c2ef0d7e7768,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 66d97b314e62a7245884c2ef0d7e7768, type: 3}
@@ -1998,7 +2015,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sharedProfile
       value: 
-      objectReference: {fileID: 11400000, guid: 356ae0ff91ec19f47bf355df05558890,
+      objectReference: {fileID: 11400000, guid: c8e5062fa76c2ed42845a3c59189643b,
         type: 2}
     - target: {fileID: 9012022720712478575, guid: 6cd43ab7f83c17844a4b6de54960e528,
         type: 3}
@@ -6444,6 +6461,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1859297578, guid: 532023b23238e384f8669e2a958ba5a6,
         type: 3}
+    - target: {fileID: 2418646925748304403, guid: 2dba93e7bf3190d42bae44e33478898c,
+        type: 3}
+      propertyPath: volumeController
+      value: 
+      objectReference: {fileID: 422077294}
     - target: {fileID: 3292842030657610251, guid: 2dba93e7bf3190d42bae44e33478898c,
         type: 3}
       propertyPath: m_IsActive
@@ -12131,6 +12153,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dba93e7bf3190d42bae44e33478898c, type: 3}
+--- !u!114 &1161346030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2418646925748304403, guid: 2dba93e7bf3190d42bae44e33478898c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1161346029}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1032beeed8fcfd4fbf73b51df3aaa68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1174798542 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3534970670604330181, guid: b35881fbc28d0234f89edf3bb4daf7ae,
@@ -12393,6 +12427,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5728126160888509373, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
+        type: 3}
+      propertyPath: deathFog
+      value: 
+      objectReference: {fileID: 1161346030}
     - target: {fileID: 5728126160888509373, guid: 3096d4b1b38db6943b0fe79087f8c8c2,
         type: 3}
       propertyPath: dustTileMap

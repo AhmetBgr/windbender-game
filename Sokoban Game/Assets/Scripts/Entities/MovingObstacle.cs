@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 public class MovingObstacle : ObjectMoveController
 {
@@ -81,7 +82,7 @@ public class MovingObstacle : ObjectMoveController
 
         GameManager.instance.oldCommands.Add(movementReserve);
     }
-
+    
     /*public override void FindNeighbors(List<Vector3> route) {
         //Debug.LogWarning("  HERE 3");
 
@@ -150,7 +151,7 @@ public class MovingObstacle : ObjectMoveController
             gameManager.emptyDestinationMoves.Add(movementReserve);
         }
     }*/
-    
+
     /*private void TryToAddToNeighbors(Vector3 dir, Vector3 origin) {
         RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
         MoveTo neighbor = null;
@@ -241,4 +242,118 @@ public class MovingObstacle : ObjectMoveController
             }
         }
     }
+
+    public override void TryToPush(PushInfo pushedByInfo) {
+        MoveTo moveRes = movementReserve;
+        MoveTo destinationObjA;
+        //Vector3 dir = moveRes.dir;
+
+        //PushInfo pushInfoThis = pushedByInfos[pushedByInfo.pushDir];
+
+        // Checks if there is something in the way for current movement. if so add that object to the destinationObjA
+        if (movementReserve.neighbors.TryGetValue(pushedByInfo.pushDir, out destinationObjA)) {
+
+            if (destinationObjA == null) {
+                // wall at destination
+                pushedByInfo.destinationTile = 2;
+                //Debug.LogWarning("wall at push dest.");
+            }
+            else {
+                // A moveable object at destination tile
+                //Debug.LogWarning("A moveable object at push dest. " + gameObject.name);
+                pushedByInfo.destinationTile = 1;
+
+                PushInfo pushInfoOther = new PushInfo();
+                pushInfoOther.pushedBy = moveRes;
+                pushInfoOther.pushDir = pushedByInfo.pushDir;
+                pushInfoOther.indexInChainPush = pushedByInfo.indexInChainPush + 1;
+                pushInfoOther.pushOrigin = pushedByInfo.pushOrigin;
+                pushInfoOther.isValidated = 2;
+                //MoveTo destinationObjB;
+                //destinationObjA.neighbors.TryGetValue(dir, out destinationObjB)
+
+                //pushInfo.destinationTile =
+                //Debug.LogWarning(gameObject.name + " :" + pushInfoOther);
+                destinationObjA.obj.pushedByInfos.Add(pushedByInfo.pushDir, pushInfoOther);
+
+                if (pushedByInfo.initiator == null) {
+                    pushedByInfo.initiator = moveRes;
+                }
+                pushInfoOther.initiator = pushedByInfo.initiator;
+
+
+
+                destinationObjA.obj.TryToPush(pushInfoOther);
+            }
+        }
+        else {
+            // destination tile is empty
+            pushedByInfo.destinationTile = 0;
+            Debug.LogWarning("here2");
+            Debug.LogWarning("here2: " + gameObject.name);
+        }
+
+
+    }
+
+    /*public override void ValidatePush(List<MoveTo> emptyDestintionTileMoves) {
+        //Debug.LogWarning("push  res count: " + pushedByInfos.Count + " :" + gameObject.name);
+
+        if (pushedByInfos.Count == 0 | (pushedByInfos.Count == 1 && movementReserve.destinationTile == 2)) return;
+        // Determines destination tile type and adds movement reserve to the mov. res. list
+        Vector3 dirSum = Vector3.zero;
+        for (int i = 0; i < pushedByInfos.Count; i++) {
+            PushInfo info = pushedByInfos.ElementAt(i).Value;
+            if (info == null) {
+                pushedByInfos.Remove(pushedByInfos.ElementAt(i).Key);
+                continue;
+            }
+
+            if (info.destinationTile == 2) {
+                info.isValidated = 0;
+                //pushedByInfos.Remove(pushedByInfos.ElementAt(i).Key);
+                continue;
+            }
+
+            dirSum += pushedByInfos.ElementAt(i).Key;
+        }
+        //Debug.LogWarning("push  res count: " + pushedByInfos.Count + " :" + gameObject.name);
+        //Debug.LogWarning("push  res dir sum: " + dirSum + " :" + gameObject.name);
+        //Debug.LogWarning("push  res right dir : " + pushedByInfos[Vector3.right].pushDir + " :" + gameObject.name);
+        //Debug.LogWarning("push  res left  dir : " + pushedByInfos[Vector3.left].pushDir + " :" + gameObject.name);
+        if (dirSum == Vector3.zero) {
+            // Failed move
+            //Debug.LogWarning("push failed: " + gameObject.name);
+
+            Vector3 failedMoveDir = Vector3.zero;
+            int lowestIndex = 200;
+            //int previoulowestIndex = lowestIndex;
+            bool equalLowestIndexExists = false;
+            foreach (var item in pushedByInfos) {
+                if (item.Value.indexInChainPush < lowestIndex) {
+                    //previoulowestIndex = lowestIndex;
+                    lowestIndex = item.Value.indexInChainPush;
+                    failedMoveDir = item.Key;
+                    equalLowestIndexExists = false;
+                }
+                else if (item.Value.indexInChainPush == lowestIndex) {
+                    equalLowestIndexExists = true;
+                    //break;
+                }
+            }
+
+            if (failedMoveDir != Vector3.zero && !equalLowestIndexExists) {
+                movementReserve.dir = failedMoveDir;
+                movementReserve.intentToMove = true;
+                gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+            }
+
+        }
+        else {
+            gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+            return;
+        }
+
+
+    }*/
 }

@@ -5,25 +5,28 @@ using UnityEngine.Tilemaps;
 using DG.Tweening;
 public class DeathFogController : ObjectMoveController
 {
+    public VolumeController volumeController;
+
     public Tilemap fogTM1;
     public Tilemap fogTM2;
     public Tilemap fogTM3;
     public Tilemap fogTM4;
 
+    public bool canGrow = false;
     public int growCountDown = 5;
-
+    public int inDustAmount;
     public List<Vector3> dustTiles = new List<Vector3>();
     private Vector3 posDif = Vector3.zero;
 
     protected override void OnEnable() {
         GameManager.instance.OnTurnStart1 += TryToCleanFogTile;
-        //GameManager.instance.OnTurnEnd += Grow;
+        GameManager.instance.OnTurnEnd += Grow;
         base.OnEnable();
     }
 
     protected override void OnDisable() {
         GameManager.instance.OnTurnStart1 -= TryToCleanFogTile;
-        //GameManager.instance.OnTurnEnd -= Grow;
+        GameManager.instance.OnTurnEnd -= Grow;
 
         base.OnDisable();
     }
@@ -39,6 +42,10 @@ public class DeathFogController : ObjectMoveController
                 dustTiles.Add(position + fogTM1.tileAnchor);
             }
         }
+        inDustAmount = dustTiles.Count;
+        if(dustTiles.Count > 0) {
+            GameManager.instance.deathFog = this;
+        }
     }
 
     private void TryToCleanFogTile(List<Vector3> route) {
@@ -52,6 +59,10 @@ public class DeathFogController : ObjectMoveController
         for (int i = 0; i < route.Count; i++) {
             Vector3 pos = route[i]; // + Utility.RoundToNearestHalf(transform.position);
             //Debug.Log("dust tile check: " + (pos));
+
+            if (gameManager.isLooping)
+                canClear = true;
+
             if (dustTiles.Contains(pos)) { //
                 if (!canClear) continue;
 
@@ -60,19 +71,19 @@ public class DeathFogController : ObjectMoveController
                 Vector3Int posInt = new Vector3Int((int)(pos.x- 0.5f), (int)(pos.y - 0.5f), 0);
 
                 ClearTiles clearTiles = new ClearTiles(this, fogTM1, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
-                ClearTiles clearTiles2 = new ClearTiles(this, fogTM2, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
-                ClearTiles clearTiles3 = new ClearTiles(this, fogTM3, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
-                ClearTiles clearTiles4 = new ClearTiles(this, fogTM4, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
+                //ClearTiles clearTiles2 = new ClearTiles(this, fogTM2, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
+                //ClearTiles clearTiles3 = new ClearTiles(this, fogTM3, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
+                //ClearTiles clearTiles4 = new ClearTiles(this, fogTM4, new List<Vector3Int> { posInt }, fogTM1.GetTile(posInt));
 
                 clearTiles.Execute();
-                clearTiles2.Execute();
-                clearTiles3.Execute();
-                clearTiles4.Execute();
+                //clearTiles2.Execute();
+                //clearTiles3.Execute();
+                //clearTiles4.Execute();
 
                 GameManager.instance.AddActionToCurTurn(clearTiles);
-                GameManager.instance.AddActionToCurTurn(clearTiles2);
-                GameManager.instance.AddActionToCurTurn(clearTiles3);
-                GameManager.instance.AddActionToCurTurn(clearTiles4);
+                //GameManager.instance.AddActionToCurTurn(clearTiles2);
+                //GameManager.instance.AddActionToCurTurn(clearTiles3);
+                //GameManager.instance.AddActionToCurTurn(clearTiles4);
 
                 canClear = false;
 
@@ -83,14 +94,18 @@ public class DeathFogController : ObjectMoveController
             }
         }
 
+
+
     }
 
     private void Grow() {
+        if (!canGrow) return;
+
         if (dustTiles.Count == 0) return;
 
-        growCountDown--;
-
-        if (growCountDown > 0) return;
+        //growCountDown--;
+        Debug.Log("grow math: " + (int)(gameManager.defTurnCount - gameManager.turnCount % 5));
+        if ((int)((gameManager.defTurnCount - gameManager.turnCount) % 5) != 0) return;
 
         Vector3[] dirs = { Vector3.up, Vector3.down, Vector3.left, Vector3.right };
         List<Vector3Int> newDustTiles = new List<Vector3Int>();

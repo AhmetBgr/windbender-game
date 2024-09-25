@@ -15,7 +15,7 @@ MonoBehaviour:
   debugName: barrel 03A
   state: 1
   seen: 1
-  justUnlocked: 1
+  justUnlocked: 0
   isFirstLevel: 0
   connectedLevels: []
   info: 

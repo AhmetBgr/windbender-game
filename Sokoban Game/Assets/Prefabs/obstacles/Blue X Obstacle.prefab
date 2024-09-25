@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 8304399165530054320}
   m_Layer: 7
   m_Name: obstacle_left
-  m_TagString: Untagged
+  m_TagString: MovingObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 4545386192373162918}
   m_Layer: 7
   m_Name: obstacle_right
-  m_TagString: Untagged
+  m_TagString: MovingObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 457267523135262214}
   m_Layer: 7
   m_Name: obstacle_center
-  m_TagString: Untagged
+  m_TagString: MovingObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -802,7 +802,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_Sprite: {fileID: 1674851685, guid: 33057a9bb2a7fa445829b5f68eb373b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1

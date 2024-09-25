@@ -13,16 +13,10 @@ MonoBehaviour:
   m_Name: loop 2
   m_EditorClassIdentifier: 
   debugName: loop 2
-  state: 2
+  state: 0
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
-  - {fileID: 11400000, guid: 6af2ab1306d9a3c448be5cc0d5c04a18, type: 2}
-  - {fileID: 11400000, guid: f4b8b551c956f2d4eaad6ae7de647477, type: 2}
-  - {fileID: 11400000, guid: 119f3cb8aa56f084d9902cf76a3d17c6, type: 2}
-  - {fileID: 11400000, guid: be2583bad5daebb4b830ae380ffc5808, type: 2}
-  - {fileID: 11400000, guid: 9dfbfad0895699d42bac2ccfdf182a00, type: 2}
-  - {fileID: 11400000, guid: 190e0f67a0f2fd24c854bcb331d27e80, type: 2}
-  - {fileID: 11400000, guid: 27ac9693f5ddc42438adb807dc5d305f, type: 2}
+  - {fileID: 11400000, guid: 9e9f60f14278b0140abe76e7f392ec49, type: 2}
   info: 

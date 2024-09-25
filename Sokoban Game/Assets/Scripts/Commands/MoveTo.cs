@@ -183,6 +183,15 @@ public class MoveTo : Command
         MoveTo destinationObjA;
         if (neighbors.TryGetValue(dir, out destinationObjA)) // Checks if there is something in the way for current movement. if so add that object to the destinationObjA
         {
+            /*if (!obj.CompareTag("MovingObstacle") && destinationObjA.obj.CompareTag("MovingObstacle")) {
+                //  Extends chain failed move to the neighbor object
+                destinationObjA.destinationTile = 2;
+                destinationObjA.ChainFailedMove();
+                isMomentumTransferred = true;
+                return;
+            }*/
+
+
 
             if (destinationObjA.intentToMove) {
                 if (-dir == destinationObjA.dir) // Checks if destination object wants to move towards current object's tile loc
