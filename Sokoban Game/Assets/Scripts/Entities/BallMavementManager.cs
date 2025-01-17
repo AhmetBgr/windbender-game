@@ -18,7 +18,7 @@ public class BallMavementManager : ObjectMoveController
             index = route.FindIndex(i => i == pos); // finds index in wind
 
             
-            if ( index > 0 || GameManager.instance.isLooping )
+            if ( index > 0 || GameManager.instance.curGame.isLooping )
             {
                 if(index == route.Count)
                     dir = route[index] - route[index-1];
@@ -52,7 +52,7 @@ public class BallMavementManager : ObjectMoveController
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
+        //movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;

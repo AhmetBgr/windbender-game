@@ -6,13 +6,13 @@ public class MouseUIHoverController : MonoBehaviour
 {
     public void OnPointerEnter()
     {
-        GameManager.instance.isHoveringUI = true;
+        //GameManager.instance.drawingController.isHoveringUI = true;
         Cursor.instance.HideCursor();
     }
 
     public void OnPointerExit()
     {
-        GameManager.instance.isHoveringUI = false;
+        //GameManager.instance.isHoveringUI = false;
         Cursor.instance.ShowCursor();
     }
 }

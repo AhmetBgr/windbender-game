@@ -12,7 +12,7 @@ public class ChangeButtonState : Command
         this.button = button;
         this.isDown = isDown;
         this.executionTime = Time.time;
-        turnID = GameManager.instance.turnID;
+        //turnID = GameManager.instance.turnID;
     }
 
     public override void Execute() {

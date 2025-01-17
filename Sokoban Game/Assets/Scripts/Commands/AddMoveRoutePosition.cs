@@ -16,8 +16,8 @@ public class AddMoveRoutePosition : Command{
         this.arrowController = arrowController;
         this.gameManager = GameManager.instance;
         this.pos = pos;
-        this.index = gameManager.windMoveRoute.Count;
-        this.windMoveRoute.AddRange(gameManager.windMoveRoute);
+        this.index = gameManager.curGame.windMoveRoute.Count;
+        this.windMoveRoute.AddRange(gameManager.curGame.windMoveRoute);
         arrowController.lr.GetPositions(this.positions);
     }
 

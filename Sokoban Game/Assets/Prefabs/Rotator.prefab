@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3353288830505718335}
   - component: {fileID: 514676274585687004}
   - component: {fileID: 3560280358530688389}
+  - component: {fileID: 2398488912734325525}
   m_Layer: 9
   m_Name: Rotator
   m_TagString: Untagged
@@ -151,3 +152,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2398488912734325525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560280358530688410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290e011929bc0a843816ac93e66669e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3560280358530688411}
+  previewPrefab: {fileID: 2904771872247391068, guid: 59231d645ae1932479ca661c6b590ae3,
+    type: 3}
+  cols:
+  - {fileID: 3353288830505718335}
+  clone: {fileID: 0}
+  preview: {fileID: 0}
+  isClone: 0

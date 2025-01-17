@@ -5282,6 +5282,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacle3_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1770846964625424134, guid: 593e5e1c6a12b8248bccde7a076b1738,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 593e5e1c6a12b8248bccde7a076b1738, type: 3}

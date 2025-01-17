@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: loop 3
   m_EditorClassIdentifier: 
   debugName: loop 3
-  state: 0
+  state: 2
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

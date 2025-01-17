@@ -55,7 +55,7 @@ public class BarrelMovement : ObjectMoveController
             index = route.FindIndex(i => i == pos); // finds index in wind
 
             // Calculates the direction depand on the index in the route
-            if (GameManager.instance.isLooping && (pos == route[0]) ){
+            if (GameManager.instance.curGame.isLooping && (pos == route[0]) ){
                 dir = route[0] - route[route.Count - 2];
             }
             else{
@@ -88,8 +88,8 @@ public class BarrelMovement : ObjectMoveController
                 }
             }
         }
-        else if(!gameManager.isWaiting && gameManager.isWindRouteMoving && gameManager.turnCount > 0){
-            Vector3 windMoveDir = gameManager.windMoveDir;
+        else if(!gameManager.isWaiting && gameManager.curGame.isWindRouteMoving && gameManager.turnCount > 0){
+            Vector3 windMoveDir = gameManager.curGame.windMoveDir;
             if(route.Contains(transform.position - windMoveDir)){
                 intentToMove = true;
                 dir = windMoveDir;
@@ -124,7 +124,7 @@ public class BarrelMovement : ObjectMoveController
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag)
         {
             executionTime = Time.time,
-            turnID = GameManager.instance.turnID,
+            //turnID = GameManager.instance.turnID,
             intentToMove = intentToMove,
             state = curState,
             hasSpeed = hasSpeed,

@@ -9,14 +9,14 @@ public class Turn : Command{
 
     private GameManager gameManager;
 
-    public Turn(int turnCount, int turnID) {
+    public Turn(int turnCount) { //, int turnID
         this.turnCount = turnCount;
-        this.turnID = turnID;
+        //this.turnID = turnID;
         gameManager = GameManager.instance;
     }
 
     public override void Execute() {
-        gameManager.turnID++;
+        //gameManager.turnID++;
         gameManager.turnCount--;
         
 
@@ -26,7 +26,7 @@ public class Turn : Command{
     }
 
     public override void Undo() {
-        gameManager.turnID = turnID;
+        //gameManager.turnID = turnID;
         gameManager.turnCount = turnCount;
         //gameManager.state = GameState.Paused;
 

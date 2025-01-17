@@ -7,9 +7,10 @@ public class CancelRouteDrawing : Command
     public WindSourceController windSource;
     public RouteManager routeManager;
     private GameManager gameManager;
+    private DrawingController drawingController;
     private GameState oldState;
     public List<Vector3> route = new List<Vector3>();
-    public CancelRouteDrawing(WindSourceController windSource, RouteManager routeManager, List<Vector3> route)
+    public CancelRouteDrawing(WindSourceController windSource, RouteManager routeManager, DrawingController drawingController, List<Vector3> route)
     {
         this.windSource = windSource;
         this.routeManager = routeManager;
@@ -17,21 +18,22 @@ public class CancelRouteDrawing : Command
         this.route.AddRange(route);
         this.gameManager = GameManager.instance;
         this.oldState = gameManager.state;
+        this.drawingController = drawingController;
     }
     public override void Execute()
     {
         routeManager.DeleteTiles();
-        gameManager.route.Clear();
+        gameManager.curGame.route.Clear();
         routeManager.validPos.Clear();
-        windSource.UpdateWindSP(gameManager.route.Count);
+        windSource.UpdateWindSP(gameManager.game.route.Count);
         //gameManager.curWindSource.windSP = GameManager.instance.curWindSource.defWindSP;
         ///gameManager.curWindSource.route.Clear();
-        gameManager.UpdateValidPositions(Vector3.zero, none: true);
-        gameManager.curWindSource = null;
-        gameManager.isDrawingCompleted = false;
+        drawingController.UpdateValidPositions(Vector3.zero, none: true);
+        gameManager.curGame.curWindSource = null;
+        drawingController.isDrawingCompleted = false;
         gameManager.state = GameState.Paused;
         executionTime = Time.time;
-        turnID = GameManager.instance.turnID;
+        //turnID = GameManager.instance.turnID;
     }
 
     public override void Undo()
@@ -41,16 +43,16 @@ public class CancelRouteDrawing : Command
         windSource.windSP = windSource.defWindSP - route.Count;
 
         // Undo game manager stuff
-        GameManager.instance.curWindSource = windSource;
-        GameManager.instance.route = new List<Vector3>();
-        GameManager.instance.route.AddRange(route);
+        GameManager.instance.curGame.curWindSource = windSource;
+        GameManager.instance.curGame.route = new List<Vector3>();
+        GameManager.instance.curGame.route.AddRange(route);
         GameManager.instance.state = oldState;
 
         // Undo route tile manager stuff
         routeManager.route = new List<Vector3>();
         routeManager.route.AddRange(route);
-        GameManager.instance.UpdateValidPositions(route[route.Count - 1]);
-        windSource.UpdateWindSP(gameManager.route.Count);
+        drawingController.UpdateValidPositions(route[route.Count - 1]);
+        windSource.UpdateWindSP(gameManager.game.route.Count);
         routeManager.DrawRoute(route);
     }
 }

@@ -62,6 +62,8 @@ public class RouteManager : MonoBehaviour
         //GameManager.instance.OnStateChange += ClearTiles;
         //GameManager.instance.OnTurnStart2 += ClearTiles;
         GameManager.instance.OnUndo += CancelCoroutine;
+
+        //route = GameManager.instance.route;
         //GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
     }
 
@@ -80,7 +82,6 @@ public class RouteManager : MonoBehaviour
 
     public void AddPosition(Vector3 pos, bool isLooping = false)
     {
-        //UpdateValidPositions(pos);
         this.route.Add(pos);
         SetLastTile(this.route);
     }
@@ -91,7 +92,6 @@ public class RouteManager : MonoBehaviour
         route.RemoveAt(index);
         SetLastTile(route);
         SetOriginTile(route);
-        //UpdateValidPositions(route[route.Count - 1]);
     }
 
     private void SetOriginTile(List<Vector3> route)
@@ -408,6 +408,10 @@ public class RouteManager : MonoBehaviour
 
     public void DrawRoute(List<Vector3> route)
     {
+        tilemap.ClearAllTiles();
+
+        if (route.Count == 1) return;
+
         for (int i = 0; i < route.Count; i++)
         {
             int lastPosIndex = i;

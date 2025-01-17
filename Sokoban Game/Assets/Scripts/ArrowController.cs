@@ -138,7 +138,7 @@ public class ArrowController : MonoBehaviour
     private void KillAnimation(){
         //StopCoroutine(coroutine);
 
-        SetPositions(gameManager.windMoveRoute);
+        SetPositions(gameManager.curGame.windMoveRoute);
     }
 
     private void UpdateAnimSpeed(float gameSpeed){

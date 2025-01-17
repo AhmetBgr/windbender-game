@@ -16,14 +16,14 @@ public class ButtonEntity : MonoBehaviour
 
     public void OnEnable()
     {
-        GameManager.instance.OnTurnEnd += CheckForObject;
-        GameManager.instance.OnTurnStart1 += SaveState;
+        Game.OnTurnEnd += CheckForObject;
+        Game.OnTurnStart1 += SaveState;
     }
 
     public void OnDisable()
     {
-        GameManager.instance.OnTurnEnd -= CheckForObject;
-        GameManager.instance.OnTurnStart1 -= SaveState;
+        Game.OnTurnEnd -= CheckForObject;
+        Game.OnTurnStart1 -= SaveState;
     }
 
     public void CheckForObject()
@@ -42,7 +42,7 @@ public class ButtonEntity : MonoBehaviour
     private void ChangeButtonState(ObjectMoveController obj){
         if (!isDown && obj != null && OnButtonToggle != null){
             ChangeButtonState buttonState = new ChangeButtonState(this, isDown, Time.time);
-            GameManager.instance.curTurn.actions.Add(buttonState);
+            GameManager.instance.curGame.curTurn.actions.Add(buttonState);
 
             OnButtonToggle(tag);
             isDown = true;
@@ -50,7 +50,7 @@ public class ButtonEntity : MonoBehaviour
         }
         else if ( isDown && obj == null && OnButtonToggle != null){
             ChangeButtonState buttonState = new ChangeButtonState(this, isDown, Time.time);
-            GameManager.instance.curTurn.actions.Add(buttonState);
+            GameManager.instance.curGame.curTurn.actions.Add(buttonState);
 
             OnButtonToggle(tag);
             isDown = false;

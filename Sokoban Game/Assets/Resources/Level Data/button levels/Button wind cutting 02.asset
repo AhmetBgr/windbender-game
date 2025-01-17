@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Button wind cutting 02
   m_EditorClassIdentifier: 
   debugName: Button wind cutting 02
-  state: 0
+  state: 2
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

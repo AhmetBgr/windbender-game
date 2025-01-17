@@ -14,7 +14,7 @@ public class TurnDirection : Command
         this.newDir = newDir;
         this.oldDir = obj.dir;
         this.executionTime = Time.time;
-        turnID = GameManager.instance.turnID;
+        //turnID = GameManager.instance.turnID;
 
     }
 

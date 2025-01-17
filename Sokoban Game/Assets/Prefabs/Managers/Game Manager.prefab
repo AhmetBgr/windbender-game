@@ -85,6 +85,66 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &3369914208561537213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1791518034873735723}
+  - component: {fileID: 2425755993437112185}
+  m_Layer: 0
+  m_Name: DrawingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1791518034873735723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369914208561537213}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.90736794, y: 1.6340928, z: -0.13286535}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5728126160888509374}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2425755993437112185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369914208561537213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69e47c0874879164fbbed8be3654dfe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  route: []
+  windPath: []
+  validPos: []
+  cursor: {fileID: 0}
+  gameManager: {fileID: 5728126160888509373}
+  arrowController: {fileID: 2495740056732028886}
+  validPositionSprites:
+  - {fileID: 9059092117360367602}
+  - {fileID: 9164197123693466143}
+  - {fileID: 6260539701732475061}
+  - {fileID: 5816113160870782787}
+  validRemovePositionSprites:
+  - {fileID: 2856973746161558694}
+  validPosAlternateColor: {r: 0.8784314, g: 0.8117647, b: 0.34509805, a: 1}
+  _previewOutcome: 1
+  isDrawingMoveRoute: 0
 --- !u!1 &3496579720244662240
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +623,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1791518034873735723}
+  - {fileID: 29818647055893230}
   - {fileID: 3693271468678316682}
   - {fileID: 5118762202198317504}
   - {fileID: 6224652320327371977}
@@ -586,24 +648,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c063fb12e1fca458110ce97a2eefb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  route: []
-  windMoveRoute: []
-  windCutRequests: []
-  curWindCutRequest:
-    windCutter: {fileID: 0}
-    cutIndex: 0
-    cutPos: {x: 0, y: 0, z: 0}
-    isExeCuted: 0
-  windRestoreRequests: []
-  curWindRestoreRequest:
-    windCutter: {fileID: 0}
-    index: 0
-    restoreDir: {x: 0, y: 0, z: 0}
-    isExeCuted: 0
+  game:
+    route: []
+    windMoveRoute: []
+    windPath: []
+    windCutRequests: []
+    curWindCutRequest:
+      windCutter: {fileID: 0}
+      cutIndex: 0
+      cutPos: {x: 0, y: 0, z: 0}
+      isExeCuted: 0
+    windRestoreRequests: []
+    curWindRestoreRequest:
+      windCutter: {fileID: 0}
+      index: 0
+      restoreDir: {x: 0, y: 0, z: 0}
+      isExeCuted: 0
+    wind: {fileID: 0}
+    curWindSource: {fileID: 0}
+    windMoveDir: {x: 0, y: 0, z: 0}
+    isLooping: 0
+    isWindRouteMoving: 0
+    isFirstTurn: 1
+    isSimulation: 0
+  simGame:
+    route: []
+    windMoveRoute: []
+    windPath: []
+    windCutRequests: []
+    curWindCutRequest:
+      windCutter: {fileID: 0}
+      cutIndex: 0
+      cutPos: {x: 0, y: 0, z: 0}
+      isExeCuted: 0
+    windRestoreRequests: []
+    curWindRestoreRequest:
+      windCutter: {fileID: 0}
+      index: 0
+      restoreDir: {x: 0, y: 0, z: 0}
+      isExeCuted: 0
+    wind: {fileID: 0}
+    curWindSource: {fileID: 0}
+    windMoveDir: {x: 0, y: 0, z: 0}
+    isLooping: 0
+    isWindRouteMoving: 0
+    isFirstTurn: 1
+    isSimulation: 0
+  curGame:
+    route: []
+    windMoveRoute: []
+    windPath: []
+    windCutRequests: []
+    curWindCutRequest:
+      windCutter: {fileID: 0}
+      cutIndex: 0
+      cutPos: {x: 0, y: 0, z: 0}
+      isExeCuted: 0
+    windRestoreRequests: []
+    curWindRestoreRequest:
+      windCutter: {fileID: 0}
+      index: 0
+      restoreDir: {x: 0, y: 0, z: 0}
+      isExeCuted: 0
+    wind: {fileID: 0}
+    curWindSource: {fileID: 0}
+    windMoveDir: {x: 0, y: 0, z: 0}
+    isLooping: 0
+    isWindRouteMoving: 0
+    isFirstTurn: 1
+    isSimulation: 0
   destinations: []
   windSources: []
+  deathFog: {fileID: 0}
   routeManager: {fileID: 0}
   cursor: {fileID: 0}
+  drawingController: {fileID: 2425755993437112185}
   dustTileMap: {fileID: 0}
   arrowController: {fileID: 2495740056732028886}
   validPositionSprites:
@@ -614,20 +733,14 @@ MonoBehaviour:
   validRemovePositionSprites:
   - {fileID: 2856973746161558694}
   validPosAlternateColor: {r: 0.8784314, g: 0.8117647, b: 0.34509805, a: 1}
-  curWindSource: {fileID: 0}
   settingsHolder: {fileID: 11400000, guid: 02270f198067e5d4e8cd6ac843d5aea2, type: 2}
   wind: {fileID: 6566589565177699401}
   validPos: []
-  windMoveDir: {x: 0, y: 0, z: 0}
   gameSpeed: 1
   defTurnDur: 0.5
-  turnID: 0
-  isLooping: 0
-  isFirstTurn: 1
   isWaiting: 0
-  isHoveringUI: 0
-  isDrawingMoveRoute: 0
   defTurnCount: 0
+  pauseOnTurnEnd: 0
 --- !u!1 &8228574066067607644
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +998,83 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2522049038165567872, guid: 1926315891e4de04888e1448c4646754,
     type: 3}
   m_PrefabInstance: {fileID: 334986287136820518}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2042247086183584526
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 5728126160888509374}
+    m_Modifications:
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035181735183880702, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+        type: 3}
+      propertyPath: m_Name
+      value: Preview Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: cc437ab3d63ae5744bdfa8052b962e1d, type: 3}
+--- !u!4 &29818647055893230 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2035181735183880672, guid: cc437ab3d63ae5744bdfa8052b962e1d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2042247086183584526}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3092719084179120605
 PrefabInstance:

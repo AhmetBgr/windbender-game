@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: fog 02
   m_EditorClassIdentifier: 
   debugName: fog 02
-  state: 1
+  state: 2
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: d4bca6f3359889947856ff0107f5fae3, type: 2}

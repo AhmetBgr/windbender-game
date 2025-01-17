@@ -15,7 +15,12 @@ public class MovingObstacleParent : MonoBehaviour
     public bool isFailedMoving = false;
     public bool shouldFail = false;
 
+    private MovingObstacleParent preview = null;
 
+
+    private void Start() {
+
+    }
 
     public void TryMove(MovingObstacle obstacle) {
         if (obstacle != center) return;
@@ -47,14 +52,23 @@ public class MovingObstacleParent : MonoBehaviour
         float dur = GameManager.instance.defTurnDur;
         float delay = GameManager.instance.defTurnDur - dur;
 
-        obstacle.tween = transform.DOMove(dest, dur)
-            //.SetDelay(delay)
-            .SetEase(Ease.InOutQuad); // Ease.Linear
+
+
+
         obstacle.hasSpeed = true;
 
         obstacle.centerWC.OnMoved(obstacle.centerWC.transform.position + obstacle.dir);
         obstacle.leftWC.OnMoved(obstacle.leftWC.transform.position + obstacle.dir);
         obstacle.rightWC.OnMoved(obstacle.rightWC.transform.position + obstacle.dir);
+
+
+        if (GameManager.instance.curGame.isSimulation) {
+            transform.position = dest;
+        }
+        else {
+            obstacle.tween = transform.DOMove(dest, dur)
+                .SetEase(Ease.InOutQuad); // Ease.Linear
+        }
 
         obstacle.movementReserve = null;
     }
@@ -65,7 +79,11 @@ public class MovingObstacleParent : MonoBehaviour
         //if (isFailedMoving) return;
 
         isFailedMoving = true;
-        obstacle.tween = transform.DOPunchPosition(obstacle.dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
+
+        if(!GameManager.instance.curGame.isSimulation)
+            obstacle.tween = transform.DOPunchPosition(obstacle.dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
+        
+        
         obstacle.hasSpeed = false;
     }
 

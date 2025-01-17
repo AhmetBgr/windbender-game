@@ -25,6 +25,8 @@ public class ObjectMoveController : MonoBehaviour
         public int isValidated; // 0 = false, 1 = true, 2 = unchecked
     }
 
+    public GameObject previewPrefab;
+
     private bool _hasSpeed;
     public bool hasSpeed
     {
@@ -70,21 +72,31 @@ public class ObjectMoveController : MonoBehaviour
 
     protected virtual void OnEnable(){
         gameManager = GameManager.instance;
-        GameManager.instance.OnTurnStart1 += ReserveMovement;
-        GameManager.instance.OnTurnStart2 += FindNeighbors;
+        Game.OnTurnStart1 += ReserveMovement;
+        Game.OnTurnStart2 += FindNeighbors;
         //GameManager.instance.OnSpeedChanged += UpdateAnimSpeed;
-        gameManager.OnHitsChecked += ValidatePush;
+        Game.OnHitsChecked += ValidatePush;
+
+
+        //GameManager.instance.OnSimComleted += CompleteSim;
+
+        //GameManager.instance.OnSimStarted += SetupSim;
+
 
     }
 
     protected virtual void OnDisable()
     {
-        GameManager.instance.OnTurnStart1 -= ReserveMovement;
-        GameManager.instance.OnTurnStart2 -= FindNeighbors;
+        Game.OnTurnStart1 -= ReserveMovement;
+        Game.OnTurnStart2 -= FindNeighbors;
         //GameManager.instance.OnSpeedChanged -= UpdateAnimSpeed;
-        gameManager.OnHitsChecked -= ValidatePush;
-    }
+        Game.OnHitsChecked -= ValidatePush;
 
+
+        //GameManager.instance.OnSimComleted -= CompleteSim;
+        //GameManager.instance.OnSimStarted -= SetupSim;
+
+    }
     public virtual void ReserveMovement(List<Vector3> route)
     {
         pushedByInfos.Clear();
@@ -94,28 +106,39 @@ public class ObjectMoveController : MonoBehaviour
         bool intentToMove = true;
         bool pushed = false;
         Vector3 pos = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
+        /*if (gameManager.isSimulating) {
+            pos = new Vector3(Utility.RoundToNearestHalf(preview.position.x), Utility.RoundToNearestHalf(preview.position.y), 0);
+        }*/
+
         Vector3 previousDir = dir;
         // Check if the object is in the wind route
         if (route.Contains(pos)) {
             // Determines the movement direction
             index = route.FindIndex(i => i == pos); // finds index in wind
 
-            // Calculates the direction depand on the index in the looped wind route
-            if (GameManager.instance.isLooping && (pos == route[0])){
+            // Calculates the direction depends on the index in the looped wind route
+            if (GameManager.instance.curGame.isLooping && (pos == route[0])){
                 dir = route[0] - route[route.Count - 2];
+                Debug.LogWarning("here, dir: " + dir);
+
             }
-            else{
+            else {
                 if (index == 0){
                     intentToMove = false;
+                    //Debug.Log("not intent to move 0");
+
                 }
-                else{
+                else {
                     dir = route[index] - route[index - 1];
+
+                    //Debug.Log("__obj: " + gameObject.name + ", move res dir: " + dir);
+
                 }
             }
         }
-        else if(!gameManager.isWaiting && gameManager.isWindRouteMoving && gameManager.turnCount > 0){
+        else if(!gameManager.isWaiting && gameManager.curGame.isWindRouteMoving && gameManager.turnCount > 0){
             // Pushed by looped wind
-            Vector3 windMoveDir = gameManager.windMoveDir;
+            Vector3 windMoveDir = gameManager.curGame.windMoveDir;
             if(route.Contains(transform.position - windMoveDir)){
                 dir = windMoveDir;
                 index = -1;
@@ -132,11 +155,15 @@ public class ObjectMoveController : MonoBehaviour
                 pushInfoThis = pushInfo;*/
             }
             else{
+                //Debug.Log("not intent to move 1");
+
                 hasSpeed = false;
                 intentToMove = false;
             }
         }
         else{
+            //Debug.Log("not intent to move 2");
+
             hasSpeed = false;
             intentToMove = false;
         }
@@ -145,11 +172,11 @@ public class ObjectMoveController : MonoBehaviour
 
         Vector3 from = transform.position;
         Vector3 to = from + dir;
-
+        //Debug.Log("obj: " + gameObject.name + ", move res dir: " + dir);
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
+        //movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
@@ -171,7 +198,7 @@ public class ObjectMoveController : MonoBehaviour
 
         Vector3 origin = transform.position;
         int destinationTile = -1;
-
+        movementReserve.neighbors.Clear();
         List<Vector3> neighborVectors = new List<Vector3> { Vector3.up, Vector3.down, Vector3.right, Vector3.left };
         foreach (Vector3 dir in neighborVectors) {
             RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
@@ -201,7 +228,12 @@ public class ObjectMoveController : MonoBehaviour
 
         MoveTo destinationObj;
 
-        if (!movementReserve.intentToMove) return;
+
+        if (!movementReserve.intentToMove) {
+            //Debug.Log("not intent to move");
+            return;
+
+        }
 
         // Determines destination tile type and adds movement reserve to the mov. res. list
 
@@ -209,8 +241,8 @@ public class ObjectMoveController : MonoBehaviour
 
             if (destinationObj == null) {
                 // wall at destination
-                gameManager.obstacleAtDestinationMoves.Add(movementReserve);
-                //Debug.LogWarning("here");
+                gameManager.curGame.obstacleAtDestinationMoves.Add(movementReserve);
+                //Debug.LogWarning("obstacle at the destination: " + name);
                 //pushedByInfos.Remove(movementReserve.dir);
             }
             else {
@@ -218,32 +250,69 @@ public class ObjectMoveController : MonoBehaviour
                 /*if(!destinationObj.intentToMove && destinationObj.tag == "MovingObstacle") {
                     gameManager.obstacleAtDestinationMoves.Add(movementReserve);
                 }
-                else */if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
-                    gameManager.momentumTransferMoves.Add(movementReserve);
+                else */
+                if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
+                    //Debug.LogWarning("movable obj at dest, dest obj name : " + destinationObj.obj.name);
+
+                    gameManager.curGame.momentumTransferMoves.Add(movementReserve);
+                }
+                else {
+                    //Debug.LogError("look here: " + gameObject.name);
                 }
             }
         }
         else {
             // Destination tile is empty
-            gameManager.emptyDestinationMoves.Add(movementReserve);
+            //Debug.LogWarning("destination empty : " + name);
+            gameManager.curGame.emptyDestinationMoves.Add(movementReserve);
         }
     }
 
     public virtual void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false){
-        Debug.Log("move: " + gameObject.name);
+        //Debug.Log("move: " + gameObject.name + ", dir: " + dir);
 
         pushedByInfos.Clear();
         pushInfoThis = null;
         Vector3 startPos = transform.position;
-        tween = transform.DOMove(startPos + dir, GameManager.instance.defTurnDur).SetEase(Ease.InOutQuad); // Ease.Linear
+
+        /*if (gameManager.isSimulating) {
+            startPos = preview.position;
+            preview.position +=  dir;
+            hasSpeed = true;
+            
+            gameManager.AddActionToCurTurn(movementReserve);
+
+            return;
+        }*/
+
+        if (gameManager.curGame.isSimulation) {
+            transform.position = startPos + dir;
+        }
+        else {
+            float duration = GameManager.instance.defTurnDur;
+
+
+            tween = transform.DOMove(startPos + dir, duration).SetEase(Ease.InOutQuad); // Ease.Linear
+        }
+
+
+
+        //if (gameManager.isSimulating)
+        //preview.localPosition =  -dir;
+
         hasSpeed = true;
 
-        gameManager.AddActionToCurTurn(movementReserve);
+        GameManager.instance.AddActionToCurTurn(movementReserve);
     }
 
     public virtual void FailedMove(){
-        Debug.Log("failed move: " + gameObject.name);
-        tween = transform.DOPunchPosition(dir / 10, GameManager.instance.defTurnDur / 1.1f, vibrato: 0).SetEase(Ease.OutCubic);
+        //Debug.Log("failed move: " + gameObject.name);
+
+        if (!gameManager.curGame.isSimulation) {
+            float duration = gameManager.curGame.isSimulation ? 0f : GameManager.instance.defTurnDur / 1.1f;
+            tween = transform.DOPunchPosition(dir / 10, duration, vibrato: 0).SetEase(Ease.OutCubic);
+        }
+
         hasSpeed = false;
     }
 
@@ -263,7 +332,7 @@ public class ObjectMoveController : MonoBehaviour
 
         if (pushedByInfos.Count > 0)
         {
-            Debug.Log("trying to push object");
+            //Debug.Log("trying to push object");
             TryToPush(pushedByInfos[movementReserve.dir]);
         }
         else
@@ -275,7 +344,7 @@ public class ObjectMoveController : MonoBehaviour
 
             }
             else {
-                Debug.Log("cant try chain momentum transfer, move res null: ");
+                //Debug.Log("cant try chain momentum transfer, move res null: ");
             }
         }
 
@@ -303,8 +372,8 @@ public class ObjectMoveController : MonoBehaviour
             }
             else {
                 if (destinationObjA.obj.CompareTag("MovingObstacle")) {
-                    Debug.LogWarning("here2");
-                    Debug.LogWarning("here2: " + gameObject.name);
+                    //Debug.LogWarning("here2");
+                    //Debug.LogWarning("here2: " + gameObject.name);
                     pushedByInfo.destinationTile = 2;
                     return;
                 }
@@ -350,7 +419,13 @@ public class ObjectMoveController : MonoBehaviour
 
         //Debug.LogWarning("push  res count: " + pushedByInfos.Count + " :" + gameObject.name);
 
-        if (pushedByInfos.Count == 0 | (pushedByInfos.Count == 1 && movementReserve.destinationTile == 2)) return;
+        if (pushedByInfos.Count == 0 | (pushedByInfos.Count == 1 && movementReserve.destinationTile == 2)) {
+            //Debug.LogWarning("push not validated: " + name + ", count: " + pushedByInfos.Count+ ", dest tile: " + movementReserve.destinationTile);
+            
+            return;
+
+        }
+
         // Determines destination tile type and adds movement reserve to the mov. res. list
         Vector3 dirSum = Vector3.zero;
         for (int i = 0; i < pushedByInfos.Count; i++)
@@ -404,7 +479,7 @@ public class ObjectMoveController : MonoBehaviour
             {
                 movementReserve.dir = failedMoveDir;
                 movementReserve.intentToMove = true;
-                gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                gameManager.curGame.obstacleAtDestinationMoves.Add(movementReserve);
             }
             
         }
@@ -538,6 +613,11 @@ public class ObjectMoveController : MonoBehaviour
     }
 
     public virtual void SetPos(Vector3 pos) {
+        /*if (gameManager.isSimulating) {
+            preview.position = pos;
+            return;
+        }*/
+        //Debug.Log("should set pos: " + gameObject.name);
         transform.position = pos;
     }
 

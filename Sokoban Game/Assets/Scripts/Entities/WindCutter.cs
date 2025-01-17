@@ -30,11 +30,11 @@ public class WindCutter : MonoBehaviour
     }
 
     public void OnMoved(Vector3 dest) {
-        List<Vector3> route = gameManager.route;
+        List<Vector3> route = gameManager.curGame.route;
         Vector3 pos = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
 
         //Debug.Log("should try request, is in route: " + route.Contains(pos) + ", iscutting: " + isCutting);
-
+        Debug.Log("should try request for: " + name + ", pos: " + dest);
         bool isInWind = route.Contains(dest);
 
         Vector3 windTileDir = Vector3.zero;
@@ -54,25 +54,29 @@ public class WindCutter : MonoBehaviour
         Debug.Log("wind tile perpendicular?: " + isWindTilePerpendicular);
         if (isInWind) { // && !isWindTilePerpendicular
             // generate cut request
-
             int index = route.FindIndex(i => i == dest);
 
             Vector3 restoreDir = index == 0 ? route[index + 1] - route[index] : route[index] - route[index - 1];
 
             bool isPerpendicular = Vector3.Dot(immediateRestoreDirs + restoreDir, restoreDir) == 0;
 
-            //Debug.Log("immediate restore dir: " + (immediateRestoreDirs + restoreDir));
+            Debug.Log("immediate restore dir: " + (immediateRestoreDirs + restoreDir));
 
             if (isPerpendicular) {
                 restoreDir = immediateRestoreDirs + restoreDir;
             }
 
-            //Debug.Log("cut index: " + index);
+            Debug.Log("cut index: " + index);
 
-            gameManager.windCutRequests.Add(GenerateNewCutRequest(gameManager, route, dest, index));
+            gameManager.curGame.windCutRequests.Add(GenerateNewCutRequest(gameManager, route, dest, index));
 
-            if (isPerpendicular)
-                gameManager.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir, index));
+            if (isPerpendicular) {
+
+                Debug.Log("adding immidiate restore request");
+                gameManager.curGame.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir, index));
+
+            }
+
 
         }
         else if (isCutting && route.Contains(pos)) {
@@ -81,14 +85,14 @@ public class WindCutter : MonoBehaviour
             //int index = gameManager.curWindCutRequest.cutIndex; //route.FindIndex(i => i == pos);
             int index = route.FindIndex(i => i == pos);
 
-            //Debug.Log("should add restore req, index: " + index);
-            //Debug.Log("should add restore req, windcutter: " + gameObject.name);
+            Debug.Log("should add restore req, index: " + index);
+            Debug.Log("should add restore req, windcutter: " + gameObject.name);
 
             Vector3 restoreDir = index == 0 ? route[index + 1] - route[index] : route[index] - route[index - 1];
-            //Debug.Log("should add restore req, restore dir 0: " + restoreDir);
+            Debug.Log("should add restore req, restore dir 0: " + restoreDir);
 
-            gameManager.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir.normalized, index));
-            gameManager.curWindCutRequest = null;
+            gameManager.curGame.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir.normalized, index));
+            gameManager.curGame.curWindCutRequest = null;
         }
     }
 
@@ -135,23 +139,23 @@ public class WindCutter : MonoBehaviour
 
                 //Debug.Log("cut index: " + index);
 
-                gameManager.windCutRequests.Add(GenerateNewCutRequest(gameManager, route, pos, index));
+                gameManager.curGame.windCutRequests.Add(GenerateNewCutRequest(gameManager, route, pos, index));
                 canRestore = true;
                 canCut = false;
                 if (isPerpendicular)
-                    gameManager.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir, index));
+                    gameManager.curGame.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir, index));
 
             }
-            else if (isMoved && canRestore && gameManager.curWindCutRequest != null) {
-                int index = gameManager.curWindCutRequest.cutIndex; //route.FindIndex(i => i == pos);
+            else if (isMoved && canRestore && gameManager.curGame.curWindCutRequest != null) {
+                int index = gameManager.curGame.curWindCutRequest.cutIndex; //route.FindIndex(i => i == pos);
                 //Debug.Log("should restore wind route, index: " + index);
                 //Debug.Log("should restore wind route, windcutter: " + gameObject.name);
 
                 Vector3 restoreDir = index == 0 ? route[index + 1] - route[index] : route[index] - route[index - 1];
                 //Debug.Log("should restore wind route, restore dir 0: " + restoreDir);
 
-                gameManager.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir.normalized, index));
-                gameManager.curWindCutRequest = null;
+                gameManager.curGame.windRestoreRequests.Add(new WindRestoreRequest(this, restoreDir.normalized, index));
+                gameManager.curGame.curWindCutRequest = null;
                 isMoved = false;
                 canRestore = false;
                 canCut = false;
@@ -183,29 +187,35 @@ public class WindCutter : MonoBehaviour
     public void CutWind(List<Vector3> route, int cutIndex) {
         if (cutIndex < 0 | cutIndex >= route.Count - 1) return;
 
+        Debug.Log("before cut- route count: " + route.Count);
+
+
         isCutting = true;
         GameManager gameManager = GameManager.instance;
         Vector3 cutPos = route[cutIndex];
 
         int count = route.Count;
         int tempCutLenght = count - cutIndex;
-        gameManager.curWindDeformInfo.cutLenght = gameManager.curWindSource.defWindSP - cutIndex;
+        gameManager.curGame.curWindDeformInfo.cutLenght = gameManager.curGame.curWindSource.defWindSP - cutIndex;
 
         if (cutIndex == 0) {
-            gameManager.curWindDeformInfo.restoreDir = route[cutIndex + 1] - route[cutIndex];
+            gameManager.curGame.curWindDeformInfo.restoreDir = route[cutIndex + 1] - route[cutIndex];
         }
         else {
-            gameManager.curWindDeformInfo.restoreDir = route[cutIndex] - route[cutIndex - 1];
+            gameManager.curGame.curWindDeformInfo.restoreDir = route[cutIndex] - route[cutIndex - 1];
         }
 
         route.RemoveRange(cutIndex + 1, tempCutLenght - 1);
+
+        Debug.Log("after cut- route count: " + route.Count);
+
     }
 
     public void Reflect(List<Vector3> route, Vector3 reflectionDir, int cutLenght, int cutIndex, bool isLooping) {
         if (cutLenght == 0) return;
 
-        //Debug.Log("before- should reflect, cut lenght: " + cutLenght + ", cut index: " + cutIndex + ", dir: " + reflectionDir);
-        //Debug.Log("before- route count: " + route.Count);
+        Debug.Log("before- should reflect, cut lenght: " + cutLenght + ", cut index: " + cutIndex + ", dir: " + reflectionDir);
+        Debug.Log("before- route count: " + route.Count);
         isCutting = true;
         cutLenght = isLooping ? cutLenght - 1 : cutLenght;
 
@@ -213,8 +223,8 @@ public class WindCutter : MonoBehaviour
             cutLenght = route.Count - cutIndex -1;
             route.RemoveRange(cutIndex + 1, cutLenght);
         }
-        //Debug.Log("route count: " + route.Count);
-        //Debug.Log("should reflect, cut lenght: " + cutLenght + ", cut index: " + cutIndex + ", dir: " + reflectionDir);
+        Debug.Log("route count: " + route.Count);
+        Debug.Log("should reflect, cut lenght: " + cutLenght + ", cut index: " + cutIndex + ", dir: " + reflectionDir);
         RaycastHit2D hit = Physics2D.Raycast(route[route.Count - 1] + reflectionDir * 0.5f, reflectionDir, cutLenght - 0.5f, LayerMask.GetMask("Wall", "WindCutter"));
         WindCutter windCutter = null;
 
@@ -232,6 +242,7 @@ public class WindCutter : MonoBehaviour
 
             route.Add(restorePos);
         }
+        Debug.Log("route count after restore: " + route.Count);
 
         if (windCutter != null) {
             int index = route.Count - 1; //route.FindIndex(i => i == pos);
@@ -239,7 +250,7 @@ public class WindCutter : MonoBehaviour
             Vector3 dir = route[route.Count - 1] - route[route.Count - 2];
             Vector3 restoreDir = windCutter.CalculateRestoreDir(route, index);
             if (Vector3.Dot(dir, restoreDir) == 0) {
-                windCutter.Reflect(route, restoreDir, gameManager.curWindSource.defWindSP - route.Count, index, false);
+                windCutter.Reflect(route, restoreDir, gameManager.curGame.curWindSource.defWindSP - route.Count, index, false);
                 windCutter.isCutting = true;
             }
 

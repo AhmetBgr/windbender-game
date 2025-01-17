@@ -15,7 +15,7 @@ MonoBehaviour:
   debugName: fog 05
   state: 2
   seen: 1
-  justUnlocked: 0
+  justUnlocked: 1
   isFirstLevel: 0
   connectedLevels:
   - {fileID: 11400000, guid: 6af2ab1306d9a3c448be5cc0d5c04a18, type: 2}

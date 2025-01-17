@@ -38,16 +38,18 @@ public class Rotator : MonoBehaviour{
         pos = transform.position + new Vector3(0.5f, -0.5f, 0);
         cells.Add(pos);
 
+
+        UpdateAnimSpeed(GameManager.instance.state, GameManager.instance.state);
     }
 
     private void OnEnable() {
         //gameManager.OnTurnEnd += CheckRotation;
-        gameManager.OnTurnStart1 += CheckRotation;
+        Game.OnTurnStart1 += CheckRotation;
         gameManager.OnStateChange += UpdateAnimSpeed;
     }
     private void OnDisable() {
         //gameManager.OnTurnEnd -= CheckRotation;
-        gameManager.OnTurnStart1 -= CheckRotation;
+        Game.OnTurnStart1 -= CheckRotation;
         gameManager.OnStateChange -= UpdateAnimSpeed;
 
     }
@@ -60,7 +62,7 @@ public class Rotator : MonoBehaviour{
             return;
         }
 
-        CheckRotation(gameManager.route);
+        CheckRotation(gameManager.curGame.route);
     }
 
     private void CheckRotation(List<Vector3> route) {
@@ -78,14 +80,14 @@ public class Rotator : MonoBehaviour{
                 Vector3 dir;
                 int index = route.IndexOf(cell);
 
-                if (index == 0 && !gameManager.isLooping)
+                if (index == 0 && !gameManager.curGame.isLooping)
                     continue;
 
-                int prevIndex = gameManager.isLooping && index == 0 ? route.Count - 1 : index - 1;
+                int prevIndex = gameManager.curGame.isLooping && index == 0 ? route.Count - 1 : index - 1;
 
                 if (cells.Contains(route[prevIndex])) {
 
-                    dir = (gameManager.isLooping && index == 0)? (route[index] - route[route.Count - 1]).normalized : (route[index] - route[index - 1]).normalized;
+                    dir = (gameManager.curGame.isLooping && index == 0)? (route[index] - route[route.Count - 1]).normalized : (route[index] - route[index - 1]).normalized;
 
                     int rotationDir = 0;
 
@@ -165,14 +167,17 @@ public class Rotator : MonoBehaviour{
     }
 
     public void UpdateAnimSpeed(GameState from, GameState to) {
-        if(to == GameState.Paused | to == GameState.DrawingRoute) {
+        if(to == GameState.Running && !gameManager.curGame.isSimulation) { 
 
-            animator.speed = 0;
-        }
-        else {
             animator.speed = 1;
         }
+        else {
+            animator.speed = 0;
+        }
     }
+
+
+
     private void PlayRotateClockwiseAnim() {
         animator.Play("Rotator_Anim");
 

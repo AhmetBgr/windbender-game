@@ -20,7 +20,7 @@ public class ObjectDestination : MonoBehaviour
     private void OnEnable()
     {
         //GameManager.instance.OnStateChange += CheckForLookingForObjectAtTheDestination;
-        GameManager.instance.OnTurnEnd += CheckForLookingForObjectAtTheDestination2;
+        Game.OnTurnEnd += CheckForLookingForObjectAtTheDestination2;
         GameManager.instance.OnUndo += ResetObject;
 
         Color initialCol = spriteRenderer.color;
@@ -40,7 +40,7 @@ public class ObjectDestination : MonoBehaviour
     private void OnDisable()
     {
         //GameManager.instance.OnStateChange -= CheckForLookingForObjectAtTheDestination;
-        GameManager.instance.OnTurnEnd -= CheckForLookingForObjectAtTheDestination2;
+        Game.OnTurnEnd -= CheckForLookingForObjectAtTheDestination2;
         GameManager.instance.OnUndo -= ResetObject;
 
         DOTween.KillAll();
@@ -56,6 +56,7 @@ public class ObjectDestination : MonoBehaviour
 
     public void CheckForLookingForObjectAtTheDestination2()
     {
+        if (GameManager.instance.curGame.isSimulation) return;
 
         GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
 

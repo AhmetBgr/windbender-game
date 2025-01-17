@@ -56,6 +56,7 @@ public class MoveTo : Command
     public override void Undo()
     {
         //obj.transform.position = from;
+        //Debug.Log("should undo: " + obj.name);
         obj.SetPos(from);
         obj.SetState(state);
         //obj.curState = state;
@@ -82,7 +83,7 @@ public class MoveTo : Command
         obj.Move(dir, stopAftermoving, pushed);
         //Debug.Log(obj.transform.parent.name + " is moving");
         isMovementChecked = true;
-        GameManager.instance.curTurn.actions.Add(this);
+        GameManager.instance.curGame.curTurn.actions.Add(this);
 
         /*if(obj.name == "Barrel")
         {
@@ -118,7 +119,7 @@ public class MoveTo : Command
         if(chainNeighbors.Count > 0)
         {
             // Determine which object will move since at least one object wants to move same position
-            chainNeighbors = GameManager.instance.GetMoveWithHighestPriority(chainNeighbors, dir);
+            chainNeighbors = GameManager.instance.game.GetMoveWithHighestPriority(chainNeighbors, dir);
             for (int i = 0; i < chainNeighbors.Count; i++)
             {
                 if (i == 0)

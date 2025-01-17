@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: rotator 05A
   m_EditorClassIdentifier: 
   debugName: rotator 05A
-  state: 0
-  seen: 0
+  state: 2
+  seen: 1
   justUnlocked: 1
   isFirstLevel: 0
   connectedLevels: []

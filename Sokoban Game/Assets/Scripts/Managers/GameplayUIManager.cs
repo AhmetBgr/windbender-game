@@ -21,7 +21,12 @@ public class GameplayUIManager : MonoBehaviour
     public Button pauseButton;
     public Button singleUndoButton;
     public Button multiUndoButton;
+    public Button outcomePreviewButton;
+    public Image outcomePreviewImage;
 
+
+    public Sprite outcomeEnabledIcon;
+    public Sprite outcomeDisabledIcon;
 
 
     public Transform routeDrawingPanel;
@@ -30,11 +35,12 @@ public class GameplayUIManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.instance.OnTurnCountChange += UpdateTurnCounterText;
-        GameManager.instance.OnDrawingCompleted += ToggleBlowButton;
+        DrawingController.OnDrawingCompleted += ToggleBlowButton;
         GameManager.instance.OnStateChange += TogglePausedText;
         GameManager.instance.OnStateChange += UpdatePlayButton;
 
         GameManager.instance.OnPlannedSpeedChanged += UpdateGameSpeedText;
+        GameManager.OnPreviewOutcomeChanged += UpdateOutcomePreviewIcon;
         //GameManager.instance.OnStateChange += TryToggleGameSpeedButton;
 
         //GameManager.instance.OnStateChange += ToggleRouteDrawingPanel;
@@ -42,34 +48,37 @@ public class GameplayUIManager : MonoBehaviour
     private void OnDisable()
     {
         GameManager.instance.OnTurnCountChange -= UpdateTurnCounterText;
-        GameManager.instance.OnDrawingCompleted -= ToggleBlowButton;
+        DrawingController.OnDrawingCompleted -= ToggleBlowButton;
         GameManager.instance.OnStateChange -= TogglePausedText;
         GameManager.instance.OnPlannedSpeedChanged -= UpdateGameSpeedText;
         GameManager.instance.OnStateChange -= UpdatePlayButton;
+        GameManager.OnPreviewOutcomeChanged -= UpdateOutcomePreviewIcon;
 
         //GameManager.instance.OnStateChange -= TryToggleGameSpeedButton;
         //GameManager.instance.OnStateChange += ToggleRouteDrawingPanel;
     }
 
-    void Start()
-    {
+    void Start() {
         turnCountText.gameObject.SetActive(false);
-        blowButton.onClick.AddListener(() =>
-        {
+        blowButton.onClick.AddListener(() => {
             GameManager.instance.StartWindBlow();
         });
-        
-        undoButton.onClick.AddListener(GameManager.instance.Undo);
+
+        //undoButton.onClick.AddListener(GameManager.instance.Undo);
         restartButton.onClick.AddListener(GameManager.instance.Restart);
         playButton.onClick.AddListener(GameManager.instance.Play);
-        pauseButton.onClick.AddListener(GameManager.instance.PauseWhenTurnEnd);
-        singleUndoButton.onClick.AddListener(GameManager.instance.UndoSingleStep);
-        multiUndoButton.onClick.AddListener(GameManager.instance.UndoMultiStep);
+        pauseButton.onClick.AddListener(() => { GameManager.instance.pauseOnTurnEnd = true; });
+        singleUndoButton.onClick.AddListener(GameManager.instance.game.UndoSingleStep);
+        multiUndoButton.onClick.AddListener(GameManager.instance.game.UndoMultiStep);
 
         gameSpeedButton.onClick.AddListener(() => GameManager.instance.SetNextGameSpeed());
+        outcomePreviewButton.onClick.AddListener(() => GameManager.instance.TogglePreviewOutcome());
+
+
         //gameSpeedButton.onClick.AddListener(UpdateGameSpeedText);
         //GameManager.instance.UpdatePlannedGameSpeed();
         UpdateGameSpeedText(GameManager.instance.plannedGameSpeed);
+        UpdateOutcomePreviewIcon(GameManager.instance.previewOutcome);
         //waitButton.onClick.AddListener(GameManager.instance.WaitATurn);
         EventTrigger trigger = waitButton.GetComponent<EventTrigger>();
 
@@ -88,12 +97,12 @@ public class GameplayUIManager : MonoBehaviour
         {
             returnToLevelSelButton.onClick.AddListener(() => {
                 if(GameManager.instance.state == GameState.DrawingRoute)
-                    GameManager.instance.CancelDrawing();
+                    GameManager.instance.drawingController.CancelDrawing();
 
                 if (GameManager.instance.state == GameState.Running)
-                    GameManager.instance.UndoMultiStep();
+                    GameManager.instance.game.UndoMultiStep();
 
-                GameManager.instance.isDrawingCompleted = false;
+                GameManager.instance.drawingController.isDrawingCompleted = false;
                 /*if (GameManager.instance.state == GameState.Running) {
                     GameManager.instance.UndoMultiStep();
                 }*/
@@ -139,11 +148,7 @@ public class GameplayUIManager : MonoBehaviour
     {
         gameSpeedText.text = value.ToString() + "x";
     }
-
-    public void OnUndoButtonDown()
-    {
-        GameManager.instance.Undo();
-    }
+    
 
     private void ToggleRouteDrawingPanel(GameState from, GameState to)
     {
@@ -195,6 +200,10 @@ public class GameplayUIManager : MonoBehaviour
         {
             blowButtonTween = blowButton.transform.DOShakeRotation(1f, strength: 10, fadeOut: false).SetLoops(-1);
         }
+    }
+
+    private void UpdateOutcomePreviewIcon(bool value) {
+        outcomePreviewImage.sprite = value ? outcomeEnabledIcon : outcomeDisabledIcon;
     }
 
 }

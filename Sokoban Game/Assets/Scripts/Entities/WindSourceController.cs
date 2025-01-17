@@ -41,6 +41,7 @@ public class WindSourceController : MonoBehaviour
 
     public bool isDrawing = false;
     public bool isUsed = false;
+    public bool isAlternative = false;
     private bool interactable = true;
 
     public delegate void OnMouseDownDelegate();
@@ -79,14 +80,14 @@ public class WindSourceController : MonoBehaviour
     {
         if(to == GameState.DrawingRoute)
         {
-            if (gameManager.curWindSource == this)
+            if (gameManager.curGame.curWindSource == this)
                 MakeInteractable();
             else
                 MakeUninteractable();
         }
         else
         {
-            if (gameManager.curWindSource == this)
+            if (gameManager.curGame.curWindSource == this)
                 MakeUninteractable();
             else
             {
@@ -119,7 +120,7 @@ public class WindSourceController : MonoBehaviour
 
     public void UpdateWindSP(int routeCount)
     {
-        if (gameManager.isLooping)
+        if (gameManager.curGame.isLooping)
         {
             windSP = defWindSP - routeCount + 1;
         }
@@ -127,6 +128,8 @@ public class WindSourceController : MonoBehaviour
         {
             windSP = defWindSP - routeCount;
         }
+
+        windSP = windSP < 0 ? 0 : windSP;
     }
 
     public void SetWindSP(int value) {

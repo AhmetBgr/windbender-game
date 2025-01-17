@@ -13,7 +13,7 @@ public class CrateMoveController : ObjectMoveController
         //gameManager.curTurn.actions.Add(movementReserve);
 
 
-        if (pushed && movementReserve.indexInWind < 0) return;
+        if ((pushed && movementReserve.indexInWind < 0) | gameManager.curGame.isSimulation) return;
 
         PlayMoveAnim();
     }

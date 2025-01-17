@@ -19,7 +19,7 @@ public class SetRoute : Command
         this.windSource = windSource;
         this.routeManager = routeManager;
         this.route.AddRange(route);
-        this.windMoveRoute.AddRange(GameManager.instance.windMoveRoute);
+        this.windMoveRoute.AddRange(GameManager.instance.curGame.windMoveRoute);
         this.isLooping = isLooping;
         this.gameManager = gameManager;
     }
@@ -42,25 +42,26 @@ public class SetRoute : Command
 
 
         // update game manager
-        GameManager.instance.curWindSource = windSource;
-        GameManager.instance.route = new List<Vector3>();
-        GameManager.instance.route.AddRange(route);
+        GameManager.instance.curGame.curWindSource = windSource;
+        GameManager.instance.curGame.route = new List<Vector3>();
+        GameManager.instance.curGame.route.AddRange(route);
+        gameManager.drawingController.route = gameManager.curGame.route;
         GameManager.instance.state = GameState.DrawingRoute;
         //GameManager.instance.OnDrawingStartedFunc();
-        GameManager.instance.isDrawingCompleted = true;
-        GameManager.instance.isLooping = isLooping;
-        GameManager.instance.curWindDeformInfo.cutLenght = 0;
+        GameManager.instance.drawingController.isDrawingCompleted = true;
+        GameManager.instance.curGame.isLooping = isLooping;
+        GameManager.instance.curGame.curWindDeformInfo.cutLenght = 0;
         gameManager.isWaiting = false;
         //gameManager.state = GameState.DrawingRoute;
         if(isLooping){
-            gameManager.windMoveRoute = new List<Vector3>();
-            gameManager.windMoveRoute.AddRange(windMoveRoute);
+            gameManager.curGame.windMoveRoute = new List<Vector3>();
+            gameManager.curGame.windMoveRoute.AddRange(windMoveRoute);
             gameManager.arrowController.SetPositions(this.windMoveRoute);
-            gameManager.isDrawingMoveRoute = true;
+            gameManager.drawingController.isDrawingMoveRoute = true;
         }
         else {
-            gameManager.isDrawingMoveRoute = false;
-            gameManager.windMoveRoute.Clear();
+            gameManager.drawingController.isDrawingMoveRoute = false;
+            gameManager.curGame.windMoveRoute.Clear();
             gameManager.arrowController.Clear();
         }
         

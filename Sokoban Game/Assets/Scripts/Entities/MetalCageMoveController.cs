@@ -26,7 +26,7 @@ public class MetalCageMoveController : ObjectMoveController
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
+        //movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
@@ -138,7 +138,7 @@ public class MetalCageMoveController : ObjectMoveController
             if (failedMoveDir != Vector3.zero && !equalLowestIndexExists) {
                 movementReserve.dir = failedMoveDir;
                 movementReserve.intentToMove = true;
-                gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                gameManager.curGame.obstacleAtDestinationMoves.Add(movementReserve);
             }
 
         }
@@ -185,7 +185,7 @@ public class MetalCageMoveController : ObjectMoveController
 
             if(pushInfo.initiator != null && !pushInfo.initiator.obj.CompareTag("MovingObstacle")) {
                 Debug.Log("here15");
-                gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                gameManager.curGame.obstacleAtDestinationMoves.Add(movementReserve);
                 return;
             }
 

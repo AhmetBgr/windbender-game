@@ -51,6 +51,7 @@ MonoBehaviour:
   center: {fileID: 7152839536058251248}
   rightOrBottom: {fileID: 264023462751812984}
   leftOrTop: {fileID: 3482501264339215130}
+  targetTag: 0
   ismoving: 0
   isFailedMoving: 0
   shouldFail: 0
@@ -100,6 +101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d74616c6ebb547b09d518e3ea4b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  preview: {fileID: 0}
+  initPos: {x: 0, y: 0, z: 0}
+  previewPos: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -181,6 +186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d74616c6ebb547b09d518e3ea4b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  preview: {fileID: 0}
+  initPos: {x: 0, y: 0, z: 0}
+  previewPos: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -748,6 +757,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d74616c6ebb547b09d518e3ea4b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  preview: {fileID: 0}
+  initPos: {x: 0, y: 0, z: 0}
+  previewPos: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -794,9 +807,10 @@ GameObject:
   - component: {fileID: 8577159065746779626}
   - component: {fileID: 8577159065746779629}
   - component: {fileID: 8577159065746779636}
+  - component: {fileID: 4392119181285899246}
   m_Layer: 8
   m_Name: Blue Y Obstacle
-  m_TagString: Untagged
+  m_TagString: MovingObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -898,6 +912,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4392119181285899246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577159065746779628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290e011929bc0a843816ac93e66669e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6229047682780210948}
+  previewPrefab: {fileID: 2904771872247391068, guid: 59231d645ae1932479ca661c6b590ae3,
+    type: 3}
+  cols:
+  - {fileID: 8577159065746779636}
+  - {fileID: 7623150640568943771}
+  - {fileID: 7173662827862472538}
+  - {fileID: 8391367727538589767}
+  - {fileID: 4947349933608699190}
+  - {fileID: 3723738932171895312}
+  - {fileID: 3723738931346358068}
+  clone: {fileID: 0}
+  preview: {fileID: 0}
+  isClone: 0
 --- !u!1001 &1057456518019630387
 PrefabInstance:
   m_ObjectHideFlags: 0

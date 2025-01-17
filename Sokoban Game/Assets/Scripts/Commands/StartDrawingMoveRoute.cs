@@ -15,14 +15,14 @@ public class StartDrawingMoveRoute : Command
         this.arrowController = arrowController;
         this.gameManager = GameManager.instance;
         this.pos = pos;
-        this.index = gameManager.windMoveRoute.Count;
+        this.index = gameManager.game.windMoveRoute.Count;
     }
 
     public override void Execute(){
-        gameManager.isDrawingMoveRoute = true;
+        gameManager.drawingController.isDrawingMoveRoute = true;
         arrowController.transform.gameObject.SetActive(true);
         arrowController.AddPos(pos);
-        gameManager.windMoveRoute.Add(pos);
+        gameManager.game.windMoveRoute.Add(pos);
     }
 
     public override void Undo(){

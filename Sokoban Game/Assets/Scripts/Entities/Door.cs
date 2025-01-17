@@ -24,17 +24,17 @@ public class Door : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.OnTurnEnd += UpdateState;
+        Game.OnTurnEnd += UpdateState;
         ButtonEntity.OnButtonToggle += ToggleState;
-        GameManager.instance.OnTurnStart1 += SaveState;
+        Game.OnTurnStart1 += SaveState;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.OnTurnEnd -= UpdateState;
+        Game.OnTurnEnd -= UpdateState;
 
         ButtonEntity.OnButtonToggle -= ToggleState;
-        GameManager.instance.OnTurnStart1 -= SaveState;
+        Game.OnTurnStart1 -= SaveState;
     }
 
     private void UpdateState() {
@@ -54,7 +54,7 @@ public class Door : MonoBehaviour
         if (tag != this.tag) return;
 
         DoorState doorState = new DoorState(this, isOpen, Time.time);
-        GameManager.instance.curTurn.actions.Add(doorState);
+        GameManager.instance.curGame.curTurn.actions.Add(doorState);
 
         if (isOpen && !shouldClose) {
             TryToClose();

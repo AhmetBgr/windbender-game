@@ -40,10 +40,6 @@ public class LevelManager : MonoBehaviour
             GameManager.instance.OnLevelComplete += SetCurLevelComplete;
             GameManager.instance.OnLevelComplete += LoadOverWorld;
         }
-        if(SceneLoader.sceneName == "-OverWorld")
-        {
-            Cursor.instance.gameObject.SetActive(false);
-        }
 
         LevelSelectionBox.OnLevelSelect += SetAndLoadCurLevel;
     }
@@ -62,7 +58,10 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        
+        if (SceneLoader.sceneName == "-OverWorld") {
+
+            Cursor.instance.gameObject.SetActive(false);
+        }
     }
 
     public void SetCurLevelComplete()

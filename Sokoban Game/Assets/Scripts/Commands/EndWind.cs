@@ -17,29 +17,29 @@ public class EndWind : Command{
         this.arrowController = arrowController;
         this.gameManager = gameManager;
         this.wind = wind;
-        this.route.AddRange(gameManager.route);
-        this.windMoveRoute.AddRange(gameManager.windMoveRoute);
-        curWindSource = gameManager.curWindSource;
-        isLooping = gameManager.isLooping;
+        this.route.AddRange(gameManager.curGame.route);
+        this.windMoveRoute.AddRange(gameManager.curGame.windMoveRoute);
+        curWindSource = gameManager.curGame.curWindSource;
+        isLooping = gameManager.curGame.isLooping;
         windPos = wind.transform.position;
         defTurnCount = gameManager.defTurnCount;
     }
 
     public override void Execute() {
-        gameManager.route.Clear();
+        gameManager.curGame.route.Clear();
         arrowController.Clear();
         wind.EndWind(gameManager.defTurnDur*2, isLooping);
-        gameManager.windMoveRoute.Clear();
+        gameManager.curGame.windMoveRoute.Clear();
         //routeManager.transform.position = Vector3.zero;
     }
 
     public override void Undo() {
         Debug.Log("should undo end wind");
 
-        gameManager.route.AddRange(route);
-        gameManager.windMoveRoute.AddRange(windMoveRoute);
-        gameManager.curWindSource = curWindSource;
-        gameManager.isLooping = isLooping;
+        gameManager.curGame.route.AddRange(route);
+        gameManager.curGame.windMoveRoute.AddRange(windMoveRoute);
+        gameManager.curGame.curWindSource = curWindSource;
+        gameManager.curGame.isLooping = isLooping;
         gameManager.defTurnCount = defTurnCount;
         if(windMoveRoute.Count > 0) {
             arrowController.SetPositions(windMoveRoute);

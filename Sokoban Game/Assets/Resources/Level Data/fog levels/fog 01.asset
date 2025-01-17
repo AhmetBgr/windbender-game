@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: fog 01
   m_EditorClassIdentifier: 
   debugName: fog 01
-  state: 0
+  state: 2
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

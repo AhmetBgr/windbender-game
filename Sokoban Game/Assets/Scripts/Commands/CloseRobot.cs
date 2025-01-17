@@ -15,7 +15,7 @@ public class CloseRobot : Command
     {
 
         executionTime = Time.time;
-        turnID = GameManager.instance.turnID;
+        //turnID = GameManager.instance.turnID;
     }
 
     public override void Undo()

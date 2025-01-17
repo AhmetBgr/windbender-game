@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: rotator 02
   m_EditorClassIdentifier: 
   debugName: rotator 02
-  state: 0
+  state: 2
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

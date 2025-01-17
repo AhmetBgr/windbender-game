@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3632881863327080460}
   - component: {fileID: 3632881863327080461}
   - component: {fileID: 3632881863327080463}
+  - component: {fileID: 3400546271551749915}
   m_Layer: 0
   m_Name: Blue Button
   m_TagString: Untagged
@@ -182,7 +183,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29cd8085e2606ca43b5e52d5756ea465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer:
-    serializedVersion: 2
-    m_Bits: 128
-  color: 0
+  tag: 0
+  isDown: 0
+--- !u!114 &3400546271551749915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3632881863327080450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290e011929bc0a843816ac93e66669e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3632881863327080461}
+  previewPrefab: {fileID: 2904771872247391068, guid: 59231d645ae1932479ca661c6b590ae3,
+    type: 3}
+  cols: []
+  clone: {fileID: 0}
+  preview: {fileID: 0}
+  isClone: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Button 01A
   m_EditorClassIdentifier: 
   debugName: Button 01A
-  state: 0
+  state: 2
   seen: 1
   justUnlocked: 1
   isFirstLevel: 0

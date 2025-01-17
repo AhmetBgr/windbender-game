@@ -19,14 +19,14 @@ public class DeathFogController : ObjectMoveController
     private Vector3 posDif = Vector3.zero;
 
     protected override void OnEnable() {
-        GameManager.instance.OnTurnStart1 += TryToCleanFogTile;
-        GameManager.instance.OnTurnEnd += Grow;
+        Game.OnTurnStart1 += TryToCleanFogTile;
+        Game.OnTurnEnd += Grow;
         base.OnEnable();
     }
 
     protected override void OnDisable() {
-        GameManager.instance.OnTurnStart1 -= TryToCleanFogTile;
-        GameManager.instance.OnTurnEnd -= Grow;
+        Game.OnTurnStart1 -= TryToCleanFogTile;
+        Game.OnTurnEnd -= Grow;
 
         base.OnDisable();
     }
@@ -60,7 +60,7 @@ public class DeathFogController : ObjectMoveController
             Vector3 pos = route[i]; // + Utility.RoundToNearestHalf(transform.position);
             //Debug.Log("dust tile check: " + (pos));
 
-            if (gameManager.isLooping)
+            if (gameManager.curGame.isLooping)
                 canClear = true;
 
             if (dustTiles.Contains(pos)) { //
@@ -152,7 +152,7 @@ public class DeathFogController : ObjectMoveController
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
+        //movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
@@ -161,7 +161,7 @@ public class DeathFogController : ObjectMoveController
     public override void FindNeighbors(List<Vector3> route) {
         if (movementReserve == null) return;
         
-        gameManager.emptyDestinationMoves.Add(movementReserve);
+        gameManager.curGame.emptyDestinationMoves.Add(movementReserve);
     }
 
     public override void Move(Vector3 dir, bool stopAftermoving = false, bool pushed = false) {

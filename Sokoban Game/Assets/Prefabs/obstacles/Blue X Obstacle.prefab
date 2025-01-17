@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 721868670647816479}
   - component: {fileID: 721868670647816472}
   - component: {fileID: 721868670647816449}
+  - component: {fileID: 5023734944660948567}
   m_Layer: 8
   m_Name: Blue X Obstacle
-  m_TagString: Untagged
+  m_TagString: MovingObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +115,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5023734944660948567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721868670647816473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290e011929bc0a843816ac93e66669e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 8451105218764546258}
+  previewPrefab: {fileID: 2904771872247391068, guid: 59231d645ae1932479ca661c6b590ae3,
+    type: 3}
+  cols:
+  - {fileID: 721868670647816449}
+  - {fileID: 4939742611230838160}
+  - {fileID: 7802654939111654330}
+  - {fileID: 7082314033927590588}
+  - {fileID: 9055454873637422674}
+  - {fileID: 5666029532265139470}
+  - {fileID: 5666029532000168596}
+  clone: {fileID: 0}
+  preview: {fileID: 0}
+  isClone: 0
 --- !u!1 &1740702004573538856
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d74616c6ebb547b09d518e3ea4b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  preview: {fileID: 0}
+  initPos: {x: 0, y: 0, z: 0}
+  previewPos: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -351,6 +382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d74616c6ebb547b09d518e3ea4b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  preview: {fileID: 0}
+  initPos: {x: 0, y: 0, z: 0}
+  previewPos: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -487,6 +522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60d74616c6ebb547b09d518e3ea4b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  preview: {fileID: 0}
+  initPos: {x: 0, y: 0, z: 0}
+  previewPos: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0

@@ -13,18 +13,18 @@ public class DeletePosition : Command
         this.windSource = windSource;
         this.routeManager = routeManager;
         this.pos = pos;
-        turnID = GameManager.instance.turnID;
+        //turnID = GameManager.instance.turnID;
         gameManager = GameManager.instance;
     }
 
 
     public override void Execute()
     {
-        gameManager.route.RemoveAt(gameManager.route.Count - 1);
-        gameManager.curWindSource.UpdateWindSP(gameManager.route.Count);
+        gameManager.game.route.RemoveAt(gameManager.game.route.Count - 1);
+        gameManager.game.curWindSource.UpdateWindSP(gameManager.game.route.Count);
 
         List<Vector2> points = new List<Vector2>();
-        foreach (var item in gameManager.route) {
+        foreach (var item in gameManager.curGame.route) {
             points.Add(item);
         }
         gameManager.wind.col.SetPoints(points);
@@ -33,14 +33,19 @@ public class DeletePosition : Command
 
     public override void Undo()
     {
-        GameManager.instance.route.Add(pos);
+        GameManager.instance.curGame.route.Add(pos);
         List<Vector2> points = new List<Vector2>();
-        foreach (var item in gameManager.route) {
+        foreach (var item in gameManager.curGame.route) {
             points.Add(item);
         }
         gameManager.wind.col.SetPoints(points);
-        routeManager.AddPosition(pos);
+        
+        
+        //routeManager.AddPosition(pos);
+        routeManager.DrawRoute(gameManager.game.route);
+
+
         ////windSource.AddPosition(pos);
-        windSource.UpdateWindSP(GameManager.instance.route.Count);
+        windSource.UpdateWindSP(GameManager.instance.game.route.Count);
     }
 }

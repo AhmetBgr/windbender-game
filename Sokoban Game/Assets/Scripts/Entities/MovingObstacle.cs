@@ -30,14 +30,14 @@ public class MovingObstacle : ObjectMoveController
     protected override void OnEnable() {
         //base.OnEnable();
         Rotator.OnRotates += TryReserveMovement;
-        GameManager.instance.OnTurnStart2 += FindNeighbors;
+        Game.OnTurnStart2 += FindNeighbors;
 
     }
 
     protected override void OnDisable() {
         //base.OnDisable();
         Rotator.OnRotates -= TryReserveMovement;
-        GameManager.instance.OnTurnStart2 -= FindNeighbors;
+        Game.OnTurnStart2 -= FindNeighbors;
 
     }
     private void TryReserveMovement(float rotationDir, TargetTag tag) {
@@ -73,7 +73,7 @@ public class MovingObstacle : ObjectMoveController
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, this.tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
+        //movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = intentToMove;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;

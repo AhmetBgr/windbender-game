@@ -51,7 +51,7 @@ public class Wind : MonoBehaviour{
     {
 
         //route = gameManager.route;
-        windMoveRoute = gameManager.windMoveRoute;
+        windMoveRoute = gameManager.curGame.windMoveRoute;
         mat = lr.material;
         tornadoMat = tornado.material;
         defAlpha = mat.GetFloat("_alpha");
@@ -72,7 +72,7 @@ public class Wind : MonoBehaviour{
     }
 
     private void UpdateWindMatSpeed(GameState from, GameState to) {
-        if(to == GameState.Paused | to == GameState.DrawingRoute) {
+        if(to != GameState.Running) {
             Debug.Log("wind speed 0");
             mat.SetFloat("_speed", 0);
             tornadoMat.SetFloat("_speed", 0);
@@ -89,19 +89,20 @@ public class Wind : MonoBehaviour{
     }
 
     public void DrawWind() {
+        if (gameManager.state == GameState.DrawingRoute) return;
+
         Debug.Log("should draw wind");
         Debug.Log("wind route count: " + route.Count);
 
-
-        transform.position = gameManager.curWindSource.transform.position;
+        transform.position = gameManager.curGame.curWindSource.transform.position;
         route = new List<Vector3>();
         
-        deformInfo = gameManager.curWindDeformInfo;
-        foreach (var pos in gameManager.route) {
+        deformInfo = gameManager.curGame.curWindDeformInfo;
+        foreach (var pos in gameManager.curGame.route) {
             route.Add(transform.InverseTransformPoint(pos) + 0.1f * Vector3.up);
         }
 
-        isLooping = gameManager.isLooping;
+        isLooping = gameManager.curGame.isLooping;
 
 
         if (isLooping) {
@@ -148,7 +149,7 @@ public class Wind : MonoBehaviour{
         lr.SetPositions(route.ToArray());
         lr.loop = isLooping;
 
-        if(gameManager.route.Count == 2) {
+        if(gameManager.curGame.route.Count == 2) {
             lr.colorGradient = color2L;
         }
         else if (isLooping) {
@@ -228,8 +229,8 @@ public class Wind : MonoBehaviour{
 
     public int GetRotationDirection(List<Vector3> route) {
         if (route == null || route.Count < 3) {
-            Debug.LogError("route cannot be null or less than 3");
-            return 0;
+            Debug.LogWarning("route cannot be null or less than 3");
+            return 1;
         } 
 
         Vector3 dir1 = (route[1] - route[0]).normalized;

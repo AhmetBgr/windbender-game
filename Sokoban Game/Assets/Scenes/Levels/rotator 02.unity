@@ -136,6 +136,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Button
       objectReference: {fileID: 0}
+    - target: {fileID: 3632881863327080450, guid: d4ae46908b5ffbf4ea5748d09e5d1dba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3632881863327080460, guid: d4ae46908b5ffbf4ea5748d09e5d1dba,
         type: 3}
       propertyPath: m_RootOrder
@@ -755,6 +760,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4636570160506820148, guid: 66d97b314e62a7245884c2ef0d7e7768,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5459264873724701377, guid: 66d97b314e62a7245884c2ef0d7e7768,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5459264873724701377, guid: 66d97b314e62a7245884c2ef0d7e7768,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5459264873724701377, guid: 66d97b314e62a7245884c2ef0d7e7768,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5459264873724701377, guid: 66d97b314e62a7245884c2ef0d7e7768,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -4004,6 +4029,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Door
       objectReference: {fileID: 0}
+    - target: {fileID: 4946448198038423323, guid: b35881fbc28d0234f89edf3bb4daf7ae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4946448198038423325, guid: b35881fbc28d0234f89edf3bb4daf7ae,
         type: 3}
       propertyPath: m_RootOrder
@@ -4641,6 +4671,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Blue X Obstacle 3 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633695476690164547, guid: b25b01d6dab0e564ca67c72a1f937b94,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2633695476690164549, guid: b25b01d6dab0e564ca67c72a1f937b94,
         type: 3}

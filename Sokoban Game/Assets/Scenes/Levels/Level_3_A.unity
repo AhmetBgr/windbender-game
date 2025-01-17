@@ -687,6 +687,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8892289325253819527, guid: 99c52f6b8c4f4844a955e1a8a8d0b077,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 99c52f6b8c4f4844a955e1a8a8d0b077, type: 3}
@@ -849,6 +854,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215112188476189417, guid: 31dddbf4ab155594283228ad57f1f5d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4215112188476189419, guid: 31dddbf4ab155594283228ad57f1f5d1,
         type: 3}
@@ -10674,6 +10684,11 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[50].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 8228781379346414227, guid: 2dba93e7bf3190d42bae44e33478898c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6101423165025501060, guid: 2dba93e7bf3190d42bae44e33478898c,
@@ -10748,6 +10763,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Metal Cage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770846964625424134, guid: b722b5869fafd1a41b57d7965dc608ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -15896,6 +15916,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892289325253819527, guid: 99c52f6b8c4f4844a955e1a8a8d0b077,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

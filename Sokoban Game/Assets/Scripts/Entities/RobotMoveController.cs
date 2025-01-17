@@ -35,7 +35,7 @@ public class RobotMoveController : ObjectMoveController
             index = route.FindIndex(i => i == pos); // finds index in wind
 
             // Calculates the direction depand on the index in the route
-            if (GameManager.instance.isLooping && (pos == route[0]))
+            if (GameManager.instance.curGame.isLooping && (pos == route[0]))
             {
                 dir = route[0] - route[route.Count - 2];
             }
@@ -61,7 +61,7 @@ public class RobotMoveController : ObjectMoveController
         // Reserves movement
         movementReserve = new MoveTo(this, from, to, previousDir, curState, index, tag);
         movementReserve.executionTime = Time.time;
-        movementReserve.turnID = GameManager.instance.turnID;
+        //movementReserve.turnID = GameManager.instance.turnID;
         movementReserve.intentToMove = true;
         movementReserve.state = curState;
         movementReserve.hasSpeed = hasSpeed;
@@ -117,7 +117,7 @@ public class RobotMoveController : ObjectMoveController
         if (movementReserve.neighbors.TryGetValue(movementReserve.dir, out destinationObj)) {
             if (destinationObj == null) // wall at destination
             {
-                gameManager.obstacleAtDestinationMoves.Add(movementReserve);
+                gameManager.curGame.obstacleAtDestinationMoves.Add(movementReserve);
                 //Debug.LogWarning("WALL");
             }
             else {
@@ -134,7 +134,7 @@ public class RobotMoveController : ObjectMoveController
                 }*/
 
                 if (!destinationObj.intentToMove | (destinationObj.intentToMove && -destinationObj.dir == movementReserve.dir)) {
-                    gameManager.momentumTransferMoves.Add(movementReserve);
+                    gameManager.curGame.momentumTransferMoves.Add(movementReserve);
 
                     /*destinationObj.dir = dir;
                     destinationObj.to = destinationObj.from + dir;
@@ -149,7 +149,7 @@ public class RobotMoveController : ObjectMoveController
             }
         }
         else {
-            gameManager.emptyDestinationMoves.Add(movementReserve);
+            gameManager.curGame.emptyDestinationMoves.Add(movementReserve);
             //Debug.LogWarning("EMPTY MOVE");
         }
 
