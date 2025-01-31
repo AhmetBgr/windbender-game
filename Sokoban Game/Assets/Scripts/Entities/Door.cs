@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     public Collider2D col;
     public GameObject invinsibleMask;
     public WindCutter windCutter;
+    public GridEntity gridEntity;
     public new TargetTag tag;
     public bool isOpen;
     public bool shouldClose = false;
@@ -15,10 +16,10 @@ public class Door : MonoBehaviour
     void Start()
     {
         //Sets initial state
-        if (isOpen)
+        /*if (isOpen)
             Open();
         else
-            Close();
+            Close();*/
 
     }
 
@@ -27,6 +28,11 @@ public class Door : MonoBehaviour
         Game.OnTurnEnd += UpdateState;
         ButtonEntity.OnButtonToggle += ToggleState;
         Game.OnTurnStart1 += SaveState;
+
+        if (isOpen)
+            Open();
+        else
+            Close();
     }
 
     private void OnDisable()
@@ -40,18 +46,21 @@ public class Door : MonoBehaviour
     private void UpdateState() {
 
 
-        GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
+        //GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
+        Vector2Int index = GridManager.Instance.PosToGridIndex(transform.position);
+        GameObject obj = GridManager.grid[index.x, index.y].obj;
 
         if (shouldClose && obj == null) {
             Close();
         }
-
     }
 
     // Toggles door state between open and close
     public void ToggleState(TargetTag tag)
     {
         if (tag != this.tag) return;
+
+
 
         DoorState doorState = new DoorState(this, isOpen, Time.time);
         GameManager.instance.curGame.curTurn.actions.Add(doorState);
@@ -64,6 +73,9 @@ public class Door : MonoBehaviour
             Open();
             windCutter.isMoved = true;
         }
+
+        Debug.Log("door state updated: " + isOpen);
+
     }
 
     public void Open(){
@@ -74,6 +86,10 @@ public class Door : MonoBehaviour
         windCutter.canCut = false;
         shouldClose = false;
         windCutter.OnMoved(Vector3.right * 100000);
+
+        gridEntity.RemoveFromGridCell();
+        gridEntity.enabled = false;
+
     }
 
     public void Close(){
@@ -86,12 +102,17 @@ public class Door : MonoBehaviour
         windCutter.OnMoved(transform.position);
         shouldClose = false;
 
+        gridEntity.AddToGridCell();
+        gridEntity.enabled = true;
+
     }
 
     // Checks if there is an object at the location of the door before closing
     private void TryToClose()
     {
-        GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable")); 
+        //GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
+        Vector2Int index = GridManager.Instance.PosToGridIndex(transform.position);
+        GameObject obj = GridManager.grid[index.x, index.y].obj;
 
         if (obj != null) {
             shouldClose = true;

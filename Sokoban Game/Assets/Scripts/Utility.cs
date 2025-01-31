@@ -74,7 +74,7 @@ public static class Utility
             onCompleteCallBack();
     }
 
-    public static GameObject CheckForObjectAt(Vector3 pos, LayerMask lm)
+    /*public static GameObject CheckForObjectAt(Vector3 pos, LayerMask lm)
     {
         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, distance: 5f, lm);
 
@@ -96,7 +96,7 @@ public static class Utility
         }
         return null;
 
-    }
+    }*/
 
     public static void BinarySerialization(string folderName, string fileName, object saveData)
     {

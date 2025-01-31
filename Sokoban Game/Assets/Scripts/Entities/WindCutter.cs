@@ -30,6 +30,7 @@ public class WindCutter : MonoBehaviour
     }
 
     public void OnMoved(Vector3 dest) {
+        gameManager = GameManager.instance;
         List<Vector3> route = gameManager.curGame.route;
         Vector3 pos = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
 
@@ -225,23 +226,45 @@ public class WindCutter : MonoBehaviour
         }
         Debug.Log("route count: " + route.Count);
         Debug.Log("should reflect, cut lenght: " + cutLenght + ", cut index: " + cutIndex + ", dir: " + reflectionDir);
-        RaycastHit2D hit = Physics2D.Raycast(route[route.Count - 1] + reflectionDir * 0.5f, reflectionDir, cutLenght - 0.5f, LayerMask.GetMask("Wall", "WindCutter"));
+        //RaycastHit2D hit = Physics2D.Raycast(route[route.Count - 1] + reflectionDir * 0.5f, reflectionDir, cutLenght - 0.5f, LayerMask.GetMask("Wall", "WindCutter"));
         WindCutter windCutter = null;
 
-        if (hit) {
+        reflectionDir = reflectionDir.normalized;
+        List<Vector3> restors = new List<Vector3>();
+        for (int i = 1; i < cutLenght + 1; i++)
+        {
+            Vector3 pos = route[route.Count - 1] + (reflectionDir * i);
+            GameObject obj = GridManager.Instance.GetCell(pos).obj;
+
+            if(obj != null && (obj.layer == 8 || obj.layer == 11)){
+                if(obj.layer == 11)
+                    windCutter = obj.GetComponent<WindCutter>();
+
+                cutLenght = i;
+                break;
+            }
+            else
+            {
+                restors.Add(pos);
+            }
+        }
+
+        route.AddRange(restors);
+
+        /*if (hit) {
             if (hit.transform.gameObject.layer == 11) {
                 windCutter = hit.transform.gameObject.GetComponent<WindCutter>();
             }
 
             cutLenght = Mathf.FloorToInt(hit.distance) + 1;
-        }
+        }*/
 
-        for (int i = 0; i < cutLenght; i++) {
+        /*for (int i = 0; i < cutLenght; i++) {
             Vector3 restorePos = route[route.Count - 1];
             restorePos += reflectionDir;
 
             route.Add(restorePos);
-        }
+        }*/
         Debug.Log("route count after restore: " + route.Count);
 
         if (windCutter != null) {

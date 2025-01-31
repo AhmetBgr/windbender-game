@@ -45,6 +45,8 @@ public class ObjectMoveController : MonoBehaviour
     public Dictionary<Vector3, PushInfo> pushedByInfos = new Dictionary<Vector3, PushInfo>();
     public PushInfo pushInfoThis;
 
+    public GridEntity gridEntity;
+
     public Vector3 dir;
     public MoveTo movementReserve;
     public State startingState;
@@ -199,9 +201,9 @@ public class ObjectMoveController : MonoBehaviour
         Vector3 origin = transform.position;
         int destinationTile = -1;
         movementReserve.neighbors.Clear();
-        List<Vector3> neighborVectors = new List<Vector3> { Vector3.up, Vector3.down, Vector3.right, Vector3.left };
-        foreach (Vector3 dir in neighborVectors) {
-            RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
+        List<Vector3Int> neighborVectors = new List<Vector3Int> { Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left };
+        foreach (Vector3Int dir in neighborVectors) {
+            /*RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
             MoveTo neighbor = null;
             if (hit) {
                 GameObject obj = hit.transform.gameObject;
@@ -218,6 +220,36 @@ public class ObjectMoveController : MonoBehaviour
                 }
                 else {
                     if (obj.layer == 7) {
+                        neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
+                    }
+                }
+                movementReserve.neighbors.Add(dir, neighbor);
+            }*/
+
+            //Vector2Int gridIndex = gridEntity.GetGridIndex();
+            GameObject obj = GridManager.Instance.GetCell(origin + dir).obj;
+            MoveTo neighbor = null;
+            if (obj != null)
+            {
+                //GameObject obj = objs[objs.Count - 1];
+
+                if (movementReserve.intentToMove && this.dir == dir)
+                {
+                    //Debug.Log("destination tile layer: " + obj.layer);
+                    if (obj.layer == 7)
+                    { //&& !obj.CompareTag("MovingObstacle")
+                        destinationTile = 1;
+                        neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
+                    }
+                    else
+                    {
+                        destinationTile = 2;
+                    }
+                }
+                else
+                {
+                    if (obj.layer == 7)
+                    {
                         neighbor = obj.GetComponent<ObjectMoveController>().movementReserve;
                     }
                 }

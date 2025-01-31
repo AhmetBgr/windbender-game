@@ -15,7 +15,7 @@ public class PreviewController : MonoBehaviour
     private Vector3 initPos;
     private Vector3 previewPos;
 
-    public bool isClone = false;
+    [HideInInspector] public bool isClone = false;
     private bool isPreviewActive = false;
 
     /*private void OnEnable() {
@@ -73,6 +73,8 @@ public class PreviewController : MonoBehaviour
             preview.transform.SetParent(PreviewManager.instance.transform);
         }
 
+        preview.gameObject.SetActive(false);
+
         initPos = transform.position;
 
         if (!isPreviewActive) {
@@ -87,6 +89,8 @@ public class PreviewController : MonoBehaviour
             preview.color = temp;
             isPreviewActive = true;
         }
+
+        //preview.color = new Color(1f, 1f, 1f, 0.5f);
 
         previewPos = clone.spriteRenderer.transform.position;
     }

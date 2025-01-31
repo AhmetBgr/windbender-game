@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -220,7 +221,7 @@ public class GameManager : MonoBehaviour{
                 // Raycast setup
                 Vector3 origin = cursor.pos;
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, 1f, LayerMask.GetMask("WindSource"));
-
+                //GameObject obj = GridManager.Instance.GetCell(origin).obj;
                 if (hit){
                     StartDrawing(hit.transform.GetComponent<WindSourceController>());
                     //WindRoute newWindRoute = new WindRoute(new List<Vector3>(), hit.transform.GetComponent<WindSourceController>());
@@ -262,7 +263,7 @@ public class GameManager : MonoBehaviour{
         OnSimEnded?.Invoke();
     }
 
-    public void StartSim(bool skipOnSimStarted = false) {
+    public void StartSim(bool skipOnSimStarted = false, Action onTurnComplete = null, Action onComplete = null) {
         if (!previewOutcome) return;
 
         StopSimCor();
@@ -270,7 +271,7 @@ public class GameManager : MonoBehaviour{
         simGame.UndoMultiStep();
 
         // Simulate turns
-        simCor = StartCoroutine(Simulate(curGame.route.Count, skipOnSimStarted));
+        simCor = StartCoroutine(Simulate(curGame.route.Count, skipOnSimStarted, onComplete));
 
         InvokeOnSimStartedEvent();
     } 
@@ -284,7 +285,7 @@ public class GameManager : MonoBehaviour{
         }
     }
 
-    public IEnumerator Simulate(int turnCount, bool skipOnSimStarted = false) {
+    public IEnumerator Simulate(int turnCount, bool skipOnSimStarted = false, Action onTurnComplete = null, Action onComplete = null) {
         //simGame.UndoMultiStep();
 
         //simGame.ResetData();
@@ -317,7 +318,7 @@ public class GameManager : MonoBehaviour{
         
         while (turnCount > 0) {
 
-            yield return new WaitForSeconds(0.1f); // new WaitForFixedUpdate();//
+            yield return new WaitForFixedUpdate(); // new WaitForFixedUpdate();//
 
             //Debug.Log("play turn: " + turnCount);
 
@@ -329,16 +330,23 @@ public class GameManager : MonoBehaviour{
             //Debug.Log("handle end turn");
 
             HandleEndTurn();
+
+
+            yield return new WaitForFixedUpdate();
+
+            onTurnComplete?.Invoke();
         }
 
 
 
-        yield return new WaitForSeconds(0.14f); //  WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate(); //  WaitForFixedUpdate();
 
         //OnSimComleted?.Invoke(drawingController.isDrawingCompleted);
         OnSimEnded?.Invoke();
 
         curGame = game;
+
+        onComplete?.Invoke();
 
         //state = GameState.DrawingRoute;
     }

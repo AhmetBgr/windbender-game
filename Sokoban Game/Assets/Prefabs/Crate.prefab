@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1856486823758871519}
   - component: {fileID: 389045094645471589}
   - component: {fileID: 872415305344806241}
+  - component: {fileID: 6907192624564717488}
   m_Layer: 7
   m_Name: Crate
   m_TagString: Crate
@@ -129,9 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 4029226949518573369, guid: cd94c4199b275784d9f7bddf36534d55,
     type: 3}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 6907192624564717488}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -151,6 +150,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8892289325253819525}
   previewPrefab: {fileID: 2904771872247391068, guid: 59231d645ae1932479ca661c6b590ae3,
     type: 3}
+  cols: []
+  clone: {fileID: 0}
+  preview: {fileID: 0}
+  isClone: 0
 --- !u!95 &389045094645471589
 Animator:
   serializedVersion: 4
@@ -183,3 +186,16 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_SortAtRoot: 0
+--- !u!114 &6907192624564717488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8892289325253819527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0

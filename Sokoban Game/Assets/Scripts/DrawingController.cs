@@ -376,7 +376,7 @@ public class DrawingController : MonoBehaviour
 
                         //gameManager.state = GameState.Running;
                         //gameManager.isSimulating = true;
-                        gameManager.StartSim();
+                        gameManager.StartSim(onTurnComplete: () => UpdateValidPositions(cursorPos));
 
 
 
@@ -562,9 +562,11 @@ public class DrawingController : MonoBehaviour
                 foreach (var item in route) {
                     //Debug.Log("offset: " + offset);
                     Vector3 origin = item + neighborVector + offset;
-                    RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
+                    //RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
+                    Vector2Int index = GridManager.Instance.PosToGridIndex(origin);
+                    GameObject obj = GridManager.grid[index.x, index.y].obj;
 
-                    if (hit) {
+                    if (obj != null && obj.layer == 8) {
                         isTouchingWall = true;
                         break;
                     }
@@ -580,10 +582,25 @@ public class DrawingController : MonoBehaviour
         else {
             foreach (Vector3 neighborVector in neighborVectors) {
                 Vector3 origin = centerPos + neighborVector;
-                RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
+                /*RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
 
                 if (!hit && !route.Contains(origin)) //
+                    validPos.Add(origin);*/
+                
+                if (route.Contains(origin))
+                    continue;
+
+                Vector2Int index = GridManager.Instance.PosToGridIndex(origin);
+                GameObject obj = GridManager.grid[index.x, index.y].obj;
+                Debug.Log("index: " + index + ", obj: " + obj);
+
+
+
+                if(obj == null || (obj.layer != 8))
+                {
                     validPos.Add(origin);
+                }
+
             }
         }
 

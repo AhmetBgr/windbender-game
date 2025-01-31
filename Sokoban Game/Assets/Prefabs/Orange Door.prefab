@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4946448198038423324}
   - component: {fileID: 4946448198038423326}
   - component: {fileID: 8841958398670818660}
+  - component: {fileID: 4116674782544480569}
+  - component: {fileID: 7322741918022414643}
   m_Layer: 8
   m_Name: Orange Door
   m_TagString: Untagged
@@ -152,6 +154,7 @@ MonoBehaviour:
   col: {fileID: 4946448198038423299}
   invinsibleMask: {fileID: 4694835948341702026}
   windCutter: {fileID: 8841958398670818660}
+  gridEntity: {fileID: 7322741918022414643}
   tag: 1
   isOpen: 0
   shouldClose: 0
@@ -174,6 +177,39 @@ MonoBehaviour:
   isMoved: 0
   canCut: 1
   canRestore: 0
+--- !u!114 &4116674782544480569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4946448198038423323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290e011929bc0a843816ac93e66669e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 4946448198038423322}
+  previewPrefab: {fileID: 2904771872247391068, guid: 59231d645ae1932479ca661c6b590ae3,
+    type: 3}
+  cols:
+  - {fileID: 4946448198038423299}
+  clone: {fileID: 0}
+  preview: {fileID: 0}
+  isClone: 0
+--- !u!114 &7322741918022414643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4946448198038423323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &6084954447295120427
 GameObject:
   m_ObjectHideFlags: 0

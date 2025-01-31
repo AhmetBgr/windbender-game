@@ -66,6 +66,7 @@ GameObject:
   - component: {fileID: 3076918157634007268}
   - component: {fileID: 264023462751812984}
   - component: {fileID: 8391367727538589767}
+  - component: {fileID: 284684207950267585}
   m_Layer: 7
   m_Name: obstacle_bottom
   m_TagString: Untagged
@@ -102,9 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 0}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 284684207950267585}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -140,6 +139,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &284684207950267585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2528633753462676832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &3723738931263191252
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,6 +163,7 @@ GameObject:
   - component: {fileID: 3723738931263191259}
   - component: {fileID: 7152839536058251248}
   - component: {fileID: 7623150640568943771}
+  - component: {fileID: 8933421174747649959}
   m_Layer: 7
   m_Name: obstacle_center
   m_TagString: Untagged
@@ -187,9 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 0}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 8933421174747649959}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -225,6 +236,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8933421174747649959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723738931263191252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &3723738931346358070
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +746,7 @@ GameObject:
   - component: {fileID: 1004590860905895528}
   - component: {fileID: 3482501264339215130}
   - component: {fileID: 7173662827862472538}
+  - component: {fileID: 5493514041539799479}
   m_Layer: 7
   m_Name: obstacle_top
   m_TagString: Untagged
@@ -758,9 +783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 0}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 5493514041539799479}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -796,6 +819,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5493514041539799479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8430923625151691480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &8577159065746779628
 GameObject:
   m_ObjectHideFlags: 0

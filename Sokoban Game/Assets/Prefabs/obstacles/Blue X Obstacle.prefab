@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 8593435289836510464}
   - component: {fileID: 7082314033927590588}
   - component: {fileID: 8304399165530054320}
+  - component: {fileID: 3290601964755828259}
   m_Layer: 7
   m_Name: obstacle_left
   m_TagString: MovingObstacle
@@ -214,9 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 0}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 3290601964755828259}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -226,6 +225,19 @@ MonoBehaviour:
   rightWC: {fileID: 247814333942614157}
   leftWC: {fileID: 6834298036989356871}
   lenght: 3
+--- !u!114 &3290601964755828259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740702004573538856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &1933132765628486185
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +333,7 @@ GameObject:
   - component: {fileID: 5718407770971190922}
   - component: {fileID: 7802654939111654330}
   - component: {fileID: 4545386192373162918}
+  - component: {fileID: 821024704262305010}
   m_Layer: 7
   m_Name: obstacle_right
   m_TagString: MovingObstacle
@@ -383,9 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 0}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 821024704262305010}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -395,6 +406,19 @@ MonoBehaviour:
   rightWC: {fileID: 247814333942614157}
   leftWC: {fileID: 6834298036989356871}
   lenght: 3
+--- !u!114 &821024704262305010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3069057532979992399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &4469311191668231447
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,6 +485,7 @@ GameObject:
   - component: {fileID: 5666029531337333834}
   - component: {fileID: 4939742611230838160}
   - component: {fileID: 457267523135262214}
+  - component: {fileID: 1255677673958926577}
   m_Layer: 7
   m_Name: obstacle_center
   m_TagString: MovingObstacle
@@ -523,9 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewPrefab: {fileID: 0}
-  preview: {fileID: 0}
-  initPos: {x: 0, y: 0, z: 0}
-  previewPos: {x: 0, y: 0, z: 0}
+  gridEntity: {fileID: 1255677673958926577}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
@@ -535,6 +558,19 @@ MonoBehaviour:
   rightWC: {fileID: 247814333942614157}
   leftWC: {fileID: 6834298036989356871}
   lenght: 3
+--- !u!114 &1255677673958926577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5666029531337333833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &5666029532000168602
 GameObject:
   m_ObjectHideFlags: 0

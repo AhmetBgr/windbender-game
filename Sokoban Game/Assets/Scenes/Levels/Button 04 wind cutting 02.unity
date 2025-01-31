@@ -7618,6 +7618,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -402713644, guid: 90719a54c57d3d0498fd7a9b05632b55,
         type: 3}
+    - target: {fileID: 8745912174332008604, guid: 2dba93e7bf3190d42bae44e33478898c,
+        type: 3}
+      propertyPath: gridHeight
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745912174332008604, guid: 2dba93e7bf3190d42bae44e33478898c,
+        type: 3}
+      propertyPath: _gridHeight
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dba93e7bf3190d42bae44e33478898c, type: 3}

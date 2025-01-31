@@ -29,13 +29,21 @@ public class ButtonEntity : MonoBehaviour
     public void CheckForObject()
     {
         Vector3 pos = transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, distance: 1f, LayerMask.GetMask("Pushable"));
-        ObjectMoveController obj = null;
-        if (hit)
+        //RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, distance: 1f, LayerMask.GetMask("Pushable"));
+        Vector2Int index = GridManager.Instance.PosToGridIndex(pos);
+        ObjectMoveController moveCont = null;
+        GameObject obj = GridManager.grid[index.x, index.y].obj; 
+
+        if(obj != null)
+            obj.TryGetComponent(out moveCont);
+
+        //ObjectMoveController obj = null;
+        /*if (hit)
         {
             obj = hit.transform.gameObject.GetComponent<ObjectMoveController>();
-        }
-        ChangeButtonState(obj);
+        }*/
+
+        ChangeButtonState(moveCont);
         
     }
 

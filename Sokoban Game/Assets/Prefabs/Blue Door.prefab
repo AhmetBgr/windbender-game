@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4946448198038423326}
   - component: {fileID: 3534970670604330181}
   - component: {fileID: 2918615350430605517}
+  - component: {fileID: 6686573631661570023}
   m_Layer: 8
   m_Name: Blue Door
   m_TagString: Untagged
@@ -153,6 +154,7 @@ MonoBehaviour:
   col: {fileID: 4946448198038423299}
   invinsibleMask: {fileID: 4694835948341702026}
   windCutter: {fileID: 3534970670604330181}
+  gridEntity: {fileID: 6686573631661570023}
   tag: 0
   isOpen: 0
   shouldClose: 0
@@ -195,6 +197,19 @@ MonoBehaviour:
   clone: {fileID: 0}
   preview: {fileID: 0}
   isClone: 0
+--- !u!114 &6686573631661570023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4946448198038423323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
 --- !u!1 &6084954447295120427
 GameObject:
   m_ObjectHideFlags: 0

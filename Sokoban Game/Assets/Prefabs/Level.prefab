@@ -4386,6 +4386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6101423165025501060}
   - component: {fileID: 6101423165025501061}
+  - component: {fileID: 8745912174332008604}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -4424,6 +4425,20 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &8745912174332008604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101423165025501063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53b93334d45e5d40bf24deb90432bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridWidth: 25
+  gridHeight: 15
 --- !u!1 &6101423165717596063
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,6 +4451,7 @@ GameObject:
   - component: {fileID: 6101423165717596059}
   - component: {fileID: 6101423165717596060}
   - component: {fileID: 6101423165717596061}
+  - component: {fileID: 5456575788897570902}
   m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
@@ -4662,6 +4678,20 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
   m_UseDelaunayMesh: 0
+--- !u!114 &5456575788897570902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101423165717596063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f44157eb91cfc4490449f97dae891f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBump: 0
+  tilemap: {fileID: 6101423165717596059}
 --- !u!1 &8228781379346414227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,13 +4740,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1032beeed8fcfd4fbf73b51df3aaa68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewPrefab: {fileID: 0}
+  gridEntity: {fileID: 0}
   dir: {x: 0, y: 0, z: 0}
   startingState: 0
   curState: 0
+  volumeController: {fileID: 0}
   fogTM1: {fileID: 1691358251034196561}
   fogTM2: {fileID: 5232058366431923906}
   fogTM3: {fileID: 7089702073214077636}
   fogTM4: {fileID: 3837878635251359158}
+  canGrow: 0
+  growCountDown: 5
+  inDustAmount: 0
   dustTiles: []
 --- !u!1001 &6101423165705874870
 PrefabInstance:

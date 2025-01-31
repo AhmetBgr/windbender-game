@@ -86,9 +86,10 @@ public class RobotMoveController : ObjectMoveController
         List<Vector3> neighborVectors = new List<Vector3> { Vector3.up, Vector3.down, Vector3.right, Vector3.left };
         foreach (Vector3 dir in neighborVectors) {
             RaycastHit2D hit = Physics2D.Raycast(origin + dir, Vector2.zero, distance: 1f, LayerMask.GetMask("Wall", "Obstacle", "Pushable"));
+            GameObject obj = GridManager.Instance.GetCell(origin + dir).obj;
             MoveTo neighbor = null;
-            if (hit) {
-                GameObject obj = hit.transform.gameObject;
+            if (obj != null) {
+                //GameObject obj = hit.transform.gameObject;
 
                 if (movementReserve.intentToMove && this.dir == dir) {
                     //Debug.Log("destination tile layer: " + obj.layer);

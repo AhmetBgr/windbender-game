@@ -56,6 +56,8 @@ public class Game {
     public delegate void OnRouteChangedDelegate(List<Vector3> route);
     public static event OnRouteChangedDelegate OnRouteChanged;
 
+    public static event Action MovementCompleted;
+
     public void ResetData() {
         route.Clear();
         windMoveRoute.Clear();
@@ -108,6 +110,8 @@ public class Game {
 
             isWindRouteMoving = true;
         }
+
+        GridManager.Instance.InvokeGridChanged();
 
         // Gets all movement reservs
         if (OnTurnStart1 != null) {
@@ -187,6 +191,9 @@ public class Game {
         //yield return new WaitForSeconds(delay);
 
         // End of the turn
+
+        GridManager.Instance.InvokeGridChanged();
+
 
         if (OnTurnEnd != null)
             OnTurnEnd();

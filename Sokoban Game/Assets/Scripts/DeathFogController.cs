@@ -115,7 +115,10 @@ public class DeathFogController : ObjectMoveController
         foreach (var item in dustTiles) {
             foreach (var dir in dirs) {
                 Vector3 pos = item + dir;
-                if (Utility.CheckForObjectAt(pos, LayerMask.GetMask("Wall")) == null && !dustTiles.Contains(pos)) {
+                Vector2Int index = GridManager.Instance.PosToGridIndex(pos);
+                GameObject obj = GridManager.grid[index.x, index.y].obj;
+
+                if (obj !=null && obj.layer == 8 && !dustTiles.Contains(pos)) {
                     Vector3Int posInt = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f), 0);
                     fogTM1.SetTile(posInt, tileBase);
                     newDustTiles.Add(posInt);
