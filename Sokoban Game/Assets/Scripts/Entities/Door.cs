@@ -98,10 +98,10 @@ public class Door : MonoBehaviour
         gridEntity.RemoveFromGridCell();
         gridEntity.type = GridEntityType.FloorObj;
         gridEntity.AddToGridCell();
-        gridEntity.enabled = false;
+        //gridEntity.enabled = false;
 
         gridWindcutterEntity.RemoveFromGridCell();
-        gridWindcutterEntity.enabled = false;
+        //gridWindcutterEntity.enabled = false;
 
     }
 
@@ -118,10 +118,10 @@ public class Door : MonoBehaviour
         gridEntity.RemoveFromGridCell();
         gridEntity.type = GridEntityType.Obj;
         gridEntity.AddToGridCell();
-        gridEntity.enabled = true;
+        //gridEntity.enabled = true;
 
         gridWindcutterEntity.AddToGridCell();
-        gridWindcutterEntity.enabled = true;
+        //gridWindcutterEntity.enabled = true;
     }
 
     // Checks if there is an object at the location of the door before closing

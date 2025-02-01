@@ -260,27 +260,27 @@ public class GridManager : MonoBehaviour
 
                 Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.94f, cellSize * 0.9f, 0.1f));
 
-                if (grid[x, y].obj != null) continue;
+                //if (grid[x, y].obj != null) continue;
 
-                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.92f, cellSize * 0.92f, 0.1f));
+                //Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.92f, cellSize * 0.92f, 0.1f));
 
                 // Draw floor obj
                 Gizmos.color = grid[x, y].floorObj != null ? Color.yellow : (Color.gray * new Color(1, 1, 1, 0.5f));
 
                 Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.9f, cellSize * 0.9f, 0.1f));
 
-                if (grid[x, y].floorObj != null) continue;
+                //if (grid[x, y].floorObj != null) continue;
 
-                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.88f, cellSize * 0.92f, 0.1f));
+                //Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.88f, cellSize * 0.92f, 0.1f));
 
                 // Draw spaceless obj
                 Gizmos.color = grid[x, y].spacelessObj != null ? Color.blue : (Color.clear);
 
                 Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.86f, cellSize * 0.9f, 0.1f));
 
-                if (grid[x, y].spacelessObj != null) continue;
+                //if (grid[x, y].spacelessObj != null) continue;
 
-                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.84f, cellSize * 0.92f, 0.1f));
+                //Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.84f, cellSize * 0.92f, 0.1f));
 
             }
         }
