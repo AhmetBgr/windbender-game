@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour{
     public event OnPlayDelegate OnPlay;
 
     public delegate void OnLevelCompleteDelegate();
-    public event OnLevelCompleteDelegate OnLevelComplete;
+    public static event OnLevelCompleteDelegate OnLevelComplete;
 
     public delegate void OnTurnCountChangeDelegate(int turnCount);
     public event OnTurnCountChangeDelegate OnTurnCountChange;
@@ -229,21 +229,23 @@ public class GameManager : MonoBehaviour{
                 }
             }
         }
-
     }
+
     private void HandleEndTurn() {
         curGame.HandleTurnEnd(0f);
 
         if ((curGame.route.Count == 0)) {
-            Debug.Log("should check for level complete");
+            Debug.Log("should check for level complete" + ", is sim: " + curGame.isSimulation);
+            bool unUSedWindSourceExist = CheckForUnusedWindSources();
 
-            if (!CheckForUnusedWindSources() && !curGame.isSimulation) {
+            Debug.Log("unused wind source exist: " + unUSedWindSourceExist);
+
+            if (!unUSedWindSourceExist && !curGame.isSimulation) {
                 CheckForLevelComplete();
             }
         }
 
         if (turnCount <= 0 && !isWaiting) { // All turns end 
-            
             //simGame.UndoMultiStep();
             state = GameState.Paused;
             t = 0;
@@ -253,8 +255,8 @@ public class GameManager : MonoBehaviour{
             pauseOnTurnEnd = false;
             Pause();
         }
-
     }
+
     public void InvokeOnSimStartedEvent() {
         OnSimStarted?.Invoke();
     }
@@ -566,12 +568,19 @@ public class GameManager : MonoBehaviour{
             Invoke("InvokeOnLevelComple", 0.2f);
             return;
         }
+        Debug.Log("destination count: " + destinations.Count);
 
 
         if (destinations.Count == 0) return;
+
         foreach(ObjectDestination destination in destinations){
-            if(destination.objMC == null)    return; 
+            Debug.Log("destination objmc: " + destination.objMC);
+
+
+            if (destination.objMC == null)    return; 
         }
+
+
         Debug.LogWarning("LEVEL COMPLETED");
 
         InvokeOnLevelComple();

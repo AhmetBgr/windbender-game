@@ -592,7 +592,7 @@ public class DrawingController : MonoBehaviour
 
                 Vector2Int index = GridManager.Instance.PosToGridIndex(origin);
                 GameObject obj = GridManager.Instance.GetCell(index).obj;
-                Debug.Log("index: " + index + ", obj: " + obj);
+                //Debug.Log("index: " + index + ", obj: " + obj);
 
 
 

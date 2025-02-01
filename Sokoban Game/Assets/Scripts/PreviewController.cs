@@ -44,7 +44,7 @@ public class PreviewController : MonoBehaviour
 
 
 
-        Debug.LogWarning("should setup sim");
+       // Debug.LogWarning("should setup sim");
 
         if (previewPrefab == null) return;
 
