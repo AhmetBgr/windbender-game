@@ -3,21 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [Serializable]
 public struct Cell
 {
-    public GameObject obj;  // Change obj to a List<GameObject>
+    public GameObject obj;
+    public GameObject floorObj;
+    public GameObject spacelessObj;
+    
     public Vector3 pos;
-    //public string layer;
-    public bool isBump;
 
     // Initialize the list in the constructor
-    public Cell(Vector3 position, Layer layer = Layer.Other, bool isBump = false)
+    public Cell(Vector3 position)
     {
-        obj = null;
         pos = position;
-        //this.layer = layer;
-        this.isBump = isBump;
+        obj = null;
+        floorObj = null;
+        spacelessObj = null;  
+    }
+
+    public void Reset()
+    {
+        floorObj = null;
+        spacelessObj = null;
+
+        // skip resetting wall tiles since wal ltiles cant move(cant changed)
+        if (obj && obj.layer == 8) return; 
+
+        obj = null;
     }
 }
 
@@ -30,7 +43,7 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
 
-    public static Cell[,] grid; // A 2D array to hold cells
+    private Cell[,] grid; // A 2D array to hold cells
     private const float cellSize = 1.0f; // Assuming each cell is 1x1 unit in size
     [SerializeField] private int _gridWidth = 25; // Number of cells along the X-axis. Todo: makesure given value is an odd number.
     [SerializeField] private int _gridHeight = 15; // Number of cells along the Y-axis. Todo: makesure given value is an odd number.
@@ -100,11 +113,7 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < GridHeight; y++)
             {
-                if(grid[x,y].obj != null && grid[x, y].obj.layer == 8)
-                {
-                    continue;
-                }
-                grid[x, y].obj = null;
+                grid[x, y].Reset();
             }
         }
 
@@ -159,60 +168,73 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public void SetCell(int x, int y, GameObject obj, Vector3 pos)
+    public void SetCell(int x, int y, Vector3 pos, GameObject obj = null, GameObject floorObj = null, GameObject spacelessObj = null)
     {
-        grid[x, y].obj = obj;  // Set the entire list of objects
+        grid[x, y].obj = obj;
+        grid[x, y].floorObj = floorObj;
+        grid[x, y].spacelessObj = spacelessObj;
         grid[x, y].pos = pos;
     }
-    public void SetCell(GameObject obj, Vector3 pos)
+    public void SetCell(Vector3 pos, GameObject obj = null, GameObject floorObj = null, GameObject spacelessObj = null)
     {
         Vector2Int index = PosToGridIndex(pos);
 
         grid[index.x, index.y].obj = obj;
+        grid[index.x, index.y].floorObj = floorObj;
+        grid[index.x, index.y].spacelessObj = spacelessObj;
         grid[index.x, index.y].pos = pos;
-
-        Debug.LogWarning("No cell found near the provided position.");
     }
 
     public Cell GetCell(Vector3 pos)
     {
         Vector2Int index = PosToGridIndex(pos);
 
-        if (IsOutSideOfGrid(index)) return new Cell();
+        if (IsOutSideOfGrid(index)) return new Cell(); // return empty cell
+
+        return grid[index.x, index.y];
+    }
+
+    public Cell GetCell(Vector2Int index)
+    {
+        if (IsOutSideOfGrid(index)) return new Cell(); // return empty cell
 
         return grid[index.x, index.y];
     }
 
     public void AddObjectToCell(int x, int y, GameObject obj)
     {
-        /*if (grid[x, y].obj == null)
-            grid[x, y].obj = null;
-        */
-
         if (IsOutSideOfGrid(new Vector2Int(x,y))) return;
 
         grid[x, y].obj = obj;  // Add a new object to the cell's list
     }
-    /*public void AddObjectToBottomCell(int x, int y, GameObject obj)
+    public void AddFloorObjectToCell(int x, int y, GameObject floorObj)
     {
-        if (grid[x, y].objs == null)
-            grid[x, y].objs = new List<GameObject>();
+        if (IsOutSideOfGrid(new Vector2Int(x, y))) return;
 
-        grid[x, y].objs.Insert(0, obj);  // Add a new object to the cell's list
+        grid[x, y].floorObj = floorObj;  // Add a new object to the cell's list
+    }
+    public void AddSpacelessObjectToCell(int x, int y, GameObject spacelessObj)
+    {
+        if (IsOutSideOfGrid(new Vector2Int(x, y))) return;
 
-    }*/
+        grid[x, y].spacelessObj = spacelessObj;  // Add a new object to the cell's list
+    }
 
     public void RemoveObjectFromCell(int x, int y, GameObject obj)
     {
         if (grid[x, y].obj != null)
             grid[x, y].obj = null;  // Remove a specific object from the cell
     }
-
-    public void SetCellBumped(int x, int y, bool isBumped)
+    public void RemoveFloorObjectFromCell(int x, int y, GameObject floorObj)
     {
-        grid[x, y].isBump = isBumped;
+        if (grid[x, y].floorObj != null)
+            grid[x, y].floorObj = null;  // Remove a specific object from the cell
     }
-
+    public void RemoveSpacelessObjectFromCell(int x, int y, GameObject spcaelessObj)
+    {
+        if (grid[x, y].spacelessObj != null)
+            grid[x, y].spacelessObj = null;  // Remove a specific object from the cell
+    }
     public bool IsOutSideOfGrid(Vector2Int index)
     {
         // Check if the index is outside the bounds of the grid
@@ -233,14 +255,32 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < GridHeight; y++)
             {
+                // Draw obj
                 Gizmos.color = grid[x, y].obj != null ? Color.green : (Color.gray * new Color(1, 1, 1, 0.5f));
 
-                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.9f, cellSize * 0.9f, 0.1f));
+                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.94f, cellSize * 0.9f, 0.1f));
 
                 if (grid[x, y].obj != null) continue;
 
                 Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.92f, cellSize * 0.92f, 0.1f));
-                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.94f, cellSize * 0.94f, 0.1f));
+
+                // Draw floor obj
+                Gizmos.color = grid[x, y].floorObj != null ? Color.yellow : (Color.gray * new Color(1, 1, 1, 0.5f));
+
+                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.9f, cellSize * 0.9f, 0.1f));
+
+                if (grid[x, y].floorObj != null) continue;
+
+                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.88f, cellSize * 0.92f, 0.1f));
+
+                // Draw spaceless obj
+                Gizmos.color = grid[x, y].spacelessObj != null ? Color.blue : (Color.clear);
+
+                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.86f, cellSize * 0.9f, 0.1f));
+
+                if (grid[x, y].spacelessObj != null) continue;
+
+                Gizmos.DrawWireCube(grid[x, y].pos, new Vector3(cellSize * 0.84f, cellSize * 0.92f, 0.1f));
 
             }
         }

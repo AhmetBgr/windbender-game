@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8841958398670818660}
   - component: {fileID: 4116674782544480569}
   - component: {fileID: 7322741918022414643}
+  - component: {fileID: 7252083045409040985}
   m_Layer: 8
   m_Name: Orange Door
   m_TagString: Untagged
@@ -155,6 +156,7 @@ MonoBehaviour:
   invinsibleMask: {fileID: 4694835948341702026}
   windCutter: {fileID: 8841958398670818660}
   gridEntity: {fileID: 7322741918022414643}
+  gridWindcutterEntity: {fileID: 7252083045409040985}
   tag: 1
   isOpen: 0
   shouldClose: 0
@@ -209,7 +211,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBump: 0
+  type: 0
+  dontAddAtTheStart: 1
+--- !u!114 &7252083045409040985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4946448198038423323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  dontAddAtTheStart: 1
 --- !u!1 &6084954447295120427
 GameObject:
   m_ObjectHideFlags: 0

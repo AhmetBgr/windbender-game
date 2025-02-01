@@ -66,7 +66,7 @@ public class MovingObstacle : ObjectMoveController
         bool pushed = false;
         transform.position = new Vector3(Utility.RoundToNearestHalf(transform.position.x), Utility.RoundToNearestHalf(transform.position.y), 0);
         Vector3 previousDir = dir;
-        this.dir = dir;
+        //this.dir = dir;
         Vector3 from = transform.position;
         Vector3 to = from + dir;
 

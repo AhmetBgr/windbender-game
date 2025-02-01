@@ -60,7 +60,7 @@ public class ObjectDestination : MonoBehaviour
 
         //GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
         Vector2Int index = GridManager.Instance.PosToGridIndex(transform.position);
-        GameObject obj = GridManager.grid[index.x, index.y].obj;
+        GameObject obj = GridManager.Instance.GetCell(index).obj;
         if (obj != null)
         {
             if (objMC && objMC.gameObject == obj) return;
@@ -119,7 +119,7 @@ public class ObjectDestination : MonoBehaviour
 
         //GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
         Vector2Int index = GridManager.Instance.PosToGridIndex(transform.position);
-        GameObject obj = GridManager.grid[index.x, index.y].obj;
+        GameObject obj = GridManager.Instance.GetCell(index).obj;
         if (obj != null)
         {
             objMC = obj.GetComponent<ObjectMoveController>();

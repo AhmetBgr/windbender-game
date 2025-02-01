@@ -64,12 +64,9 @@ public class ObjectMoveController : MonoBehaviour
     public delegate void OnHitDelegate(MoveTo movRes);
     public event OnHitDelegate OnHit;
 
-    protected virtual void Start()
+    protected virtual private void Start()
     {
-        //pushedByInfos.Add(Vector3.right, null);
-        //pushedByInfos.Add(Vector3.left, null);
-        //pushedByInfos.Add(Vector3.up, null);
-        //pushedByInfos.Add(Vector3.down, null);
+        
     }
 
     protected virtual void OnEnable(){

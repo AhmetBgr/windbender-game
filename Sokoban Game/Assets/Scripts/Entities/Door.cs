@@ -9,6 +9,8 @@ public class Door : MonoBehaviour
     public GameObject invinsibleMask;
     public WindCutter windCutter;
     public GridEntity gridEntity;
+    public GridEntity gridWindcutterEntity;
+
     public new TargetTag tag;
     public bool isOpen;
     public bool shouldClose = false;
@@ -20,6 +22,12 @@ public class Door : MonoBehaviour
             Open();
         else
             Close();*/
+
+        gridEntity.type = isOpen ? GridEntityType.FloorObj : GridEntityType.Obj;
+        gridEntity.AddToGridCell();
+
+        if (!isOpen)
+            gridWindcutterEntity.AddToGridCell();
 
     }
 
@@ -48,7 +56,7 @@ public class Door : MonoBehaviour
 
         //GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
         Vector2Int index = GridManager.Instance.PosToGridIndex(transform.position);
-        GameObject obj = GridManager.grid[index.x, index.y].obj;
+        GameObject obj = GridManager.Instance.GetCell(index).obj;
 
         if (shouldClose && obj == null) {
             Close();
@@ -88,7 +96,12 @@ public class Door : MonoBehaviour
         windCutter.OnMoved(Vector3.right * 100000);
 
         gridEntity.RemoveFromGridCell();
+        gridEntity.type = GridEntityType.FloorObj;
+        gridEntity.AddToGridCell();
         gridEntity.enabled = false;
+
+        gridWindcutterEntity.RemoveFromGridCell();
+        gridWindcutterEntity.enabled = false;
 
     }
 
@@ -102,9 +115,13 @@ public class Door : MonoBehaviour
         windCutter.OnMoved(transform.position);
         shouldClose = false;
 
+        gridEntity.RemoveFromGridCell();
+        gridEntity.type = GridEntityType.Obj;
         gridEntity.AddToGridCell();
         gridEntity.enabled = true;
 
+        gridWindcutterEntity.AddToGridCell();
+        gridWindcutterEntity.enabled = true;
     }
 
     // Checks if there is an object at the location of the door before closing
@@ -112,7 +129,7 @@ public class Door : MonoBehaviour
     {
         //GameObject obj = Utility.CheckForObjectAt(transform.position, LayerMask.GetMask("Pushable"));
         Vector2Int index = GridManager.Instance.PosToGridIndex(transform.position);
-        GameObject obj = GridManager.grid[index.x, index.y].obj;
+        GameObject obj = GridManager.Instance.GetCell(index).obj;
 
         if (obj != null) {
             shouldClose = true;

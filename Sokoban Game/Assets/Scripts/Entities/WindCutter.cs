@@ -234,19 +234,35 @@ public class WindCutter : MonoBehaviour
         for (int i = 1; i < cutLenght + 1; i++)
         {
             Vector3 pos = route[route.Count - 1] + (reflectionDir * i);
-            GameObject obj = GridManager.Instance.GetCell(pos).obj;
 
-            if(obj != null && (obj.layer == 8 || obj.layer == 11)){
+            Cell cell = GridManager.Instance.GetCell(pos);
+
+            GameObject obj = cell.obj;
+            GameObject spacelessObj = cell.spacelessObj;
+
+            if (spacelessObj != null && spacelessObj.layer == 11)
+            {
+                windCutter = obj.GetComponent<WindCutter>();
+                break;
+            }
+
+            if (obj != null && obj.layer == 8)
+            {
+                break;
+            }
+            restors.Add(pos);
+
+            /*if (obj != null && (obj.layer == 8 || obj.layer == 11)){
                 if(obj.layer == 11)
                     windCutter = obj.GetComponent<WindCutter>();
 
-                cutLenght = i;
+                //cutLenght = i;
                 break;
             }
             else
             {
                 restors.Add(pos);
-            }
+            }*/
         }
 
         route.AddRange(restors);

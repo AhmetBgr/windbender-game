@@ -217,4 +217,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ccb98fce326a144a537334e9bd159a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBump: 1
+  type: 1

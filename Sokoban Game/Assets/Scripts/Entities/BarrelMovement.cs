@@ -22,7 +22,7 @@ public class BarrelMovement : ObjectMoveController
     }
 
 
-    protected override void Start(){
+    protected void Start(){
         base.Start();
 
         if(startingState == State.standing){

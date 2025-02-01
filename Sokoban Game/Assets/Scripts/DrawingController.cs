@@ -564,7 +564,7 @@ public class DrawingController : MonoBehaviour
                     Vector3 origin = item + neighborVector + offset;
                     //RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, distance: 1f, layerMask: LayerMask.GetMask("Wall", "WindCutter"));
                     Vector2Int index = GridManager.Instance.PosToGridIndex(origin);
-                    GameObject obj = GridManager.grid[index.x, index.y].obj;
+                    GameObject obj = GridManager.Instance.GetCell(index).obj;
 
                     if (obj != null && obj.layer == 8) {
                         isTouchingWall = true;
@@ -591,7 +591,7 @@ public class DrawingController : MonoBehaviour
                     continue;
 
                 Vector2Int index = GridManager.Instance.PosToGridIndex(origin);
-                GameObject obj = GridManager.grid[index.x, index.y].obj;
+                GameObject obj = GridManager.Instance.GetCell(index).obj;
                 Debug.Log("index: " + index + ", obj: " + obj);
 
 

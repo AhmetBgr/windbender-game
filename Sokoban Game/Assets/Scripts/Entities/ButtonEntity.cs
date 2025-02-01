@@ -32,7 +32,7 @@ public class ButtonEntity : MonoBehaviour
         //RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, distance: 1f, LayerMask.GetMask("Pushable"));
         Vector2Int index = GridManager.Instance.PosToGridIndex(pos);
         ObjectMoveController moveCont = null;
-        GameObject obj = GridManager.grid[index.x, index.y].obj; 
+        GameObject obj = GridManager.Instance.GetCell(index).obj; 
 
         if(obj != null)
             obj.TryGetComponent(out moveCont);

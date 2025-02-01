@@ -33,7 +33,7 @@ public class DeathFogController : ObjectMoveController
 
 
     // Start is called before the first frame update
-    protected override void Start(){
+    protected void Start(){
         if (fogTM1 == null) return;
 
         dustTiles.Clear();
@@ -116,7 +116,7 @@ public class DeathFogController : ObjectMoveController
             foreach (var dir in dirs) {
                 Vector3 pos = item + dir;
                 Vector2Int index = GridManager.Instance.PosToGridIndex(pos);
-                GameObject obj = GridManager.grid[index.x, index.y].obj;
+                GameObject obj = GridManager.Instance.GetCell(index).obj;
 
                 if (obj !=null && obj.layer == 8 && !dustTiles.Contains(pos)) {
                     Vector3Int posInt = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f), 0);
